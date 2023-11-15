@@ -1,0 +1,146 @@
+  
+.hero_area {
+    position: relative;
+    height: 100vh;
+    background-color: white;
+  }
+  
+  .waves {
+    position: fixed;
+    width: 100%;
+    height: 15vh;
+    min-height: 100px;
+    max-height: 150px;
+    left: 0;
+    bottom: -17vh;
+    animation: wavesAnimation 2s ease-in-out forwards;
+  }
+  
+  .wavesHolder {
+    position: fixed;
+    width: 100%;
+    height: 0vh;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(185 28 28);
+    animation: wavesHolderAnimation 2s ease-in-out forwards;
+  }
+  
+  @keyframes wavesAnimation {
+    0% {
+      bottom: 100vh;
+      animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0.5); /* Membuat transisi mulus dengan kecepatan lebih cepat di awal */
+    }
+    100% {
+      bottom: -17vh;
+    }
+  }
+  
+  @keyframes wavesHolderAnimation {
+    0% {
+      height: 100vh;
+      bottom: 0;
+      animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0.5); /* Membuat transisi mulus dengan kecepatan lebih cepat di awal */
+    }
+    100% {
+      height: 0;
+      bottom: -15vh;
+    }
+  }  
+  
+  .parallax>use {
+    animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
+  }
+  
+  .parallax>use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 7s;
+  }
+  
+  .parallax>use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 10s;
+  }
+  
+  .parallax>use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 13s;
+  }
+  
+  .parallax>use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 20s;
+  }
+  
+  @keyframes move-forever {
+    0% {
+        transform: translate3d(-90px, 0, 0);
+    }
+  
+    100% {
+        transform: translate3d(85px, 0, 0);
+    }
+  }
+  
+  .splash {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    background-color: rgb(185,28, 28);
+    border-radius: 50%;
+    animation: splashqi 7s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    animation-delay: 4.5s;
+  }
+  
+  .splash2 {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: splashqi 7s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    animation-delay: 4.8s;
+  }
+  
+  @keyframes splashqi {
+    0% {
+        width: 0px;
+        height: 0px;
+    }
+    100% {
+        width: 300vh;
+        height: 300vh;
+    }
+  }
+    .text-animation {
+      animation: fadeIn 1.5s ease 1; /* Animasi akan berlangsung selama 1.5 detik */
+      animation-fill-mode: forwards; /* Teks tetap terlihat setelah animasi selesai */
+      opacity: 0; /* Teks awalnya tidak terlihat */
+      animation-delay: 2s;
+      transform: translateX(10px);
+    }
+    
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1; /* Teks menjadi terlihat sepenuhnya pada akhir animasi */
+      }
+    }
+  
+    @keyframes slide-up {
+      0% {
+        transform: translateY(-250%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 0.75;
+      }
+    }
+    
+    .animate-slide-up {
+      animation: slide-up 0.5s ease-in-out 5s forwards;
+    }
+  

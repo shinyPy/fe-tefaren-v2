@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+    font-family: 'Nunito', sans-serif; 
+  }
+  
+  /* Untuk browser yang mendukung pseudo-element scrollbar */
+  *::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+  
+  /* Untuk browser yang tidak mendukung pseudo-element scrollbar */
+  * {
+    scrollbar-width: none;
+  }
+  
+  /* Ripple effect */
+  .ripple {
+      background-position: center;
+      transition: background 0.8s;
+    }
+    .ripple:hover {
+      background: rgb(37 99 235) radial-gradient(circle, transparent 1%, rgb(37 99 235) 1%) center/15000%;
+    }
+    .ripple:active {
+      background-color: #6eb9f7;
+      background-size: 100%;
+      transition: background 0s;
+    }
+    
