@@ -21,7 +21,7 @@ const AdminNameMobile = () => {
         className="w-6/12 bg-gray-600 text-white p-3 relative tracking-wider justify-end font-semibold"
         style={{ clipPath: customClipPath }}
       >
-        <p className=" text-md text-right">{formattedDate}</p>
+        <p className=" text-md1 text-right">{formattedDate}</p>
       </div>
     </div>
   );
