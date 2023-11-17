@@ -3,15 +3,22 @@ import { Select } from "../CommonInput";
 import { FaSlidersH } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
 import AccountDataModal from "../../Modal/AccountData/AccountDataModal";
+import { MdAdd } from 'react-icons/md';
 
 const DataTable = ({ columns, data, filtersData }) => {
-  const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [columnFilters, setColumnFilters] = useState({});
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const [maxItemsPerPage, setMaxItemsPerPage] = useState(8);
+  const itemsPerPage = maxItemsPerPage; 
+
+  const handleMaxItemsChange = (value) => {
+    setMaxItemsPerPage(value);
+    setCurrentPage(0);
+  };
 
   const offset = currentPage * itemsPerPage;
 
@@ -56,10 +63,44 @@ const DataTable = ({ columns, data, filtersData }) => {
     setIsModalVisible(false);
   };
 
+  const handleNextPage = () => {
+    if (currentPage < pageCount - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const renderPaginationButtons = () => {
+    const maxVisiblePages = 5; 
+    const ellipsisThreshold = 2;
+
+    const startPage = Math.max(0, currentPage - Math.floor(maxVisiblePages / 2));
+    const endPage = Math.min(pageCount - 1, startPage + maxVisiblePages - 1);
+
+    return Array.from({ length: pageCount }).map((_, index) => {
+      if (pageCount <= maxVisiblePages || index === 0 || index === pageCount - 1 || (index >= startPage && index <= endPage)) {
+        return (
+          <button key={index} onClick={() => handlePageChange(index)}>
+            {index + 1}
+          </button>
+        );
+      } else if ((index === startPage - 1 && startPage > ellipsisThreshold) || (index === endPage + 1 && endPage < pageCount - 1 - ellipsisThreshold)) {
+        return <span key={index}>...</span>;
+      }
+      return null;
+    });
+  };
+
+
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div className=" flex">
+        <div className=" flex w-1/2">
           {columns.map((column) => (
             <div key={column.key} className={column.isHidden ? "hidden" : ""} style={{ marginBottom: "10px" }}>
               <Select
@@ -81,14 +122,22 @@ const DataTable = ({ columns, data, filtersData }) => {
           ))}
         </div>
 
-        <div>
+        <div className="flex w-1/2 space-x-4">
           <input
             type="text"
             value={searchTerm}
             onChange={handleSearchChange}
             placeholder="Mencari Sesuatu?"
-            className="w-full mt-4 px-3 py-2 text-base border border-gray-300 rounded-md"
+            className="w-full mt-4 mb-2 px-3 py-2 text-base border border-gray-300 rounded-md"
           />
+                        <button
+            className="w-1/2 mt-4 mb-2 px-3 py-2 font-semibold tracking-wider bg-blue-600 text-white rounded-md"
+                type="button"
+              >
+                <span className=" flex">
+               <MdAdd className=" mt-1 mr-2"/> Tambah data
+               </span>
+              </button>
         </div>
       </div>
 
@@ -120,8 +169,31 @@ const DataTable = ({ columns, data, filtersData }) => {
       ))}
     </tbody>
   </table>
+      
+      <div className="flex justify-between items-center">
+  <div className="justify-start">
+  <Select
+            value={maxItemsPerPage}
+            onChange={(e) => handleMaxItemsChange(e.target.value)}
+            icon={FaSlidersH}
+          >
+            <option value={5}>5 item pada halaman</option>
+            <option value={8}>8 item pada halaman</option>
+            <option value={10}>10 items pada halaman</option>
+          </Select>
+  </div>
+  <div className="flex space-x-4 justify-end items-center">
+    <button onClick={handlePrevPage} disabled={currentPage === 0}>
+      Sebelumnya
+    </button>
+    {renderPaginationButtons()}
+    <button onClick={handleNextPage} disabled={currentPage === pageCount - 1}>
+      Selanjutnya
+    </button>
+  </div>
+</div>
 
-  <AnimatePresence mode="wait">
+<AnimatePresence mode="wait">
   {isModalVisible && (
     <center>
         <AccountDataModal rowData={selectedRowData} closeModal={closeModal} />
@@ -129,13 +201,6 @@ const DataTable = ({ columns, data, filtersData }) => {
       )}
       </AnimatePresence>
 
-      <div className="pagination">
-        {Array.from({ length: pageCount }).map((_, index) => (
-          <button key={index} onClick={() => handlePageChange(index)}>
-            {index + 1}
-          </button>
-        ))}
-      </div>
     </div>
   );
 };

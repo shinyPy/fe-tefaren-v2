@@ -90,25 +90,44 @@ const AccountDataDesktop = () => {
           Level: ['Name','John', 'Jane', 'Doe'], 
           NIS: ['NIS', '25', '30', '35'], 
       });
-      
       useEffect(() => {
-          // Fetch data from the backend and populate the jurusanOptions state
-          fetch("http://127.0.0.1:8000/api/jurusan-values") // Ganti dengan URL API yang sebenarnya
-              .then((response) => response.json())
-              .then((data) => {
-                  // Asumsikan data respons adalah array objek jurusan
-                  setJurusanOptions(data);
-      
-                  // Update the Jurusan options in filtersData
-                  setFiltersData((prevFiltersData) => ({
-                      ...prevFiltersData,
-                      Jurusan: ['Jurusan', ...data.map((jurusan) => jurusan)],
-                  }));
-              })
-              .catch((error) => {
-                  console.error("Error fetching data:", error);
-              });
-      }, []);
+        const fetchData = async () => {
+          try {
+            // Retrieve the access token from localStorage
+            const accessToken = localStorage.getItem("accessToken");
+    
+            // Check if the access token exists
+            if (!accessToken) {
+              console.error("Access token not found in localStorage");
+              return;
+            }
+    
+            // Make the Axios request with the Bearer token
+            const response = await axios.get("http://127.0.0.1:8000/api/jurusan-values", {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            });
+    
+            // Assuming the response data is an array of jurusan objects
+            const data = response.data;
+    
+            // Set the Jurusan options in state
+            setJurusanOptions(data);
+    
+            // Update the Jurusan options in filtersData
+            setFiltersData((prevFiltersData) => ({
+              ...prevFiltersData,
+              Jurusan: ["Jurusan", ...data.map((jurusan) => jurusan)],
+            }));
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        };
+    
+        // Call the fetchData function
+        fetchData();
+      }, [setJurusanOptions, setFiltersData]);
 
       const columns = [
         { key: 'NIS', label: 'NIS', isHidden:true },
@@ -123,11 +142,72 @@ const AccountDataDesktop = () => {
         { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
         { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'DKV' },
         { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'TJKT' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+
 
         { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'DKV' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'TJKT' },
         { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'DKV' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'TJKT' },
         { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'DKV' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'TJKT' },
         { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'DKV' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'TJKT' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'DKV' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'TJKT' },
+
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'DKV' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'TJKT' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'DKV' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'TJKT' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'DKV' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'TJKT' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'ANIMASI' },
+        { NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'DKV' },
+        { NIS: '54322107', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'TJKT' },
+        
         // ... tambahkan data lainnya sesuai kebutuhan
       ];
 
