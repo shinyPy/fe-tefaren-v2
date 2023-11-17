@@ -15,6 +15,7 @@ const SidebarMobile = ({ items }) => {
     localStorage.setItem("preloadState", "2");
     localStorage.setItem("login_success_message", "Logout Berhasil!");
     navigate("/");
+    window.location.reload();
   };
 
   return (

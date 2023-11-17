@@ -83,52 +83,6 @@ const AccountDataDesktop = () => {
         setSelectedStep(step);
       };    
 
-      const [jurusanOptions, setJurusanOptions] = useState([]);
-      const [filtersData, setFiltersData] = useState({
-          Nama: ['Name','John', 'Jane', 'Doe'], 
-          Jurusan: ['Jurusan'], 
-          Level: ['Name','John', 'Jane', 'Doe'], 
-          NIS: ['NIS', '25', '30', '35'], 
-      });
-      useEffect(() => {
-        const fetchData = async () => {
-          try {
-            // Retrieve the access token from localStorage
-            const accessToken = localStorage.getItem("accessToken");
-    
-            // Check if the access token exists
-            if (!accessToken) {
-              console.error("Access token not found in localStorage");
-              return;
-            }
-    
-            // Make the Axios request with the Bearer token
-            const response = await axios.get("http://127.0.0.1:8000/api/jurusan-values", {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            });
-    
-            // Assuming the response data is an array of jurusan objects
-            const data = response.data;
-    
-            // Set the Jurusan options in state
-            setJurusanOptions(data);
-    
-            // Update the Jurusan options in filtersData
-            setFiltersData((prevFiltersData) => ({
-              ...prevFiltersData,
-              Jurusan: ["Jurusan", ...data.map((jurusan) => jurusan)],
-            }));
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
-        };
-    
-        // Call the fetchData function
-        fetchData();
-      }, [setJurusanOptions, setFiltersData]);
-
       const columns = [
         { key: 'NIS', label: 'NIS', isHidden:true },
         { key: 'Nama', label: 'Nama', isHidden:true },
@@ -230,7 +184,6 @@ const AccountDataDesktop = () => {
             <DataTable
       columns={columns}
       data={data}
-      filtersData={filtersData}
     /> </div>
           )}
 
@@ -240,7 +193,6 @@ const AccountDataDesktop = () => {
             <DataTable
       columns={columns}
       data={data}
-      filtersData={filtersData}
     /> </div>
           )}
 

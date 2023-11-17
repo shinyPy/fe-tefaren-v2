@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from "react";
 import { motion } from "framer-motion";
+import { FaUser } from "react-icons/fa";
 
 const AccountDataModal = ({ rowData, closeModal }) => {
     const formRef = useRef(null);
@@ -42,15 +43,20 @@ const AccountDataModal = ({ rowData, closeModal }) => {
             style={{ height: "200vh" }}
             className="fixed top-0 left-0 w-full bg-opacity-50 bg-gray-700 flex justify-center items-center backdrop-blur-sm">
                       <div
-        className="bg-white p-8 justify-center items-center rounded-2xl"
+        className="bg-white px-6 pt-6 pb-2 left-0 rounded-2xl"
         ref={formRef}
         style={customContentStyle}
       >
+        <h1 className="mb-4 text-2xl tracking-widest">Detail Akun</h1>
           {Object.entries(rowData).map(([key, value]) => (
-            <p key={key}>
+            <p key={key} className="left-0 text-left tracking-widest px-3 py-2 mb-4 rounded-md shadow-sm border" >
               <strong>{key}:</strong> {value}
             </p>
           ))}
+          <div className=" w-full flex space-x-4">
+          <button type="button" className=" w-1/2 p-2 tracking-widest text-white rounded-md bg-blue-600 mb-4">Edit</button>
+          <button type="button" className=" w-1/2 p-2 tracking-widest text-white rounded-md bg-red-600 mb-4">Hapus</button>
+          </div>
           </div>
           </motion.div>
     );
