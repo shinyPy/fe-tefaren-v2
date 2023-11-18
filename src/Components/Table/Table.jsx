@@ -1,22 +1,17 @@
 import React, { useState, useRef } from "react";
 import { Select } from "../CommonInput";
 import { FaFileExcel } from "react-icons/fa";
-import { AnimatePresence } from "framer-motion";
-import AccountDataModal from "../../Modal/AccountData/AccountDataModal";
-import { MdAdd } from 'react-icons/md';
-import { AiOutlineSetting } from 'react-icons/ai';
+import { MdAdd } from "react-icons/md";
+import { AiOutlineSetting } from "react-icons/ai";
 import { DownloadTableExcel } from "react-export-table-to-excel";
 
-const DataTable = ({ columns, data}) => {
+const DataTable = ({ columns, data, handleRowClick }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [columnFilters, setColumnFilters] = useState({});
-  const [selectedRowData, setSelectedRowData] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const tableRef = useRef(null);
   // ...
   const [itemPerPage, setItemPerPage] = useState(10);
-
   // ...
 
   const handleItemPerPageChange = (e) => {
@@ -27,7 +22,7 @@ const DataTable = ({ columns, data}) => {
 
   // ...
 
-  const itemsPerPage = itemPerPage; 
+  const itemsPerPage = itemPerPage;
 
   const offset = currentPage * itemsPerPage;
 
@@ -55,23 +50,6 @@ const DataTable = ({ columns, data}) => {
     setCurrentPage(0);
   };
 
-  const handleFilterChange = (columnKey, filterValue) => {
-    setColumnFilters({
-      ...columnFilters,
-      [columnKey]: filterValue,
-    });
-    setCurrentPage(0);
-  };
-
-  const handleRowClick = (rowData) => {
-    setSelectedRowData(rowData);
-    setIsModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
-
   const handleNextPage = () => {
     if (currentPage < pageCount - 1) {
       setCurrentPage(currentPage + 1);
@@ -87,19 +65,35 @@ const DataTable = ({ columns, data}) => {
   const renderPaginationButtons = () => {
     const maxVisiblePages = 5;
     const ellipsisThreshold = 2;
-  
-    const startPage = Math.max(0, currentPage - Math.floor(maxVisiblePages / 2));
+
+    const startPage = Math.max(
+      0,
+      currentPage - Math.floor(maxVisiblePages / 2)
+    );
     const endPage = Math.min(pageCount - 1, startPage + maxVisiblePages - 1);
-  
+
     return Array.from({ length: pageCount }).map((_, index) => {
       const isCurrentPage = index === currentPage;
-      const isEllipsisBefore = index === startPage - 1 && startPage > ellipsisThreshold;
-      const isEllipsisAfter = index === endPage + 1 && endPage < pageCount - 1 - ellipsisThreshold;
-  
-      if (pageCount <= maxVisiblePages || index === 0 || index === pageCount - 1 || (index >= startPage && index <= endPage)) {
-        const buttonClass = `py-0.5 px-2.5 font-semibold border rounded-full ${isCurrentPage ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'}`;
+      const isEllipsisBefore =
+        index === startPage - 1 && startPage > ellipsisThreshold;
+      const isEllipsisAfter =
+        index === endPage + 1 && endPage < pageCount - 1 - ellipsisThreshold;
+
+      if (
+        pageCount <= maxVisiblePages ||
+        index === 0 ||
+        index === pageCount - 1 ||
+        (index >= startPage && index <= endPage)
+      ) {
+        const buttonClass = `py-0.5 px-2.5 font-semibold border rounded-full ${
+          isCurrentPage ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700"
+        }`;
         return (
-          <button className={buttonClass} key={index} onClick={() => handlePageChange(index)}>
+          <button
+            className={buttonClass}
+            key={index}
+            onClick={() => handlePageChange(index)}
+          >
             {index + 1}
           </button>
         );
@@ -109,24 +103,22 @@ const DataTable = ({ columns, data}) => {
       return null;
     });
   };
-  
-
 
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div className=" flex w-1/2">
-        <div className=" w-6/12">
-  <Select
-icon={AiOutlineSetting}
-value={itemPerPage}
-onChange={handleItemPerPageChange}
-          >
-            <option value={5}>5 item pada halaman</option>
-            <option value={10}>10 items pada halaman</option>
-            <option value={15}>15 item pada halaman</option>
-          </Select>
-  </div>
+          <div className=" w-6/12">
+            <Select
+              icon={AiOutlineSetting}
+              value={itemPerPage}
+              onChange={handleItemPerPageChange}
+            >
+              <option value={5}>5 item pada halaman</option>
+              <option value={10}>10 items pada halaman</option>
+              <option value={15}>15 item pada halaman</option>
+            </Select>
+          </div>
         </div>
 
         <div className="flex w-1/2 space-x-4">
@@ -137,103 +129,103 @@ onChange={handleItemPerPageChange}
             placeholder="Mencari Sesuatu?"
             className="w-full mt-4 mb-2 px-3 py-2 text-base border border-gray-300 rounded-md"
           />
-                        <button
+          <button
             className="w-1/2 mt-4 mb-2 px-3 py-2 font-semibold tracking-wider bg-blue-600 text-white rounded-md"
-                type="button"
-              >
-                <span className=" flex">
-               <MdAdd className=" mt-1 mr-2"/> Tambah data
-               </span>
-              </button>
+            type="button"
+          >
+            <span className=" flex">
+              <MdAdd className=" mt-1 mr-2" /> Tambah data
+            </span>
+          </button>
         </div>
       </div>
 
-  <table className="border border-gray-300 w-full">
-    <thead className="bg-gray-600 text-white">
-      <tr>
-        {columns.map((column) => (
-          <th key={column.key} className="p-2">
-            {column.label}
-          </th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {currentData.map((row, rowIndex) => (
-        <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
-          {columns.map((column) => (
-             <td
-             key={column.key}
-             className="p-2 text-center"
-             onClick={() => handleRowClick(row)}
-           >
-             {row[column.key].toString().length > 13
-               ? `${row[column.key].toString().slice(0, 13)}...`
-               : row[column.key]}
-           </td>
+      <table className="border border-gray-300 w-full">
+        <thead className="bg-gray-600 text-white">
+          <tr>
+            {columns.map((column) => (
+              <th key={column.key} className="p-2">
+                {column.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {currentData.map((row, rowIndex) => (
+            <tr
+              key={rowIndex}
+              className={rowIndex % 2 === 0 ? "bg-gray-200" : "bg-white"}
+            >
+              {columns.map((column) => (
+                <td
+                  key={column.key}
+                  className="p-2 text-center"
+                  onClick={() => handleRowClick(row)}
+                >
+                  {row[column.key].toString().length > 13
+                    ? `${row[column.key].toString().slice(0, 13)}...`
+                    : row[column.key]}
+                </td>
+              ))}
+            </tr>
           ))}
-        </tr>
-      ))}
-    </tbody>
-  </table>
+        </tbody>
+      </table>
 
-  <table ref={tableRef} className="hidden">
-    <thead>
-      <tr>
-        {columns.map((column) => (
-          <th key={column.key} className="p-2">
-            {column.label}
-          </th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {currentData.map((row, rowIndex) => (
-        <tr key={rowIndex}>
-          {columns.map((column) => (
-             <td
-             key={column.key}
-             className="p-2 text-center"
-           >
-             {row[column.key]}
-           </td>
+      <table ref={tableRef} className="hidden">
+        <thead>
+          <tr>
+            {columns.map((column) => (
+              <th key={column.key} className="p-2">
+                {column.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {currentData.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {columns.map((column) => (
+                <td key={column.key} className="p-2 text-center">
+                  {row[column.key]}
+                </td>
+              ))}
+            </tr>
           ))}
-        </tr>
-      ))}
-    </tbody>
-  </table>
+        </tbody>
+      </table>
 
-  <div className="flex justify-between items-center mt-4">
-  <DownloadTableExcel
-    filename="dataPengguna"
-    sheet="dataPengguna"
-    currentTableRef={tableRef.current} 
-  >
-    <button className="p-2 bg-green-600 text-white rounded-md tracking-wider">
-    <span className=" flex">
-               <FaFileExcel className=" mt-1 mr-2"/>  Ekspor ke Excel
-               </span>
-    </button>
-  </DownloadTableExcel>
+      <div className="flex justify-between items-center mt-4">
+        <DownloadTableExcel
+          filename="dataPengguna"
+          sheet="dataPengguna"
+          currentTableRef={tableRef.current}
+        >
+          <button className="p-2 bg-green-600 text-white rounded-md tracking-wider">
+            <span className=" flex">
+              <FaFileExcel className=" mt-1 mr-2" /> Ekspor ke Excel
+            </span>
+          </button>
+        </DownloadTableExcel>
 
-  <div className="flex space-x-4 items-center tracking-wider">
-    <button className="p-2 font-semibold bg-gray-100 border text-gray-800 rounded-md tracking-wider" onClick={handlePrevPage} disabled={currentPage === 0}>
-      Sebelumnya
-    </button>
-    {renderPaginationButtons()}
-    <button className="p-2 bg-gray-100 font-semibold border text-gray-800 rounded-md tracking-wider" onClick={handleNextPage} disabled={currentPage === pageCount - 1}>
-      Selanjutnya
-    </button>
-  </div>
-</div>
-
-<AnimatePresence mode="wait">
-  {isModalVisible && (
-    <center>
-        <AccountDataModal rowData={selectedRowData} closeModal={closeModal} />
-        </center>
-      )}
-      </AnimatePresence>
+        <div className="flex space-x-4 items-center tracking-wider">
+          <button
+            className="p-2 font-semibold bg-gray-100 border text-gray-800 rounded-md tracking-wider"
+            onClick={handlePrevPage}
+            disabled={currentPage === 0}
+          >
+            Sebelumnya
+          </button>
+          {renderPaginationButtons()}
+          <button
+            className="p-2 bg-gray-100 font-semibold border text-gray-800 rounded-md tracking-wider"
+            onClick={handleNextPage}
+            disabled={currentPage === pageCount - 1}
+          >
+            Selanjutnya
+          </button>
+        </div>
+      </div>
 
     </div>
   );
