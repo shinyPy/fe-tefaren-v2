@@ -5,7 +5,7 @@ import { MdAdd } from "react-icons/md";
 import { AiOutlineSetting } from "react-icons/ai";
 import { DownloadTableExcel } from "react-export-table-to-excel";
 
-const DataTable = ({ columns, data, handleRowClick }) => {
+const DataTable = ({ columns, data, handleRowClick, addData }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [columnFilters, setColumnFilters] = useState({});
@@ -85,8 +85,8 @@ const DataTable = ({ columns, data, handleRowClick }) => {
         index === pageCount - 1 ||
         (index >= startPage && index <= endPage)
       ) {
-        const buttonClass = `py-0.5 px-2.5 font-semibold border rounded-full ${
-          isCurrentPage ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700"
+        const buttonClass = `px-2 rounded-md py-0.5 font-semibold ${
+          isCurrentPage ? "border-blue-700 border-2 bg-gray-100 text-gray-600" : "bg-gray-100 border text-gray-600"
         }`;
         return (
           <button
@@ -129,14 +129,16 @@ const DataTable = ({ columns, data, handleRowClick }) => {
             placeholder="Mencari Sesuatu?"
             className="w-full mt-4 mb-2 px-3 py-2 text-base border border-gray-300 rounded-md"
           />
-          <button
-            className="w-1/2 mt-4 mb-2 px-3 py-2 font-semibold tracking-wider bg-blue-600 text-white rounded-md"
-            type="button"
-          >
-            <span className=" flex">
-              <MdAdd className=" mt-1 mr-2" /> Tambah data
-            </span>
-          </button>
+          {addData && (
+            <button
+              className="w-1/2 mt-4 mb-2 px-3 py-2 font-semibold tracking-wider bg-blue-600 text-white rounded-md"
+              type="button"
+            >
+              <span className=" flex">
+                <MdAdd className=" mt-1 mr-2" /> Tambah data
+              </span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -162,9 +164,13 @@ const DataTable = ({ columns, data, handleRowClick }) => {
                   className="p-2 text-center"
                   onClick={() => handleRowClick(row)}
                 >
-                  {row[column.key].toString().length > 13
-                    ? `${row[column.key].toString().slice(0, 13)}...`
-                    : row[column.key]}
+                  {
+                    row[column.key] !== undefined
+                      ? row[column.key].toString().length > 13
+                        ? `${row[column.key].toString().slice(0, 13)}...`
+                        : row[column.key]
+                      : "N/A" /* Ganti dengan nilai default atau pesan yang sesuai */
+                  }
                 </td>
               ))}
             </tr>
@@ -173,27 +179,33 @@ const DataTable = ({ columns, data, handleRowClick }) => {
       </table>
 
       <table ref={tableRef} className="hidden">
-        <thead>
-          <tr>
-            {columns.map((column) => (
-              <th key={column.key} className="p-2">
-                {column.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {currentData.map((row, rowIndex) => (
-            <tr key={rowIndex}>
+      <thead>
+        <tr>
+          {columns.map((column) => (
+            <th key={column.key} className="p-2">
+              {column.label}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+      {currentData.map((row, rowIndex) => (
+            <tr
+              key={rowIndex}
+              className={rowIndex % 2 === 0 ? "bg-gray-200" : "bg-white"}
+            >
               {columns.map((column) => (
-                <td key={column.key} className="p-2 text-center">
+                <td
+                  key={column.key}
+                  className="p-2 text-center"
+                >
                   {row[column.key]}
                 </td>
               ))}
             </tr>
           ))}
-        </tbody>
-      </table>
+      </tbody>
+    </table>
 
       <div className="flex justify-between items-center mt-4">
         <DownloadTableExcel
@@ -226,7 +238,6 @@ const DataTable = ({ columns, data, handleRowClick }) => {
           </button>
         </div>
       </div>
-
     </div>
   );
 };

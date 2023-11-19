@@ -172,6 +172,7 @@ const DashboardDesktop = () => {
                 Authorization: `Bearer ${token}`,
               },
             });
+            
             const countBarangResponse = await axios.get('http://127.0.0.1:8000/api/count-barang', {
                 headers: {
                   Authorization: `Bearer ${token}`,

@@ -15,159 +15,225 @@ import {
   FaTools,
 } from "react-icons/fa";
 
-import { MdAssignment } from "react-icons/md";
-
 const AccountDataDesktop = () => {
-    const sidebarItems = [
+  const sidebarItems = [
+    {
+      text: "Dashboard",
+      icon: <FaChartBar />,
+      subtext: "Panel Informasi",
+      path: "/dashboard",
+    },
+    {
+      text: "Pengguna",
+      icon: <FaUser size={14} />,
+      subtext: "Menajemen Data",
+      path: "/account",
+    },
+    {
+      text: "Barang",
+      icon: <FaBox size={14} />,
+      path: "item",
+    },
+    {
+      text: "Peminjaman",
+      icon: <FaClipboardList />,
+      children: [
         {
-          text: "Dashboard",
-          icon: <FaChartBar />,
-          subtext: "Panel Informasi",
-          path: "/dashboard",
+          sub: "Pengajuan",
+          path: "submission",
         },
         {
-          text: "Pengguna",
-          icon: <FaUser size={14} />,
-          subtext: "Menajemen Data",
-          path: "/account"
+          sub: "Peminjaman",
+          path: "borrow",
         },
         {
-          text: "Barang",
-          icon: <FaBox size={14} />,
-          path : "item"
+          sub: "Pengembalian",
+          path: "return",
+        },
+      ],
+    },
+    {
+      text: "Utilitas",
+      icon: <FaTools />,
+      subtext: "Konfigurasi Web",
+      children: [
+        {
+          sub: "Jabatan",
+          path: "jobset",
         },
         {
-          text: "Peminjaman",
-          icon: <FaClipboardList />,
-          children: [
-            {
-              sub: "Pengajuan",
-              path : "submission"
-            },
-            {
-              sub: "Peminjaman",
-              path : "borrow"
-            },
-            {
-              sub: "Pengembalian",
-              path : "return"
-            },
-          ],
+          sub: "Jurusan",
+          path: "majorset",
         },
         {
-          text: "Utilitas",
-          icon: <FaTools />,
-          subtext: "Konfigurasi Web",
-          children: [
-            {
-              sub: "Jabatan",
-              path : "jobset"
-            },
-            {
-              sub: "Jurusan",
-              path : "majorset"
-            },
-            {
-              sub: "Kategori Barang",
-              path: "cataset"
-            },
-          ],
+          sub: "Kategori Barang",
+          path: "cataset",
         },
-      ];
-    
-      const steps = ["Siswa", "Guru"];
+      ],
+    },
+  ];
 
-      const [selectedStep, setSelectedStep] = useState(1);
+  const steps = ["Siswa", "Guru"];
 
-      const handleStepSelect = (step) => {
-        setSelectedStep(step);
-      };    
+  const [selectedStep, setSelectedStep] = useState(1);
 
-      let nomorUrut = 1;
-      
-      useEffect((nomorUrut) => {
-        nomorUrut = 1;
-      }, [nomorUrut]);
-    
+  const handleStepSelect = (step) => {
+    setSelectedStep(step);
+  };
 
-      const columns = [
-        { key: 'NO', label: 'NO'},
-        { key: 'NIS', label: 'NIS'},
-        { key: 'Nama', label: 'Nama'},
-        { key: 'Level', label: 'Level'},
-        { key: 'Jurusan', label: 'Jurusan' },
-      ];
-    
-      const data = [
-        { NO: nomorUrut++, NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
-        { NO: nomorUrut++, NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
-        { NO: nomorUrut++, NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
-        { NO: nomorUrut++, NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
-        { NO: nomorUrut++, NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
-        { NO: nomorUrut++, NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
-        { NO: nomorUrut++, NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
-        { NO: nomorUrut++, NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
-        { NO: nomorUrut++, NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
-        { NO: nomorUrut++, NIS: '543221073', Nama: 'Yehosyua Priha Wijcaksana', Level : '01-01io2-218318', Jurusan : 'RPL' },
-        // ... tambahkan data lainnya sesuai kebutuhan
-      ];
+  const [tableData, setTableData] = useState([]);
+  const [tableData2, setTableData2] = useState([]);
 
+  useEffect(() => {
+    const fetchDataFromApi = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
 
-      const [selectedRowData, setSelectedRowData] = useState(null);
-      const [isModalVisible, setIsModalVisible] = useState(false);
-    
-      const handleRowClick = (rowData) => {
-        setSelectedRowData(rowData);
-        setIsModalVisible(true);
-      };
-    
-      const closeModal = () => {
-        setIsModalVisible(false);
-      };
+        // Fetch total counts for each type of user
+        const countPenggunaResponse = await axios.get(
+          "http://127.0.0.1:8000/api/pengguna",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Data Pengguna:", countPenggunaResponse.data);
+
+        return countPenggunaResponse.data;
+      } catch (error) {
+        console.error("Terjadi error:", error);
+        throw error;
+      }
+    };
+
+    const fillDataAutomatically = async () => {
+      try {
+        const apiData = await fetchDataFromApi();
+
+        const filteredData = apiData
+          .filter((item) => item.jurusan && item.jurusan.jurusan !== "N/A")
+          .map((item, index) => ({
+            NO: index + 1,
+            NIS: item.nomorinduk_pengguna,
+            Nama: item.nama_pengguna,
+            Level: item.level_pengguna,
+            Jurusan: item.jurusan.jurusan,
+            Email: item.email,
+          }));
+
+        setTableData(filteredData);
+        console.log(filteredData);
+      } catch (error) {
+        console.error("Terjadi error:", error);
+      }
+    };
+
+    const fillDataAutomatically2 = async () => {
+      try {
+        const apiData = await fetchDataFromApi();
+
+        const filteredData = apiData
+          .filter((item) => item.jabatan && item.jabatan.jabatan !== "N/A")
+          .map((item, index) => ({
+            NO: index + 1,
+            NIS: item.nomorinduk_pengguna,
+            Nama: item.nama_pengguna,
+            Level: item.level_pengguna,
+            Jabatan: item.jabatan.jabatan,
+            Email: item.email,
+          }));
+
+        setTableData2(filteredData);
+        console.log(filteredData);
+      } catch (error) {
+        console.error("Terjadi error:", error);
+      }
+    };
+
+    fetchDataFromApi();
+    fillDataAutomatically();
+    fillDataAutomatically2();
+  }, []);
+
+  const columns = [
+    { key: "NO", label: "NO" },
+    { key: "NIS", label: "NIS" },
+    { key: "Nama", label: "Nama" },
+    { key: "Level", label: "Level" },
+    { key: "Jurusan", label: "Jurusan" },
+    { key: "Email", label: "Email" },
+
+  ];
+
+  const columns2 = [
+    { key: "NO", label: "NO" },
+    { key: "NIS", label: "NIS" },
+    { key: "Nama", label: "Nama" },
+    { key: "Level", label: "Level" },
+    { key: "Jabatan", label: "Jabatan" },
+    { key: "Email", label: "Email" },
+
+  ];
+
+  const [selectedRowData, setSelectedRowData] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleRowClick = (rowData) => {
+    setSelectedRowData(rowData);
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
 
   return (
     <div className="flex">
-    <SidebarDesktop items={sidebarItems} />
-    <div className="px-8 py-4 min-h-screen w-screen">
-      <StepNav steps={steps} onSelectStep={handleStepSelect} />
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={selectedStep}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }}
-          transition={{ duration: 0.3 }}
-        >
+      <SidebarDesktop items={sidebarItems} />
+      <div className="px-8 py-4 min-h-screen w-screen">
+        <StepNav steps={steps} onSelectStep={handleStepSelect} />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedStep}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ duration: 0.3 }}
+          >
+            {selectedStep !== "Guru" && (
+              <div className="mb-4">
+                <DataTable
+                  columns={columns}
+                  data={tableData}
+                  handleRowClick={handleRowClick}
+                />{" "}
+              </div>
+            )}
 
-{selectedStep !== "Guru" && (
-            <div className="mb-4">
-            <DataTable
-      columns={columns}
-      data={data}
-      handleRowClick={handleRowClick}
-    /> </div>
-          )}
+            {selectedStep === "Guru" && (
+              <div className="mb-4">
+                <DataTable
+                  columns={columns2}
+                  data={tableData2}
+                  handleRowClick={handleRowClick}
+                />{" "}
+              </div>
+            )}
 
-{selectedStep === "Guru" && (
-            <div className="mb-4">
-              <h1>akjsdhauishdioa</h1>
-            <DataTable
-      columns={columns}
-      data={data}
-    /> </div>
-          )}
-
-        {isModalVisible && (
-          <center>
-            <AccountDataModal rowData={selectedRowData} closeModal={closeModal} />
-          </center>
-        )}
-
-
-        </motion.div>
-      </AnimatePresence>
+            {isModalVisible && (
+              <center>
+                <AccountDataModal
+                  rowData={selectedRowData}
+                  closeModal={closeModal}
+                />
+              </center>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </div>
-  </div>
   );
 };
 
