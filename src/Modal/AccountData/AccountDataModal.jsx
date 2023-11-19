@@ -175,12 +175,11 @@ const AccountDataModal = ({ rowData, closeModal }) => {
             value={levelValue}
             onChange={handleLevelChange}
           ></input>
-          <select
-            className="left-0 text-left w-full tracking-widest bg-white px-4 py-3 border-2 mb-4 rounded-lg text-xl"
+          <input
+            className="left-0 text-left w-full tracking-widest px-4 py-3 border-2 mb-4 rounded-lg text-xl"
+            value={jurusanValue}
             onChange={handleJurusanChange}
-          >
-            <option value={jurusanValue}>Jurusan sekarang {jurusanValue}</option>
-          </select>
+          ></input>
           <input
             className="left-0 text-left w-full tracking-widest px-4 py-3 border-2 rounded-lg text-xl"
             value={emailValue}
