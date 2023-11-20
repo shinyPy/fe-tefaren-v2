@@ -222,6 +222,7 @@ const ItemDataDesktop = () => {
                   columns={columns}
                   data={tableData}
                   handleRowClick={handleRowClick}
+                  addData="true"
                 />{" "}
               </div>
             )}
