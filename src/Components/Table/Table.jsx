@@ -3,7 +3,6 @@ import { Select } from "../CommonInput";
 import { FaFileExcel } from "react-icons/fa";
 import { MdAdd } from "react-icons/md";
 import { AiOutlineSetting } from "react-icons/ai";
-import { DownloadTableExcel } from "react-export-table-to-excel";
 
 const DataTable = ({ columns, data, handleRowClick, addData }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -20,7 +19,37 @@ const DataTable = ({ columns, data, handleRowClick, addData }) => {
     setCurrentPage(0);
   };
 
-  // ...
+  const exportToExcel = () => {
+    const rows = tableRef.current.querySelectorAll("tbody tr");
+
+    const excelData = [columns.map((column) => column.label)];
+
+    rows.forEach((row) => {
+      const rowData = Array.from(row.children).map((cell) => cell.textContent);
+      excelData.push(rowData);
+    });
+
+    const xml = `<?xml version="1.0"?>\n<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">\n<Worksheet ss:Name="Sheet1">\n<Table>${excelData
+      .map(
+        (rowData) =>
+          "<Row>" +
+          rowData
+            .map(
+              (value) => `<Cell><Data ss:Type="String">${value}</Data></Cell>`
+            )
+            .join("") +
+          "</Row>"
+      )
+      .join("")}</Table></Worksheet></Workbook>`;
+
+    const blob = new Blob([xml], { type: "application/vnd.ms-excel" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "data.xls";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const itemsPerPage = itemPerPage;
 
@@ -86,7 +115,9 @@ const DataTable = ({ columns, data, handleRowClick, addData }) => {
         (index >= startPage && index <= endPage)
       ) {
         const buttonClass = `px-2 rounded-md py-0.5 font-semibold ${
-          isCurrentPage ? "border-blue-700 border-2 bg-gray-100 text-gray-600" : "bg-gray-100 border text-gray-600"
+          isCurrentPage
+            ? "border-blue-700 border-2 bg-gray-100 text-gray-600"
+            : "bg-gray-100 border text-gray-600"
         }`;
         return (
           <button
@@ -179,46 +210,45 @@ const DataTable = ({ columns, data, handleRowClick, addData }) => {
       </table>
 
       <table ref={tableRef} className="hidden">
-      <thead>
-        <tr>
-          {columns.map((column) => (
-            <th key={column.key} className="p-2">
-              {column.label}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-      {currentData.map((row, rowIndex) => (
+        <thead>
+          <tr>
+            {columns.map((column) => (
+              <th key={column.key} className="p-2">
+                {column.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {currentData.map((row, rowIndex) => (
             <tr
               key={rowIndex}
               className={rowIndex % 2 === 0 ? "bg-gray-200" : "bg-white"}
             >
               {columns.map((column) => (
-                <td
-                  key={column.key}
-                  className="p-2 text-center"
-                >
-                  {row[column.key]}
+                <td key={column.key} className="p-2 text-center">
+                  {
+                    row[column.key] !== undefined
+                      ? row[column.key]
+                      : "N/A" /* Ganti dengan nilai default atau pesan yang sesuai */
+                  }
                 </td>
               ))}
             </tr>
           ))}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
 
       <div className="flex justify-between items-center mt-4">
-        <DownloadTableExcel
-          filename="dataPengguna"
-          sheet="dataPengguna"
-          currentTableRef={tableRef.current}
+        <button
+          type="button"
+          onClick={exportToExcel}
+          className="p-2 bg-green-600 text-white rounded-md tracking-wider"
         >
-          <button className="p-2 bg-green-600 text-white rounded-md tracking-wider">
-            <span className=" flex">
-              <FaFileExcel className=" mt-1 mr-2" /> Ekspor ke Excel
-            </span>
-          </button>
-        </DownloadTableExcel>
+          <span className=" flex">
+            <FaFileExcel className=" mt-1 mr-2" /> Ekspor ke Excel
+          </span>
+        </button>
 
         <div className="flex space-x-4 items-center tracking-wider">
           <button

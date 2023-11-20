@@ -83,76 +83,90 @@ const AccountDataDesktop = () => {
 
   const [tableData, setTableData] = useState([]);
   const [tableData2, setTableData2] = useState([]);
+  
+  const fetchDataFromApi = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+
+      // Fetch total counts for each type of user
+      const countPenggunaResponse = await axios.get(
+        "http://127.0.0.1:8000/api/pengguna",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Data Pengguna:", countPenggunaResponse.data);
+
+      return countPenggunaResponse.data;
+    } catch (error) {
+      console.error("Terjadi error:", error);
+      throw error;
+    }
+  };
+
+  const fillDataAutomatically = async () => {
+    try {
+      const apiData = await fetchDataFromApi();
+
+      const filteredData = apiData
+        .filter((item) => item.jurusan && item.jurusan.jurusan !== "N/A")
+        .map((item, index) => ({
+          NO: index + 1,
+          NIS: item.nomorinduk_pengguna,
+          Nama: item.nama_pengguna,
+          Level: item.level_pengguna,
+          Jurusan: item.jurusan.jurusan,
+          Email: item.email,
+        }));
+
+      setTableData(filteredData);
+      console.log(filteredData);
+    } catch (error) {
+      console.error("Terjadi error:", error);
+    }
+  };
+
+  const fillDataAutomatically2 = async () => {
+    try {
+      const apiData = await fetchDataFromApi();
+
+      const filteredData = apiData
+        .filter((item) => item.jabatan && item.jabatan.jabatan !== "N/A")
+        .map((item, index) => ({
+          NO: index + 1,
+          NIS: item.nomorinduk_pengguna,
+          Nama: item.nama_pengguna,
+          Level: item.level_pengguna,
+          Jabatan: item.jabatan.jabatan,
+          Email: item.email,
+        }));
+
+      setTableData2(filteredData);
+      console.log(filteredData);
+    } catch (error) {
+      console.error("Terjadi error:", error);
+    }
+  };
+
+  const handleEditSuccess = () => {
+    fillDataAutomatically();
+    fillDataAutomatically2();
+    closeModal();
+  };
+
+  const handleDeleteSuccess = () => {
+    fillDataAutomatically();
+    fillDataAutomatically2();
+    closeModal();
+  };
+
 
   useEffect(() => {
-    const fetchDataFromApi = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-
-        // Fetch total counts for each type of user
-        const countPenggunaResponse = await axios.get(
-          "http://127.0.0.1:8000/api/pengguna",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        console.log("Data Pengguna:", countPenggunaResponse.data);
-
-        return countPenggunaResponse.data;
-      } catch (error) {
-        console.error("Terjadi error:", error);
-        throw error;
-      }
-    };
-
-    const fillDataAutomatically = async () => {
-      try {
-        const apiData = await fetchDataFromApi();
-
-        const filteredData = apiData
-          .filter((item) => item.jurusan && item.jurusan.jurusan !== "N/A")
-          .map((item, index) => ({
-            NO: index + 1,
-            NIS: item.nomorinduk_pengguna,
-            Nama: item.nama_pengguna,
-            Level: item.level_pengguna,
-            Jurusan: item.jurusan.jurusan,
-            Email: item.email,
-          }));
-
-        setTableData(filteredData);
-        console.log(filteredData);
-      } catch (error) {
-        console.error("Terjadi error:", error);
-      }
-    };
-
-    const fillDataAutomatically2 = async () => {
-      try {
-        const apiData = await fetchDataFromApi();
-
-        const filteredData = apiData
-          .filter((item) => item.jabatan && item.jabatan.jabatan !== "N/A")
-          .map((item, index) => ({
-            NO: index + 1,
-            NIS: item.nomorinduk_pengguna,
-            Nama: item.nama_pengguna,
-            Level: item.level_pengguna,
-            Jabatan: item.jabatan.jabatan,
-            Email: item.email,
-          }));
-
-        setTableData2(filteredData);
-        console.log(filteredData);
-      } catch (error) {
-        console.error("Terjadi error:", error);
-      }
-    };
-
     fetchDataFromApi();
+    handleEditSuccess();
     fillDataAutomatically();
     fillDataAutomatically2();
   }, []);
@@ -227,6 +241,8 @@ const AccountDataDesktop = () => {
                 <AccountDataModal
                   rowData={selectedRowData}
                   closeModal={closeModal}
+                  onEditSuccess={handleEditSuccess}
+                  onDeleteSuccess={handleDeleteSuccess}
                 />
               </center>
             )}

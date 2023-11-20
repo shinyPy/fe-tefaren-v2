@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
+import Swal from "sweetalert2";
 
-const AccountDataModal = ({ rowData, closeModal }) => {
+const AccountDataModal = ({ rowData, closeModal, onEditSuccess, onDeleteSuccess }) => {
   const formRef = useRef(null);
   const customContentStyle = {
     marginBottom: "100vh",
@@ -94,8 +95,12 @@ const AccountDataModal = ({ rowData, closeModal }) => {
       // Check if the response status indicates success
       if (response.status >= 200 && response.status < 300) {
         console.log("Edit successful", response.data);
-        window.location.reload();
-        closeModal();
+        onEditSuccess();
+        Swal.fire({
+          icon: "success",
+          title: "Edit Berhasil",
+          text: "Data pengguna telah berhasil diubah.",
+        });
       } else {
         // Handle specific error cases based on the status code
         console.error("Edit failed with status", response.status);
@@ -106,29 +111,82 @@ const AccountDataModal = ({ rowData, closeModal }) => {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Konfirmasi",
+      text: "Apakah Anda yakin ingin menghapus data ini?",
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'bg-red-600 mr-2 text-white py-2 px-4 rounded',
+        cancelButton: 'bg-blue-600 ml-2 text-white py-2 px-4 rounded',
+      },
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Ya, hapus!",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // User clicked "Ya, hapus!" button
+        performDelete();
+      }
+    });
+  };
+  
+  const performDelete = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem("accessToken");
       const apiUrl = `http://127.0.0.1:8000/api/deletepengguna/${rowData.NIS}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
-
+  
       const result = await axios.delete(apiUrl, config);
-
+  
       if (result.status >= 200 && result.status < 300) {
-        console.log('Delete successful', result.data);
-        window.location.reload(); // atau jalankan fungsi lain sesuai kebutuhan
-        closeModal(); // Tutup modal setelah penghapusan berhasil
+        console.log("Delete successful", result.data);
+        onDeleteSuccess();
+        Swal.fire({
+          icon: "success",
+          title: "Hapus Berhasil",
+          text: "Data pengguna telah berhasil dihapus.",
+        });
       } else {
-        console.error('Delete failed with status', result.status);
+        console.error("Delete failed with status", result.status);
       }
     } catch (error) {
-      console.error('Error deleting data', error);
+      console.error("Error deleting data", error);
     }
   };
+
+  const [jurusanOptions, setJurusanOptions] = useState([]);
+
+  useEffect(() => {
+    if (rowData.hasOwnProperty("Jurusan")) {
+      // Fetch data from the backend and populate the jurusanOptions state
+      fetch("http://127.0.0.1:8000/api/jurusan-values") // Ganti dengan URL API yang sebenarnya
+        .then((response) => response.json())
+        .then((data) => {
+          // Asumsikan data respons adalah array objek jurusan
+          setJurusanOptions(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    } else {
+      fetch("http://127.0.0.1:8000/api/jabatan-values") // Ganti dengan URL API yang sebenarnya
+        .then((response) => response.json())
+        .then((data) => {
+          setJurusanOptions(data); // Perbarui state jabatanOptions dengan respons API
+        })
+        .catch((error) => {
+          console.error("Error fetching jabatan data:", error);
+        });
+    }
+  }, [rowData]);  
 
   return (
     <motion.div
@@ -170,16 +228,28 @@ const AccountDataModal = ({ rowData, closeModal }) => {
             value={namaValue}
             onChange={handleNamaChange}
           ></input>
-          <input
-            className="left-0 text-left w-full tracking-widest px-4 py-3 mb-4 border-2 rounded-lg text-xl"
-            value={levelValue}
+            <select
+            className="left-0 text-left w-full bg-white tracking-widest bg- px-4 py-3 border-2 mb-4 rounded-lg text-xl"
             onChange={handleLevelChange}
-          ></input>
-          <input
-            className="left-0 text-left w-full tracking-widest px-4 py-3 border-2 mb-4 rounded-lg text-xl"
-            value={jurusanValue}
+            value={levelValue}
+          >
+<option value={levelValue === 'admin' ? 'user' : levelValue}>{levelValue === 'admin' ? 'user' : levelValue}</option>
+<option value={levelValue === 'user' ? 'admin' : levelValue}>{levelValue === 'user' ? 'admin' : levelValue}</option>
+
+          </select>
+          <select
+            className="left-0 text-left w-full bg-white tracking-widest bg- px-4 py-3 border-2 mb-4 rounded-lg text-xl"
             onChange={handleJurusanChange}
-          ></input>
+            value={jurusanValue}
+          >
+            {
+                                                            jurusanOptions.map((jurusan, index) => (
+                                                                <option key={index} value={jurusan}>
+                                                                    {jurusan}
+                                                                </option>
+                                                            ))
+                                                        }12
+          </select>
           <input
             className="left-0 text-left w-full tracking-widest px-4 py-3 border-2 rounded-lg text-xl"
             value={emailValue}
