@@ -20,6 +20,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
     setCurrentPage(0);
   };
 
+
   const exportToExcel = () => {
     const rows = tableRef.current.querySelectorAll('tbody tr');
   
@@ -36,7 +37,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
   
     XLSX.writeFile(wb, 'data.xlsx');
   };
-
+  
   const itemsPerPage = itemPerPage;
 
   const offset = currentPage * itemsPerPage;
@@ -124,8 +125,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div className=" flex w-1/2">
-          <div className=" w-6/12">
+
             <Select
               icon={AiOutlineSetting}
               value={itemPerPage}
@@ -136,9 +136,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
               <option value={15}>15 item pada halaman</option>
             </Select>
           </div>
-        </div>
 
-        <div className="flex w-1/2 space-x-4">
           <input
             type="text"
             value={searchTerm}
@@ -156,11 +154,9 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
               </span>
             </button>
           )}
-        </div>
-      </div>
 
-      <div className=" w-full  relative overflow-x-auto">
-      <table className="border border-gray-300 w-full">
+<div className=" w-full  relative overflow-x-auto">
+      <table className="border border-gray-300">
         <thead className="bg-gray-600 text-white">
           <tr>
             {columns.map((column) => (
@@ -227,18 +223,18 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
         </tbody>
       </table>
 
-      <div className="flex justify-between items-center mt-4">
+      <div className=" w-full justify-between items-center mt-4">
         <button
           type="button"
           onClick={exportToExcel}
-          className="p-2 bg-green-600 text-white rounded-md tracking-wider"
+          className="p-2 bg-green-600 w-full text-white rounded-md tracking-wider"
         >
           <span className=" flex">
             <FaFileExcel className=" mt-1 mr-2" /> Ekspor ke Excel
           </span>
         </button>
 
-        <div className="flex space-x-4 items-center tracking-wider">
+        <div className="flex space-x-4 mt-4 items-center tracking-wider">
           <button
             className="p-2 font-semibold bg-gray-100 border text-gray-800 rounded-md tracking-wider"
             onClick={handlePrevPage}

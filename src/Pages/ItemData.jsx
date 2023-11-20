@@ -6,10 +6,10 @@ import PageTitle from "../Utils/PageTitle";
 import { useMediaQuery } from "react-responsive";
 import { motion, AnimatePresence } from "framer-motion";
 
-import AccountDataDesktop from "../Layouts/AccountData/Desktop";
-import AccountDataMobile from "../Layouts/AccountData/Mobile";
+import ItemDataDesktop from "../Layouts/ItemData/Desktop";
+import ItemDataMobile from "../Layouts/ItemData/Mobile";
 
-function AccountData() {
+function ItemData() {
   const isMobile = useMediaQuery({ maxWidth: 400 });
   const [isLoaded, setIsLoaded] = useState(false);
   const [preloadState, setPreloadState] = useState(1);
@@ -80,7 +80,7 @@ function AccountData() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <AccountDataMobile />
+                <ItemDataMobile />
               </motion.div>
             ) : (
               <motion.div
@@ -89,7 +89,7 @@ function AccountData() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <AccountDataDesktop />
+                <ItemDataDesktop />
               </motion.div>
             )}
           </AnimatePresence>
@@ -99,4 +99,4 @@ function AccountData() {
   );
 }
 
-export default AccountData;
+export default ItemData;

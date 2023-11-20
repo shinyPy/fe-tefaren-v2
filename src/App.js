@@ -6,6 +6,7 @@ import NotFound from "./Pages/NotFound";
 import Dashboard from "./Pages/Dashboard";
 import NotAuth from "./Pages/NotAuth";
 import AccountData from "./Pages/AccountData";
+import ItemData from "./Pages/ItemData";
 
 //style
 import "./Assets/Style/App.css";
@@ -63,7 +64,7 @@ const App = () => {
           }
         />
         <Route
-          path="/account"
+          path="/accountdata"
           element={
             <PrivateRoute
               element={<AccountData />}
@@ -72,6 +73,16 @@ const App = () => {
             />
           }
         />
+               <Route
+          path="/itemdata"
+          element={
+            <PrivateRoute
+              element={<ItemData />}
+              element2={<NotAuth />}
+              allowedRoles={["admin"]}
+            />
+          }
+        /> 
       </Routes>
     </Router>
   );

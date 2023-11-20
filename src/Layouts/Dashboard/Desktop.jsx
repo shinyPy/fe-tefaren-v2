@@ -19,12 +19,12 @@ const DashboardDesktop = () => {
       text: "Pengguna",
       icon: <FaUser size={14} />,
       subtext: "Menajemen Data",
-      path: "/account"
+      path: "/accountdata",
     },
     {
       text: "Barang",
       icon: <FaBox size={14} />,
-      path : "item"
+      path: "/itemdata",
     },
     {
       text: "Peminjaman",
@@ -32,15 +32,15 @@ const DashboardDesktop = () => {
       children: [
         {
           sub: "Pengajuan",
-          path : "submission"
+          path: "submission",
         },
         {
           sub: "Peminjaman",
-          path : "borrow"
+          path: "borrow",
         },
         {
           sub: "Pengembalian",
-          path : "return"
+          path: "return",
         },
       ],
     },
@@ -51,20 +51,20 @@ const DashboardDesktop = () => {
       children: [
         {
           sub: "Jabatan",
-          path : "jobset"
+          path: "jobset",
         },
         {
           sub: "Jurusan",
-          path : "majorset"
+          path: "majorset",
         },
         {
           sub: "Kategori Barang",
-          path: "cataset"
+          path: "cataset",
         },
       ],
     },
   ];
-
+  
     const [contentData, setContentData] = useState({
         title: 'Pengguna',
         content: 'Dashboard Content',

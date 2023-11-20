@@ -205,35 +205,35 @@ const AccountDataModal = ({
       className="fixed top-0 left-0 w-full bg-opacity-50 bg-gray-700 flex justify-center items-center backdrop-blur-sm"
     >
       <div
-        className="bg-white px-8 pt-8 pb-4 left-0 rounded-2xl w-5/12"
+        className="bg-white px-4 pt-4 left-0 rounded-2xl mt-16 w-10/12"
         ref={formRef}
         style={customContentStyle}
       >
-        <div className="mb-4 flex w-full justify-center">
-          <span className="text-3xl px-5 py-2.5 rounded-full bg-gray-700 text-white">
+        <div className="mb-4 flex w-full justify-center space-x-4">
+          <span className="text-lg px-4 py-2 rounded-full bg-gray-700 text-white">
             {rowData.NO}
           </span>
-          <h1 className="text-3xl tracking-widest rounded-l-lg text-gray-700 font-semibold px-5 py-2.5">
+          <h1 className="text-lg tracking-widest rounded-l-lg text-gray-700 font-semibold px-2 py-2">
             Detail Pengguna
           </h1>
         </div>
 
-        <div className=" w-full border-b-2 mb-8"></div>
+        <div className=" w-full border-b-2 mb-4"></div>
 
         <form onSubmit={handleEdit}>
           <input
-            className="left-0 text-left w-full tracking-widest px-4 py-3 mb-4 border-2 rounded-lg text-lg"
+            className="left-0 text-left w-full tracking-widest px-2 py-1.5 mb-4 border-2 rounded-lg text-sm"
             value={nisValue}
             onChange={handleNisChange}
           ></input>
 
           <input
-            className="left-0 text-left w-full tracking-widest px-4 py-3 mb-4 border-2 rounded-lg text-lg"
+            className="left-0 text-left w-full tracking-widest px-2 py-1.5 mb-4 border-2 rounded-lg text-sm"
             value={namaValue}
             onChange={handleNamaChange}
           ></input>
           <select
-            className="left-0 text-left w-full bg-white tracking-widest bg- px-4 py-3 border-2 mb-4 rounded-lg text-lg"
+            className="left-0 text-left w-full bg-white tracking-widest px-2 py-1.5 border-2 mb-4 rounded-lg text-sm"
             onChange={handleLevelChange}
             value={levelValue}
           >
@@ -245,7 +245,7 @@ const AccountDataModal = ({
             </option>
           </select>
           <select
-            className="left-0 text-left w-full bg-white tracking-widest bg- px-4 py-3 border-2 mb-4 rounded-lg text-lg"
+            className="left-0 text-left w-full bg-white tracking-widest bg- px-2 py-1.5 border-2 mb-4 rounded-lg text-sm"
             onChange={handleJurusanChange}
             value={jurusanValue}
           >
@@ -257,7 +257,7 @@ const AccountDataModal = ({
             12
           </select>
           <input
-            className="left-0 text-left w-full tracking-widest px-4 py-3 border-2 rounded-lg text-lg"
+            className="left-0 text-left w-full tracking-widest px-2 py-1.5 border-2 rounded-lg text-sm"
             value={emailValue}
             onChange={handleEmailChange}
           ></input>

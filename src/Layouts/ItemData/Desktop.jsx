@@ -15,7 +15,7 @@ import {
   FaTools,
 } from "react-icons/fa";
 
-const AccountDataDesktop = () => {
+const ItemDataDesktop = () => {
   const sidebarItems = [
     {
       text: "Dashboard",
@@ -73,7 +73,7 @@ const AccountDataDesktop = () => {
     },
   ];
 
-  const steps = ["Siswa", "Guru"];
+  const steps = ["Tersedia", "Dipinjam", "Pemeliharaan", "Dihapuskan" ];
 
   const [selectedStep, setSelectedStep] = useState(1);
 
@@ -90,7 +90,7 @@ const AccountDataDesktop = () => {
 
       // Fetch total counts for each type of user
       const countPenggunaResponse = await axios.get(
-        "http://127.0.0.1:8000/api/pengguna",
+        "http://127.0.0.1:8000/api/barangShow",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -98,7 +98,7 @@ const AccountDataDesktop = () => {
         }
       );
 
-      console.log("Data Pengguna:", countPenggunaResponse.data);
+      console.log("Data Barang:", countPenggunaResponse.data);
 
       return countPenggunaResponse.data;
     } catch (error) {
@@ -207,7 +207,7 @@ const AccountDataDesktop = () => {
     <div className="flex">
       <SidebarDesktop items={sidebarItems} />
       <div className="px-8 py-4 min-h-screen w-screen">
-        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Akun" />
+        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Barang"/>
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedStep}
@@ -253,4 +253,4 @@ const AccountDataDesktop = () => {
   );
 };
 
-export default AccountDataDesktop;
+export default ItemDataDesktop;
