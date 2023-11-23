@@ -86,27 +86,33 @@ const ItemDataModal = ({
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    const formDataToSend = new FormData();
-  
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
-    }
-  
+    const formDataToSend = formData;
+    console.log(formDataToSend);
     try {
       const token = localStorage.getItem("accessToken");
-  
-      await axios.post(
-        `http://127.0.0.1:8000/api/upload-gambar-barang`,
-        formDataToSend,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data', // Ensure correct content type for file upload
+      let hasil_upload = null;
+      console.log(`new => ${formDataToSend.gambar_barang}`);
+      console.log(`old => ${old_gambar_barang}`);
+      if(formDataToSend.gambar_barang instanceof File){
+        await axios.post(
+          `http://127.0.0.1:8000/api/upload-gambar-barang`,
+          {
+            gambar_barang : formDataToSend.gambar_barang
           },
-        }
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data', // Ensure correct content type for file upload
+            },
+          }
+        ).then((res)=>{
+          if(res.data.success){
+            hasil_upload = res.data.gambar_barang;
+          }
+        });
+      }
       
-  
+      formDataToSend.gambar_barang = hasil_upload;
       await axios.put(
         `http://127.0.0.1:8000/api/barangUpdate/${rowData.ID}`,
         formDataToSend,
