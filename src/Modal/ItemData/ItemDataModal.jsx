@@ -87,12 +87,10 @@ const ItemDataModal = ({
   const handleEdit = async (e) => {
     e.preventDefault();
     const formDataToSend = formData;
-    console.log(formDataToSend);
     try {
       const token = localStorage.getItem("accessToken");
       let hasil_upload = null;
-      console.log(`new => ${formDataToSend.gambar_barang}`);
-      console.log(`old => ${old_gambar_barang}`);
+
       if(formDataToSend.gambar_barang instanceof File){
         await axios.post(
           `http://127.0.0.1:8000/api/upload-gambar-barang`,
