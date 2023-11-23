@@ -237,12 +237,8 @@ const AccountDataModal = ({
             onChange={handleLevelChange}
             value={levelValue}
           >
-            <option value={levelValue === "admin" ? "user" : levelValue}>
-              {levelValue === "admin" ? "user" : levelValue}
-            </option>
-            <option value={levelValue === "user" ? "admin" : levelValue}>
-              {levelValue === "user" ? "admin" : levelValue}
-            </option>
+            <option value="admin">admin</option>
+            <option value="user">user</option>
           </select>
           <select
             className="left-0 text-left w-full bg-white tracking-widest bg- px-4 py-3 border-2 mb-4 rounded-lg text-lg"
@@ -254,7 +250,6 @@ const AccountDataModal = ({
                 {jurusan}
               </option>
             ))}
-            12
           </select>
           <input
             className="left-0 text-left w-full tracking-widest px-4 py-3 border-2 rounded-lg text-lg"

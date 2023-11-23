@@ -55,7 +55,6 @@ const AccountDataDesktop = () => {
     {
       text: "Utilitas",
       icon: <FaTools />,
-      subtext: "Konfigurasi Web",
       children: [
         {
           sub: "Jabatan",
@@ -235,8 +234,11 @@ const AccountDataDesktop = () => {
                 />{" "}
               </div>
             )}
+          </motion.div>
+        </AnimatePresence>
 
-            {isModalVisible && (
+        <AnimatePresence mode="wait">
+        {isModalVisible && (
               <center>
                 <AccountDataModal
                   rowData={selectedRowData}
@@ -246,8 +248,7 @@ const AccountDataDesktop = () => {
                 />
               </center>
             )}
-          </motion.div>
-        </AnimatePresence>
+            </AnimatePresence>
       </div>
     </div>
   );

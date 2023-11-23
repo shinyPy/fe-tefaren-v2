@@ -18,62 +18,61 @@ import {
 } from "react-icons/fa";
 
 const AccountDataMobile = () => {
-    const sidebarItems = [
+  const sidebarItems = [
+    {
+      text: "Dashboard",
+      icon: <FaChartBar />,
+      subtext: "Panel Informasi",
+      path: "/dashboard",
+    },
+    {
+      text: "Pengguna",
+      icon: <FaUser size={14} />,
+      subtext: "Menajemen Data",
+      path: "/accountdata",
+    },
+    {
+      text: "Barang",
+      icon: <FaBox size={14} />,
+      path: "/itemdata",
+    },
+    {
+      text: "Peminjaman",
+      icon: <FaClipboardList />,
+      children: [
         {
-          text: "Dashboard",
-          icon: <FaChartBar />,
-          subtext: "Panel Informasi",
-          path: "/dashboard",
+          sub: "Pengajuan",
+          path: "submission",
         },
         {
-          text: "Pengguna",
-          icon: <FaUser size={14} />,
-          subtext: "Menajemen Data",
-          path: "/accountdata",
+          sub: "Peminjaman",
+          path: "borrow",
         },
         {
-          text: "Barang",
-          icon: <FaBox size={14} />,
-          path: "/itemdata",
+          sub: "Pengembalian",
+          path: "return",
+        },
+      ],
+    },
+    {
+      text: "Utilitas",
+      icon: <FaTools />,
+      children: [
+        {
+          sub: "Jabatan",
+          path: "jobset",
         },
         {
-          text: "Peminjaman",
-          icon: <FaClipboardList />,
-          children: [
-            {
-              sub: "Pengajuan",
-              path: "submission",
-            },
-            {
-              sub: "Peminjaman",
-              path: "borrow",
-            },
-            {
-              sub: "Pengembalian",
-              path: "return",
-            },
-          ],
+          sub: "Jurusan",
+          path: "majorset",
         },
         {
-          text: "Utilitas",
-          icon: <FaTools />,
-          subtext: "Konfigurasi Web",
-          children: [
-            {
-              sub: "Jabatan",
-              path: "jobset",
-            },
-            {
-              sub: "Jurusan",
-              path: "majorset",
-            },
-            {
-              sub: "Kategori Barang",
-              path: "cataset",
-            },
-          ],
+          sub: "Kategori Barang",
+          path: "cataset",
         },
-      ];
+      ],
+    },
+  ];
 
   const steps = ["Siswa", "Guru"];
 

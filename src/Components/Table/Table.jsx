@@ -3,7 +3,7 @@ import { Select } from "../CommonInput";
 import { FaFileExcel } from "react-icons/fa";
 import { MdAdd } from "react-icons/md";
 import { AiOutlineSetting } from "react-icons/ai";
-import * as XLSX from 'xlsx';
+import * as XLSX from "xlsx";
 
 const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -21,20 +21,20 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
   };
 
   const exportToExcel = () => {
-    const rows = tableRef.current.querySelectorAll('tbody tr');
-  
+    const rows = tableRef.current.querySelectorAll("tbody tr");
+
     const excelData = [columns.map((column) => column.label)];
-  
+
     rows.forEach((row) => {
       const rowData = Array.from(row.children).map((cell) => cell.textContent);
       excelData.push(rowData);
     });
-  
+
     const ws = XLSX.utils.aoa_to_sheet(excelData);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-  
-    XLSX.writeFile(wb, 'data.xlsx');
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    XLSX.writeFile(wb, "data.xlsx");
   };
 
   const itemsPerPage = itemPerPage;
@@ -150,6 +150,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
             <button
               className="w-1/2 mt-4 mb-2 px-3 py-2 font-semibold tracking-wider bg-blue-600 text-white rounded-md"
               type="button"
+              onClick={onClickData}
             >
               <span className=" flex">
                 <MdAdd className=" mt-1 mr-2" /> Tambah data
@@ -160,41 +161,53 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
       </div>
 
       <div className=" w-full  relative overflow-x-auto">
-      <table className="border border-gray-300 w-full">
-        <thead className="bg-gray-600 text-white">
-          <tr>
-            {columns.map((column) => (
-              <th key={column.key} className="p-2">
-                {column.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {currentData.map((row, rowIndex) => (
-            <tr
-              key={rowIndex}
-              className={rowIndex % 2 === 0 ? "bg-gray-200" : "bg-white"}
-            >
+        <table className="border border-gray-300 w-full">
+          <thead className="bg-gray-600 text-white">
+            <tr>
               {columns.map((column) => (
-                <td
-                  key={column.key}
-                  className="p-2 text-center"
-                  onClick={() => handleRowClick(row)}
-                >
-                  {
-                    row[column.key] !== undefined
-                      ? row[column.key].toString().length > 13
-                        ? `${row[column.key].toString().slice(0, 13)}...`
-                        : row[column.key]
-                      : "N/A" /* Ganti dengan nilai default atau pesan yang sesuai */
-                  }
-                </td>
+                <th key={column.key} className="p-2">
+                  {column.label}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {currentData.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className={rowIndex % 2 === 0 ? "bg-gray-200" : "bg-white"}
+              >
+                {columns.map((column) => (
+                  <td
+                    key={column.key}
+                    className="p-2"
+                    onClick={() => handleRowClick(row)}
+                  >
+                    <center>
+                      {column.key === "Gambar" ? (
+                        <img
+                          src={`http://127.0.0.1:8000/storage/${
+                            row[column.key]
+                          }`}
+                          alt={row[column.key]}
+                          style={{ maxWidth: "100px", maxHeight: "100px" }}
+                        />
+                      ) : row[column.key] !== undefined ? (
+                        row[column.key].toString().length > 13 ? (
+                          `${row[column.key].toString().slice(0, 13)}...`
+                        ) : (
+                          row[column.key]
+                        )
+                      ) : (
+                        "N/A"
+                      )}
+                    </center>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <table ref={tableRef} className="hidden">
@@ -215,11 +228,17 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
             >
               {columns.map((column) => (
                 <td key={column.key} className="p-2 text-center">
-                  {
-                    row[column.key] !== undefined
-                      ? row[column.key]
-                      : "N/A" /* Ganti dengan nilai default atau pesan yang sesuai */
-                  }
+                  {column.key === "Gambar" ? (
+                    <img
+                      src={`http://127.0.0.1:8000/storage/${row[column.key]}`}
+                      alt={row[column.key]}
+                      style={{ maxWidth: "100px", maxHeight: "100px" }}
+                    />
+                  ) : row[column.key] !== undefined ? (
+                    row[column.key]
+                  ) : (
+                    "N/A"
+                  )}
                 </td>
               ))}
             </tr>

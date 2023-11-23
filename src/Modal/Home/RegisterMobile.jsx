@@ -308,11 +308,11 @@ const RegisterModal = ({isOpen, onClose, onLink}) => {
 
         try {
             const response = await axios.post("http://127.0.0.1:8000/api/register", data);
-
+        
             if (response.status === 200) {
                 // Registration successful
                 localStorage.setItem("register_success_message", "Register Berhasil!");
-
+        
                 // Reset the form
                 setSelectedRole("");
                 setIdValue("");
@@ -320,13 +320,13 @@ const RegisterModal = ({isOpen, onClose, onLink}) => {
                 setSelectedTeacher("");
                 setPasswordValue("");
                 setSubmitted(true);
-
+        
                 onLink();
             } else {
                 // Registration failed, display an error message from the server response
-                const responseData = await response.data;
+                const responseData = response.data;
                 const errorMessage = responseData.message || "Terjadi kesalahan dalam registrasi. Mohon coba lagi.";
-
+        
                 Swal.fire({
                     icon: "error",
                     title: "Registrasi Gagal",
@@ -337,26 +337,31 @@ const RegisterModal = ({isOpen, onClose, onLink}) => {
                         text: "text-red-500 text-lg"
                     }
                 });
-
+        
                 setSubmitted(false);
             }
         } catch (error) {
             console.error("Registration error:", error);
-
-            // Handle any unexpected errors here
+        
+            // Use response data for error message if available
+            const responseData = (error.response && error.response.data) || {};
+            const errorMessage = responseData.message || "Terjadi kesalahan dalam registrasi. Mohon coba lagi.";
+        
             Swal.fire({
                 icon: "error",
                 title: "Registrasi Gagal",
-                text: "Terjadi kesalahan dalam registrasi. Mohon coba lagi.",
+                text: errorMessage,
                 width: 500,
                 customClass: {
                     title: "text-red-500 text-2xl font-bold",
                     text: "text-red-500 text-lg"
                 }
             });
-
+        
             setSubmitted(false);
         }
+        
+        
     };
 
     return (

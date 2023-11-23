@@ -5,7 +5,8 @@ import StepNav from "../../Components/StepNav/StepNav";
 import { useState, useEffect } from "react";
 import DataTable from "../../Components/Table/Table";
 import axios from "axios";
-import AccountDataModal from "../../Modal/AccountData/AccountDataModal";
+import ItemDataModal from "../../Modal/ItemData/ItemDataModal";
+import ItemDataAddModal from "../../Modal/ItemData/itemDataAddModal";
 
 import {
   FaChartBar,
@@ -55,7 +56,6 @@ const ItemDataDesktop = () => {
     {
       text: "Utilitas",
       icon: <FaTools />,
-      subtext: "Konfigurasi Web",
       children: [
         {
           sub: "Jabatan",
@@ -73,7 +73,7 @@ const ItemDataDesktop = () => {
     },
   ];
 
-  const steps = ["Tersedia", "Dipinjam", "Pemeliharaan", "Dihapuskan" ];
+  const steps = ["Tersedia", "Dipinjam", "Pemeliharaan", "Dihapuskan"];
 
   const [selectedStep, setSelectedStep] = useState(1);
 
@@ -83,13 +83,13 @@ const ItemDataDesktop = () => {
 
   const [tableData, setTableData] = useState([]);
   const [tableData2, setTableData2] = useState([]);
-  
+
   const fetchDataFromApi = async () => {
     try {
       const token = localStorage.getItem("accessToken");
 
-      // Fetch total counts for each type of user
-      const countPenggunaResponse = await axios.get(
+      // Fetch data from the API
+      const barangResponse = await axios.get(
         "http://127.0.0.1:8000/api/barangShow",
         {
           headers: {
@@ -98,9 +98,9 @@ const ItemDataDesktop = () => {
         }
       );
 
-      console.log("Data Barang:", countPenggunaResponse.data);
+      console.log("Data Barang:", barangResponse.data);
 
-      return countPenggunaResponse.data;
+      return barangResponse.data;
     } catch (error) {
       console.error("Terjadi error:", error);
       throw error;
@@ -112,14 +112,17 @@ const ItemDataDesktop = () => {
       const apiData = await fetchDataFromApi();
 
       const filteredData = apiData
-        .filter((item) => item.jurusan && item.jurusan.jurusan !== "N/A")
+        .filter((item) => item.ketersediaan_barang === "Tersedia")
         .map((item, index) => ({
           NO: index + 1,
-          NIS: item.nomorinduk_pengguna,
-          Nama: item.nama_pengguna,
-          Level: item.level_pengguna,
-          Jurusan: item.jurusan.jurusan,
-          Email: item.email,
+          ID: item.id_barang,
+          Ketersediaan: item.ketersediaan_barang,
+          Kode: item.kode_barang,
+          Nomor: item.nomor_barang,
+          Nama: item.nama_barang, // Adjust this according to your data structure
+          Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
+          Status: item.status_barang, // Adjust this according to your data structure
+          Gambar: item.gambar_barang, // Adjust this according to your data structure
         }));
 
       setTableData(filteredData);
@@ -134,14 +137,17 @@ const ItemDataDesktop = () => {
       const apiData = await fetchDataFromApi();
 
       const filteredData = apiData
-        .filter((item) => item.jabatan && item.jabatan.jabatan !== "N/A")
+        .filter((item) => item.ketersediaan_barang === "Dipinjam")
         .map((item, index) => ({
           NO: index + 1,
-          NIS: item.nomorinduk_pengguna,
-          Nama: item.nama_pengguna,
-          Level: item.level_pengguna,
-          Jabatan: item.jabatan.jabatan,
-          Email: item.email,
+          ID: item.id_barang,
+          Ketersediaan: item.ketersediaan_barang,
+          Kode: item.kode_barang,
+          Nomor: item.nomor_barang,
+          Nama: item.nama_barang, // Adjust this according to your data structure
+          Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
+          Status: item.status_barang, // Adjust this according to your data structure
+          Gambar: item.gambar_barang, // Adjust this according to your data structure
         }));
 
       setTableData2(filteredData);
@@ -163,36 +169,30 @@ const ItemDataDesktop = () => {
     closeModal();
   };
 
-
-  useEffect(() => {
-    fetchDataFromApi();
-    handleEditSuccess();
+  const handleAddSuccess = () => {
     fillDataAutomatically();
     fillDataAutomatically2();
-  }, []);
+    closeModal2();
+  };
+
+  useEffect(() => {
+    fillDataAutomatically();
+    fillDataAutomatically2();
+  }, []); // Removed fetchDataFromApi() and handleEditSuccess() from useEffect, as they are already called inside the other functions
 
   const columns = [
     { key: "NO", label: "NO" },
-    { key: "NIS", label: "NIS" },
+    { key: "Kode", label: "Kode" },
+    { key: "Nomor", label: "Nomor" },
     { key: "Nama", label: "Nama" },
-    { key: "Level", label: "Level" },
-    { key: "Jurusan", label: "Jurusan" },
-    { key: "Email", label: "Email" },
-
-  ];
-
-  const columns2 = [
-    { key: "NO", label: "NO" },
-    { key: "NIS", label: "NIS" },
-    { key: "Nama", label: "Nama" },
-    { key: "Level", label: "Level" },
-    { key: "Jabatan", label: "Jabatan" },
-    { key: "Email", label: "Email" },
-
+    { key: "Kategori", label: "Kategori" },
+    { key: "Status", label: "Status" },
+    { key: "Gambar", label: "Gambar" },
   ];
 
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleRowClick = (rowData) => {
     setSelectedRowData(rowData);
@@ -203,11 +203,23 @@ const ItemDataDesktop = () => {
     setIsModalVisible(false);
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal2 = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="flex">
       <SidebarDesktop items={sidebarItems} />
       <div className="px-8 py-4 min-h-screen w-screen">
-        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Barang"/>
+        <StepNav
+          steps={steps}
+          onSelectStep={handleStepSelect}
+          Name="Data Barang"
+        />
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedStep}
@@ -216,38 +228,63 @@ const ItemDataDesktop = () => {
             exit={{ opacity: 0, y: 50 }}
             transition={{ duration: 0.3 }}
           >
-            {selectedStep !== "Guru" && (
+            {selectedStep !== "Dipinjam" &&
+              selectedStep !== "Dihapuskan" &&
+              selectedStep !== "Pemeliharaan" && (
+                <div className="mb-4">
+                  <DataTable
+                    columns={columns}
+                    data={tableData}
+                    handleRowClick={handleRowClick}
+                    addData="true"
+                    onClickData={openModal}
+                  />
+                </div>
+              )}
+
+            {selectedStep === "Dipinjam" && (
               <div className="mb-4">
                 <DataTable
                   columns={columns}
-                  data={tableData}
-                  handleRowClick={handleRowClick}
-                  addData="true"
-                />{" "}
-              </div>
-            )}
-
-            {selectedStep === "Guru" && (
-              <div className="mb-4">
-                <DataTable
-                  columns={columns2}
                   data={tableData2}
                   handleRowClick={handleRowClick}
-                />{" "}
+                  addData="true"
+                />
               </div>
             )}
 
-            {isModalVisible && (
-              <center>
-                <AccountDataModal
-                  rowData={selectedRowData}
-                  closeModal={closeModal}
-                  onEditSuccess={handleEditSuccess}
-                  onDeleteSuccess={handleDeleteSuccess}
+{selectedStep === "Dihapuskan" && (
+              <div className="mb-4">
+                <DataTable
+                  columns={columns}
+                  data={tableData2}
+                  handleRowClick={handleRowClick}
+                  addData="true"
                 />
-              </center>
+              </div>
             )}
           </motion.div>
+        </AnimatePresence>
+
+        <AnimatePresence mode="wait">
+          {isModalVisible && (
+              <ItemDataModal
+                rowData={selectedRowData}
+                closeModal={closeModal}
+                onEditSuccess={handleEditSuccess}
+                onDeleteSuccess={handleDeleteSuccess}
+              />
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence mode="wait">
+          {isModalOpen && (
+            <ItemDataAddModal
+              isOpen={openModal}
+              onClose={closeModal2}
+              onAdd={handleAddSuccess}
+            />
+          )}
         </AnimatePresence>
       </div>
     </div>

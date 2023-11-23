@@ -136,7 +136,7 @@ const DashboardCard = ({ contentData, iconColor, titleTextColor }) => {
               >
                 {currentContent.title}
               </h2>
-              <p className="text-5xl  text-gray-600 tracking-wide font-semibold">
+              <p className="text-4xl  text-gray-600 tracking-wide font-semibold">
                 {currentContent.content}
               </p>
             </center>

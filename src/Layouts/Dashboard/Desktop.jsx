@@ -47,7 +47,6 @@ const DashboardDesktop = () => {
     {
       text: "Utilitas",
       icon: <FaTools />,
-      subtext: "Konfigurasi Web",
       children: [
         {
           sub: "Jabatan",
@@ -72,12 +71,12 @@ const DashboardDesktop = () => {
         pages: [
           {
             title: 'Siswa',
-            content: '', // No initial loading placeholder
+            content: 'Loading', // No initial loading placeholder
             link: 'pengguna',
           },
           {
             title: 'Guru',
-            content: '',
+            content: 'Loading',
             link: 'pengguna',
           },
         ],
@@ -89,19 +88,19 @@ const DashboardDesktop = () => {
         pages: [
           {
             title: 'Tersedia',
-            content: '',
+            content: 'Loading',
           },
           {
             title: 'Dipinjam',
-            content: '',
+            content: 'Loading',
           },
           {
             title: 'Pemeliharaan',
-            content: '',
+            content: 'Loading',
           },
           {
             title: 'Dihapuskan',
-            content: '',
+            content: 'Loading',
           },
           // Add other pages as needed
         ],
@@ -113,15 +112,15 @@ const DashboardDesktop = () => {
         pages: [
           {
             title: 'Permohonan',
-            content: '',
+            content: 'Loading',
           },
           {
             title: 'Peminjaman',
-            content: '',
+            content: 'Loading',
           },
           {
             title: 'Pengembalian',
-            content: '',
+            content: 'Loading',
           },
           // Add other pages as needed
         ],

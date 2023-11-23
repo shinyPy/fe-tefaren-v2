@@ -58,7 +58,6 @@ const DashboardMobile = () => {
     {
       text: "Utilitas",
       icon: <FaTools />,
-      subtext: "Konfigurasi Web",
       children: [
         {
           sub: "Jabatan",
