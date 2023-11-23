@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 const ItemDataModal = ({
   rowData,
   closeModal,
-  onEditSuccess,
   onDeleteSuccess,
 }) => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -88,15 +87,9 @@ const ItemDataModal = ({
   const handleEdit = async (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
-
+  
     for (const key in formData) {
-      // Check if the key is 'Gambar' and if formData.Gambar is not empty
-      if (key === 'Gambar' && formData[key]) {
-        formDataToSend.append(key, formData[key]);
-      } else {
-        // If formData.Gambar is not provided, use the default value from rowData
-        formDataToSend.append(key, formData[key] || rowData[key]);
-      }
+      formDataToSend.append(key, formData[key]);
     }
   
     try {
