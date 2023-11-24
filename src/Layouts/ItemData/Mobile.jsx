@@ -6,7 +6,8 @@ import StepNav from "../../Components/StepNav/StepNavMobile";
 import { useState, useEffect, useRef } from "react";
 import DataTable from "../../Components/Table/TableMobile";
 import axios from "axios";
-import AccountDataModal from "../../Modal/AccountData/AccountDataModalMobile";
+import ItemDataModal from "../../Modal/ItemData/ItemDataModalMobile";
+import ItemDataAddModal from "../../Modal/ItemData/itemDataAddModalMobile";
 import ScrollMobile from "../../Components/ScrollButton/ScrollMobile";
 
 import {
@@ -74,7 +75,7 @@ const ItemDataMobile = () => {
     },
   ];
 
-  const steps = ["Siswa", "Guru"];
+  const steps = ["Tersedia", "Dipinjam", "Pemeliharaan", "Dihapuskan"];
 
   const [selectedStep, setSelectedStep] = useState(1);
 
@@ -84,14 +85,16 @@ const ItemDataMobile = () => {
 
   const [tableData, setTableData] = useState([]);
   const [tableData2, setTableData2] = useState([]);
-  
+  const [tableData3, setTableData3] = useState([]);
+  const [tableData4, setTableData4] = useState([]);
+
   const fetchDataFromApi = async () => {
     try {
       const token = localStorage.getItem("accessToken");
 
-      // Fetch total counts for each type of user
-      const countPenggunaResponse = await axios.get(
-        "http://127.0.0.1:8000/api/pengguna",
+      // Fetch data from the API
+      const barangResponse = await axios.get(
+        "http://127.0.0.1:8000/api/barangShow",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -99,9 +102,9 @@ const ItemDataMobile = () => {
         }
       );
 
-      console.log("Data Pengguna:", countPenggunaResponse.data);
+      console.log("Data Barang:", barangResponse.data);
 
-      return countPenggunaResponse.data;
+      return barangResponse.data;
     } catch (error) {
       console.error("Terjadi error:", error);
       throw error;
@@ -113,14 +116,17 @@ const ItemDataMobile = () => {
       const apiData = await fetchDataFromApi();
 
       const filteredData = apiData
-        .filter((item) => item.jurusan && item.jurusan.jurusan !== "N/A")
+        .filter((item) => item.ketersediaan_barang === "Tersedia")
         .map((item, index) => ({
           NO: index + 1,
-          NIS: item.nomorinduk_pengguna,
-          Nama: item.nama_pengguna,
-          Level: item.level_pengguna,
-          Jurusan: item.jurusan.jurusan,
-          Email: item.email,
+          ID: item.id_barang,
+          Ketersediaan: item.ketersediaan_barang,
+          Kode: item.kode_barang,
+          Nomor: item.nomor_barang,
+          Nama: item.nama_barang, // Adjust this according to your data structure
+          Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
+          Status: item.status_barang, // Adjust this according to your data structure
+          Gambar: item.gambar_barang, // Adjust this according to your data structure
         }));
 
       setTableData(filteredData);
@@ -135,14 +141,17 @@ const ItemDataMobile = () => {
       const apiData = await fetchDataFromApi();
 
       const filteredData = apiData
-        .filter((item) => item.jabatan && item.jabatan.jabatan !== "N/A")
+        .filter((item) => item.ketersediaan_barang === "Dipinjam")
         .map((item, index) => ({
           NO: index + 1,
-          NIS: item.nomorinduk_pengguna,
-          Nama: item.nama_pengguna,
-          Level: item.level_pengguna,
-          Jabatan: item.jabatan.jabatan,
-          Email: item.email,
+          ID: item.id_barang,
+          Ketersediaan: item.ketersediaan_barang,
+          Kode: item.kode_barang,
+          Nomor: item.nomor_barang,
+          Nama: item.nama_barang, // Adjust this according to your data structure
+          Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
+          Status: item.status_barang, // Adjust this according to your data structure
+          Gambar: item.gambar_barang, // Adjust this according to your data structure
         }));
 
       setTableData2(filteredData);
@@ -152,52 +161,116 @@ const ItemDataMobile = () => {
     }
   };
 
+  const fillDataAutomatically3 = async () => {
+    try {
+      const apiData = await fetchDataFromApi();
+
+      const filteredData = apiData
+        .filter((item) => item.ketersediaan_barang === "Pemeliharaan")
+        .map((item, index) => ({
+          NO: index + 1,
+          ID: item.id_barang,
+          Ketersediaan: item.ketersediaan_barang,
+          Kode: item.kode_barang,
+          Nomor: item.nomor_barang,
+          Nama: item.nama_barang, // Adjust this according to your data structure
+          Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
+          Status: item.status_barang, // Adjust this according to your data structure
+          Gambar: item.gambar_barang, // Adjust this according to your data structure
+        }));
+
+      setTableData3(filteredData);
+      console.log(filteredData);
+    } catch (error) {
+      console.error("Terjadi error:", error);
+    }
+  };
+
+  const fillDataAutomatically4 = async () => {
+    try {
+      const apiData = await fetchDataFromApi();
+
+      const filteredData = apiData
+        .filter((item) => item.ketersediaan_barang === "Dihapuskan")
+        .map((item, index) => ({
+          NO: index + 1,
+          ID: item.id_barang,
+          Ketersediaan: item.ketersediaan_barang,
+          Kode: item.kode_barang,
+          Nomor: item.nomor_barang,
+          Nama: item.nama_barang, // Adjust this according to your data structure
+          Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
+          Status: item.status_barang, // Adjust this according to your data structure
+          Gambar: item.gambar_barang, // Adjust this according to your data structure
+        }));
+
+      setTableData4(filteredData);
+      console.log(filteredData);
+    } catch (error) {
+      console.error("Terjadi error:", error);
+    }
+  };
+
   const handleEditSuccess = () => {
     fillDataAutomatically();
     fillDataAutomatically2();
+    fillDataAutomatically3();
+    fillDataAutomatically4();
     closeModal();
   };
 
   const handleDeleteSuccess = () => {
     fillDataAutomatically();
     fillDataAutomatically2();
+    fillDataAutomatically3();
+    fillDataAutomatically4();
     closeModal();
   };
 
-
-  useEffect(() => {
-    fetchDataFromApi();
-    handleEditSuccess();
+  const handleAddSuccess = () => {
     fillDataAutomatically();
     fillDataAutomatically2();
-  }, []);
+    fillDataAutomatically3();
+    fillDataAutomatically4();
+    closeModal2();
+  };
+
+  useEffect(() => {
+    fillDataAutomatically();
+    fillDataAutomatically2();
+    fillDataAutomatically3();
+    fillDataAutomatically4();
+  }, []); // Removed fetchDataFromApi() and handleEditSuccess() from useEffect, as they are already called inside the other functions
 
   const columns = [
     { key: "NO", label: "NO" },
-    { key: "NIS", label: "NIS" },
+    { key: "Kode", label: "Kode" },
+    { key: "Nomor", label: "Nomor" },
     { key: "Nama", label: "Nama" },
-    { key: "Level", label: "Level" },
-    { key: "Jurusan", label: "Jurusan" },
-    { key: "Email", label: "Email" },
-
-  ];
-
-  const columns2 = [
-    { key: "NO", label: "NO" },
-    { key: "NIS", label: "NIS" },
-    { key: "Nama", label: "Nama" },
-    { key: "Level", label: "Level" },
-    { key: "Jabatan", label: "Jabatan" },
-    { key: "Email", label: "Email" },
-
+    { key: "Kategori", label: "Kategori" },
+    { key: "Status", label: "Status" },
+    { key: "Gambar", label: "Gambar" },
   ];
 
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleRowClick = (rowData) => {
     setSelectedRowData(rowData);
     setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal2 = () => {
+    setIsModalOpen(false);
   };
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -238,10 +311,6 @@ const ItemDataMobile = () => {
     },
   };
 
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
-
   return (
     <div ref={sidebarRef}>
       <SubNav isOpen={isSidebarOpen} toggleNavbar={toggleSidebar} />
@@ -255,42 +324,82 @@ const ItemDataMobile = () => {
             exit={{ opacity: 0, y: 50 }}
             transition={{ duration: 0.3 }}
           >
-            {selectedStep !== "Guru" && (
+                        {selectedStep !== "Dipinjam" &&
+              selectedStep !== "Dihapuskan" &&
+              selectedStep !== "Pemeliharaan" && (
+                <div className="mb-4">
+                  <DataTable
+                    columns={columns}
+                    data={tableData}
+                    handleRowClick={handleRowClick}
+                    addData="true"
+                    onClickData={openModal}
+                  />
+                </div>
+              )}
+
+            {selectedStep === "Dipinjam" && (
               <div className="mb-4">
                 <DataTable
                   columns={columns}
-                  data={tableData}
+                  data={tableData2}
                   handleRowClick={handleRowClick}
-                />{" "}
+                  addData="true"
+                  onClickData={openModal}
+                />
               </div>
             )}
 
-            {selectedStep === "Guru" && (
+{selectedStep === "Pemeliharaan" && (
               <div className="mb-4">
                 <DataTable
-                  columns={columns2}
-                  data={tableData2}
+                  columns={columns}
+                  data={tableData3}
                   handleRowClick={handleRowClick}
-                />{" "}
+                  addData="true"
+                  onClickData={openModal}
+                />
               </div>
             )}
-            
+
+
+{selectedStep === "Dihapuskan" && (
+              <div className="mb-4">
+                <DataTable
+                  columns={columns}
+                  data={tableData4}
+                  handleRowClick={handleRowClick}
+                  addData="true"
+                  onClickData={openModal}
+                />
+              </div>
+            )}
+
           </motion.div>
         </AnimatePresence>
         <ScrollMobile />
 
+       
         <AnimatePresence mode="wait">
-        {isModalVisible && (
-              <center>
-                <AccountDataModal
-                  rowData={selectedRowData}
-                  closeModal={closeModal}
-                  onEditSuccess={handleEditSuccess}
-                  onDeleteSuccess={handleDeleteSuccess}
-                />
-              </center>
-            )}
-            </AnimatePresence>
+          {isModalVisible && (
+              <ItemDataModal
+                rowData={selectedRowData}
+                closeModal={closeModal}
+                onEditSuccess={handleEditSuccess}
+                onDeleteSuccess={handleDeleteSuccess}
+              />
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence mode="wait">
+          {isModalOpen && (
+            <ItemDataAddModal
+              isOpen={openModal}
+              onClose={closeModal2}
+              onAdd={handleAddSuccess}
+            />
+          )}
+        </AnimatePresence>
 
         <AnimatePresence>
         {isSidebarOpen && (

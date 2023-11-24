@@ -72,12 +72,12 @@ const DashboardDesktop = () => {
           {
             title: 'Siswa',
             content: 'Loading', // No initial loading placeholder
-            link: 'pengguna',
+            link: 'accountdata',
           },
           {
             title: 'Guru',
             content: 'Loading',
-            link: 'pengguna',
+            link: 'accountdata',
           },
         ],
       });
@@ -89,18 +89,22 @@ const DashboardDesktop = () => {
           {
             title: 'Tersedia',
             content: 'Loading',
+            link: 'itemdata'
           },
           {
             title: 'Dipinjam',
             content: 'Loading',
+            link: 'itemdata'
           },
           {
             title: 'Pemeliharaan',
             content: 'Loading',
+            link: 'itemdata'
           },
           {
             title: 'Dihapuskan',
             content: 'Loading',
+            link: 'itemdata'
           },
           // Add other pages as needed
         ],

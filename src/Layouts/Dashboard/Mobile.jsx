@@ -120,13 +120,13 @@ const DashboardMobile = () => {
     pages: [
       {
         title: 'Siswa',
-        content: '', // No initial loading placeholder
-        link: 'pengguna',
+        content: 'Loading', // No initial loading placeholder
+        link: 'accountdata',
       },
       {
         title: 'Guru',
-        content: '',
-        link: 'pengguna',
+        content: 'Loading',
+        link: 'accountdata',
       },
     ],
   });
@@ -137,19 +137,23 @@ const DashboardMobile = () => {
     pages: [
       {
         title: 'Tersedia',
-        content: '',
+        content: 'Loading',
+        link: 'itemdata'
       },
       {
         title: 'Dipinjam',
-        content: '',
+        content: 'Loading',
+        link: 'itemdata'
       },
       {
         title: 'Pemeliharaan',
-        content: '',
+        content: 'Loading',
+        link: 'itemdata'
       },
       {
         title: 'Dihapuskan',
-        content: '',
+        content: 'Loading',
+        link: 'itemdata'
       },
       // Add other pages as needed
     ],
@@ -161,15 +165,15 @@ const DashboardMobile = () => {
     pages: [
       {
         title: 'Permohonan',
-        content: '',
+        content: 'Loading',
       },
       {
         title: 'Peminjaman',
-        content: '',
+        content: 'Loading',
       },
       {
         title: 'Pengembalian',
-        content: '',
+        content: 'Loading',
       },
       // Add other pages as needed
     ],

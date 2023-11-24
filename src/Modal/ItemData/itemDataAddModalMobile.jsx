@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
+const ItemDataAddModalMobile = ({ isOpen, onClose, onAdd }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageTxt, setSelectedImageTxt] = useState(
     "Silahkan Pilih Gambar"
@@ -251,12 +251,12 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
       }}
     >
       <div
-        className="bg-white px-8 pt-8 pb-4 left-0 rounded-2xl w-5/12"
+        className="bg-white px-4 pt-4 pb-4 left-0 rounded-2xl w-11/12"
         ref={formRef}
         style={customContentStyle}
       >
         <div className="mb-4 flex w-full justify-center">
-          <h1 className="text-3xl tracking-widest rounded-l-lg text-gray-700 font-semibold px-5">
+          <h1 className="text-lg tracking-widest rounded-l-lg text-gray-700 font-semibold px-5">
             Tambah Barang
           </h1>
         </div>
@@ -284,7 +284,7 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
                 <select
                   onChange={handleKategoriChange}
                   value={formData.kategori}
-                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-xs ${
                     validasiStep.find(
                       (message) => message.fieldName === "kategori"
                     )
@@ -306,7 +306,7 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
                   type="text"
                   name="kode_barang"
                   value={formData.kode_barang}
-                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-xs ${
                     validasiStep.find(
                       (message) => message.fieldName === "kode_barang"
                     )
@@ -322,7 +322,7 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
                   name="nomor_barang"
                   value={formData.nomor_barang}
                   onChange={handleChange}
-                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-xs ${
                     validasiStep.find(
                       (message) => message.fieldName === "nomor_barang"
                     )
@@ -337,7 +337,7 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
                   name="nama_barang"
                   value={formData.nama_barang}
                   onChange={handleChange}
-                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+                  className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-xs ${
                     validasiStep.find(
                       (message) => message.fieldName === "nama_barang"
                     )
@@ -387,20 +387,20 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
                 {!selectedImage && (
                   <label
                     for="file"
-                    className={`elative mt-4 flex min-h-[200px] tracking-widest1 items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center border-2 ${
+                    className={`relative text-xs mt-4 flex min-h-[200px] tracking-widest1 items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center border-2 ${
                       validasiForm
                         ? "border-red-500"
                         : ""
                     }`}
                   >
                     <div>
-                      <span class="mb-2 block text-xl font-semibold text-[#07074D]">
+                      <span class="mb-2 block text-xs font-semibold text-[#07074D]">
                         Taroh filenya disini
                       </span>
-                      <span class="mb-2 block text-base font-medium text-[#6B7280]">
+                      <span class="mb-2 block text-xs font-medium text-[#6B7280]">
                         Atau
                       </span>
-                      <span class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">
+                      <span class="inline-flex text-xs rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">
                         Cari
                       </span>
                     </div>
@@ -528,4 +528,4 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
   );
 };
 
-export default ItemDataAddModal;
+export default ItemDataAddModalMobile;

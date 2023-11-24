@@ -35,44 +35,38 @@ const AccountDataModal = ({
     };
   }, [rowData, closeModal]);
 
-  const [nisValue, setNisValue] = useState(rowData.NIS);
-  const handleNisChange = (e) => {
-    setNisValue(e.target.value);
+  const [formData, setFormData] = useState({
+    nis: rowData.NIS, // Ensure that default values are set to avoid undefined
+    nama: rowData.Nama,
+    level: rowData.Level,
+    jurusan: rowData.Jurusan || rowData.Jabatan,
+    email: rowData.Email,
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
-  const [namaValue, setNamaValue] = useState(rowData.Nama);
-  const handleNamaChange = (e) => {
-    setNamaValue(e.target.value);
-  };
-  const [levelValue, setLevelValue] = useState(rowData.Level);
-  const handleLevelChange = (e) => {
-    setLevelValue(e.target.value);
-  };
-  const [jurusanValue, setJurusanValue] = useState(
-    rowData.Jurusan || rowData.Jabatan
-  );
-  const handleJurusanChange = (e) => {
-    setJurusanValue(e.target.value);
-  };
-  const [emailValue, setEmailValue] = useState(rowData.Email);
-  const handleEmailChange = (e) => {
-    setEmailValue(e.target.value);
-  };
+  const [validasiForm, setValidasiForm] = useState([]);
 
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
-      // Check if rowData and other values are defined
-      if (
-        !rowData ||
-        !rowData.NIS ||
-        !nisValue ||
-        !namaValue ||
-        !levelValue ||
-        !jurusanValue ||
-        !emailValue
-      ) {
-        console.error("Invalid data for editing");
+      const requiredFields = ["nis", "nama", "level", "jurusan", "email"]; // Update required fields
+      const missingFields = requiredFields.filter((field) => !formData[field]);
+
+      if (missingFields.length > 0) {
+        const validationMessages = missingFields.map((field) => ({
+          fieldName: field,
+          message: `Field ${field.replace("_", " ")} harus diisi`, // Adjust the message as needed
+        }));
+
+        setValidasiForm(validationMessages);
+        console.log(validasiForm);
         return;
       }
 
@@ -80,23 +74,22 @@ const AccountDataModal = ({
       const response = await axios.put(
         `http://127.0.0.1:8000/api/editpengguna/${rowData.NIS}`,
         {
-          nomorinduk_pengguna: nisValue,
-          nama_pengguna: namaValue,
-          level_pengguna: levelValue,
+          nomorinduk_pengguna: formData.nis,
+          nama_pengguna: formData.nama,
+          level_pengguna: formData.level,
           ...(rowData.hasOwnProperty("Jurusan")
-            ? { jurusan_pengguna: jurusanValue }
-            : { jabatan_pengguna: jurusanValue }),
-          email: emailValue,
-          // Tambahkan field lain sesuai kebutuhan
+            ? { jurusan_pengguna: formData.jurusan }
+            : { jabatan_pengguna: formData.jurusan }),
+          email: formData.email,
+          // Add other fields as needed
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Sertakan token di header permintaan
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      // Check if the response status indicates success
       if (response.status >= 200 && response.status < 300) {
         console.log("Edit successful", response.data);
         onEditSuccess();
@@ -106,11 +99,9 @@ const AccountDataModal = ({
           text: "Data pengguna telah berhasil diubah.",
         });
       } else {
-        // Handle specific error cases based on the status code
         console.error("Edit failed with status", response.status);
       }
     } catch (error) {
-      // Handle error, e.g., show an error message
       console.error("Error editing data", error);
     }
   };
@@ -222,28 +213,52 @@ const AccountDataModal = ({
 
         <form onSubmit={handleEdit}>
           <input
-            className="left-0 text-left w-full tracking-widest px-4 py-3 mb-4 border-2 rounded-lg text-lg"
-            value={nisValue}
-            onChange={handleNisChange}
-          ></input>
+            type="text"
+            name="nis"
+            className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+              validasiForm.find((message) => message.fieldName === "nis")
+                ? "border-red-500"
+                : ""
+            }`}
+            value={formData.nis}
+            onChange={handleChange}
+          />
 
           <input
-            className="left-0 text-left w-full tracking-widest px-4 py-3 mb-4 border-2 rounded-lg text-lg"
-            value={namaValue}
-            onChange={handleNamaChange}
-          ></input>
+            type="text"
+            name="nama"
+            className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+              validasiForm.find((message) => message.fieldName === "nama")
+                ? "border-red-500"
+                : ""
+            }`}
+            value={formData.nama}
+            onChange={handleChange}
+          />
+
           <select
-            className="left-0 text-left w-full bg-white tracking-widest bg- px-4 py-3 border-2 mb-4 rounded-lg text-lg"
-            onChange={handleLevelChange}
-            value={levelValue}
+            name="level"
+            className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+              validasiForm.find((message) => message.fieldName === "level")
+                ? "border-red-500"
+                : ""
+            }`}
+            onChange={handleChange}
+            value={formData.level}
           >
             <option value="admin">admin</option>
             <option value="user">user</option>
           </select>
+
           <select
-            className="left-0 text-left w-full bg-white tracking-widest bg- px-4 py-3 border-2 mb-4 rounded-lg text-lg"
-            onChange={handleJurusanChange}
-            value={jurusanValue}
+            name="jurusan"
+            className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+              validasiForm.find((message) => message.fieldName === "jurusan")
+                ? "border-red-500"
+                : ""
+            }`}
+            onChange={handleChange}
+            value={formData.jurusan}
           >
             {jurusanOptions.map((jurusan, index) => (
               <option key={index} value={jurusan}>
@@ -251,23 +266,30 @@ const AccountDataModal = ({
               </option>
             ))}
           </select>
-          <input
-            className="left-0 text-left w-full tracking-widest px-4 py-3 border-2 rounded-lg text-lg"
-            value={emailValue}
-            onChange={handleEmailChange}
-          ></input>
 
-          <div className=" w-full mt-4 flex space-x-4">
+          <input
+            type="email"
+            name="email"
+            className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+              validasiForm.find((message) => message.fieldName === "email")
+                ? "border-red-500"
+                : ""
+            }`}
+            value={formData.email}
+            onChange={handleChange}
+          />
+
+          <div className="w-full mt-4 flex space-x-4">
             <button
               type="submit"
-              className=" w-1/2 p-2 tracking-widest text-white rounded-md bg-blue-600 mb-4"
+              className="w-1/2 p-2 tracking-widest text-white rounded-md bg-blue-600 mb-4"
             >
               Edit
             </button>
             <button
               type="button"
               onClick={handleDelete}
-              className=" w-1/2 p-2 tracking-widest text-white rounded-md bg-red-600 mb-4"
+              className="w-1/2 p-2 tracking-widest text-white rounded-md bg-red-600 mb-4"
             >
               Hapus
             </button>

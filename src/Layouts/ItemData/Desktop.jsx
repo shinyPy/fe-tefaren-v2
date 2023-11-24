@@ -83,6 +83,8 @@ const ItemDataDesktop = () => {
 
   const [tableData, setTableData] = useState([]);
   const [tableData2, setTableData2] = useState([]);
+  const [tableData3, setTableData3] = useState([]);
+  const [tableData4, setTableData4] = useState([]);
 
   const fetchDataFromApi = async () => {
     try {
@@ -157,27 +159,85 @@ const ItemDataDesktop = () => {
     }
   };
 
+  const fillDataAutomatically3 = async () => {
+    try {
+      const apiData = await fetchDataFromApi();
+
+      const filteredData = apiData
+        .filter((item) => item.ketersediaan_barang === "Pemeliharaan")
+        .map((item, index) => ({
+          NO: index + 1,
+          ID: item.id_barang,
+          Ketersediaan: item.ketersediaan_barang,
+          Kode: item.kode_barang,
+          Nomor: item.nomor_barang,
+          Nama: item.nama_barang, // Adjust this according to your data structure
+          Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
+          Status: item.status_barang, // Adjust this according to your data structure
+          Gambar: item.gambar_barang, // Adjust this according to your data structure
+        }));
+
+      setTableData3(filteredData);
+      console.log(filteredData);
+    } catch (error) {
+      console.error("Terjadi error:", error);
+    }
+  };
+
+  const fillDataAutomatically4 = async () => {
+    try {
+      const apiData = await fetchDataFromApi();
+
+      const filteredData = apiData
+        .filter((item) => item.ketersediaan_barang === "Dihapuskan")
+        .map((item, index) => ({
+          NO: index + 1,
+          ID: item.id_barang,
+          Ketersediaan: item.ketersediaan_barang,
+          Kode: item.kode_barang,
+          Nomor: item.nomor_barang,
+          Nama: item.nama_barang, // Adjust this according to your data structure
+          Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
+          Status: item.status_barang, // Adjust this according to your data structure
+          Gambar: item.gambar_barang, // Adjust this according to your data structure
+        }));
+
+      setTableData4(filteredData);
+      console.log(filteredData);
+    } catch (error) {
+      console.error("Terjadi error:", error);
+    }
+  };
+
   const handleEditSuccess = () => {
     fillDataAutomatically();
     fillDataAutomatically2();
+    fillDataAutomatically3();
+    fillDataAutomatically4();
     closeModal();
   };
 
   const handleDeleteSuccess = () => {
     fillDataAutomatically();
     fillDataAutomatically2();
+    fillDataAutomatically3();
+    fillDataAutomatically4();
     closeModal();
   };
 
   const handleAddSuccess = () => {
     fillDataAutomatically();
     fillDataAutomatically2();
+    fillDataAutomatically3();
+    fillDataAutomatically4();
     closeModal2();
   };
 
   useEffect(() => {
     fillDataAutomatically();
     fillDataAutomatically2();
+    fillDataAutomatically3();
+    fillDataAutomatically4();
   }, []); // Removed fetchDataFromApi() and handleEditSuccess() from useEffect, as they are already called inside the other functions
 
   const columns = [
@@ -249,22 +309,39 @@ const ItemDataDesktop = () => {
                   data={tableData2}
                   handleRowClick={handleRowClick}
                   addData="true"
+                  onClickData={openModal}
                 />
               </div>
             )}
+
+{selectedStep === "Pemeliharaan" && (
+              <div className="mb-4">
+                <DataTable
+                  columns={columns}
+                  data={tableData3}
+                  handleRowClick={handleRowClick}
+                  addData="true"
+                  onClickData={openModal}
+                />
+              </div>
+            )}
+
 
 {selectedStep === "Dihapuskan" && (
               <div className="mb-4">
                 <DataTable
                   columns={columns}
-                  data={tableData2}
+                  data={tableData4}
                   handleRowClick={handleRowClick}
                   addData="true"
+                  onClickData={openModal}
                 />
               </div>
             )}
           </motion.div>
         </AnimatePresence>
+
+
 
         <AnimatePresence mode="wait">
           {isModalVisible && (

@@ -11,10 +11,10 @@ const ItemDataModal = ({
 }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [validasiForm, setValidasiForm] = useState([]);
-
   const formRef = useRef(null);
+
   const customContentStyle = {
-    marginBottom: "100vh",
+    marginBottom: "95vh",
   };
 
   const modalVariants = {
@@ -291,22 +291,22 @@ const ItemDataModal = ({
       className="fixed top-0 left-0 w-full bg-opacity-50 bg-gray-700 flex justify-center items-center backdrop-blur-sm"
     >
       <div
-        className="bg-white px-8 pt-8 pb-4 left-0 rounded-2xl w-5/12"
+        className="bg-white px-4 pt-3 pb-2 left-0 rounded-2xl w-11/12"
         ref={formRef}
         style={customContentStyle}
       >
-        <div className="mb-4 flex w-full justify-center">
-          <span className="text-3xl px-5 py-2.5 rounded-full bg-gray-700 text-white">
+        <div className="mb-3 flex w-full justify-center">
+          <span className="text-xl px-2.5 py-0.5 rounded-full bg-gray-700 text-white">
             {rowData.NO}
           </span>
-          <h1 className="text-3xl tracking-widest rounded-l-lg text-gray-700 font-semibold px-5 py-2.5">
+          <h1 className="text-xl tracking-widest rounded-l-lg text-gray-700 font-semibold px-2.5 py-0.5">
             Detail Barang
           </h1>
         </div>
 
-        <div className=" w-full border-b-2 mb-4"></div>
+        <div className=" w-full border-b-2"></div>
 
-        <div className={`mt-4 flex mb-4 rounded-lg bg-gray-700`}>
+        <div className={`mt-4 flex mb-4 rounded-lg text-xs bg-gray-700`}>
           <motion.button
             className={`flex-1 py-2 px-2 text-white rounded-lg`}
             variants={buttonVariants}
@@ -330,7 +330,7 @@ const ItemDataModal = ({
           </motion.button>
         </div>
 
-        <form onSubmit={handleEdit}>
+        <form onSubmit={handleEdit} className="text-base">
           <AnimatePresence mode="wait">
             {step === 1 && (
               <motion.div
@@ -349,7 +349,7 @@ const ItemDataModal = ({
                 style={stepStyles[1]}
               >
                 <select
-                  className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-lg mb-4`}
+                  className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-xs mb-4`}
                   onChange={handleKategoriChange}
                   value={formData.kategori}
                 >
@@ -365,7 +365,7 @@ const ItemDataModal = ({
                   name="nama_barang"
                   value={formData.nama_barang}
                   onChange={handleChange}
-                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-xs ${
                     validasiForm.find(
                       (message) => message.fieldName === "nama_barang"
                     )
@@ -379,7 +379,7 @@ const ItemDataModal = ({
                   name="nomor_barang"
                   value={formData.nomor_barang}
                   onChange={handleChange}
-                  className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 mb-4 border-2 rounded-lg text-lg`}
+                  className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 mb-4 border-2 rounded-lg text-xs`}
                   placeholder="Nomor Barang"
                 />
                 <input
@@ -387,7 +387,7 @@ const ItemDataModal = ({
                   name="kode_barang"
                   value={formData.kode_barang}
                   onChange={handleChange}
-                  className={`left-0 text-left w-full bg-white tracking-widest px-4 mb-4 py-3 border-2 rounded-lg text-lg ${
+                  className={`left-0 text-left w-full bg-white tracking-widest px-4 mb-4 py-3 border-2 rounded-lg text-xs ${
                     validasiForm.find(
                       (message) => message.fieldName === "kode_barang"
                     )
@@ -398,7 +398,7 @@ const ItemDataModal = ({
                 />
 
                 <select
-                  className="left-0 bg-white text-left w-full tracking-widest px-4 py-3 mb-4 border-2 rounded-lg text-lg"
+                  className="left-0 bg-white text-left w-full tracking-widest px-4 py-3 mb-4 border-2 rounded-lg text-xs"
                   onChange={handleStatusChange}
                   value={formData.status_barang}
                 >
@@ -406,7 +406,7 @@ const ItemDataModal = ({
                   <option value="baik">Baik</option>
                 </select>
                 <select
-                  className="left-0 bg-white text-left w-full tracking-widest px-4 py-3 border-2 rounded-lg text-lg"
+                  className="left-0 bg-white text-left w-full tracking-widest px-4 py-3 border-2 rounded-lg text-xs"
                   onChange={handleKetersediaanChange}
                   value={formData.ketersediaan_barang}
                 >
@@ -443,7 +443,7 @@ const ItemDataModal = ({
                 />
                 <label
                   for="file"
-                  className=" p-2 tracking-widest rounded-lg bg-white border"
+                  className=" p-2 text-xs tracking-widest rounded-lg bg-white border"
                 >
                   Upload File
                 </label>

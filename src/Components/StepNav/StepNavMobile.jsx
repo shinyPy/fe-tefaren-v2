@@ -45,7 +45,7 @@ const StepNav = ({ onSelectStep, steps, Name }) => {
       >
         <p className="text-base text-right">{formattedDate}</p>
       </div>
-    </div>   <div className="flex bg-white items-center rounded-b-lg space-x-6 px-4 py-3 ">
+    </div>   <div className="flex bg-white items-center rounded-b-lg space-x-6 px-2 py-3 w-full overflow-x-auto ">
           {steps.map((step, index) => (
             <StepNavItem
               key={step}

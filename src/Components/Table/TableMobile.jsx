@@ -148,6 +148,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
             <button
               className="w-1/2 mt-4 mb-2 px-3 py-2 font-semibold tracking-wider bg-blue-600 text-white rounded-md"
               type="button"
+              onClick={onClickData}
             >
               <span className=" flex">
                 <MdAdd className=" mt-1 mr-2" /> Tambah data
