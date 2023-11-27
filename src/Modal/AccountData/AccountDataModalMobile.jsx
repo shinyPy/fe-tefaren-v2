@@ -196,7 +196,7 @@ const AccountDataModal = ({
       className="fixed top-0 left-0 w-full bg-opacity-50 bg-gray-700 flex justify-center items-center backdrop-blur-sm"
     >
       <div
-        className="bg-white px-4 pt-4 left-0 rounded-2xl mt-16 w-10/12"
+        className="bg-white px-4 pt-4 left-0 rounded-2xl mt-16 w-11/12"
         ref={formRef}
         style={customContentStyle}
       >
@@ -223,6 +223,9 @@ const AccountDataModal = ({
             value={formData.nis}
             onChange={handleChange}
           />
+          {validasiForm.find((message) => message.fieldName === "nis") ? (
+  <p className="mb-2 ml-0 text-red-700">Silahkan isi terlebih dahulu</p>
+) : null}
 
           <input
             type="text"
@@ -235,6 +238,9 @@ const AccountDataModal = ({
             value={formData.nama}
             onChange={handleChange}
           />
+{validasiForm.find((message) => message.fieldName === "nama") ? (
+  <p className="mb-2 ml-0 text-red-700">Silahkan isi terlebih dahulu</p>
+) : null}
 
           <select
             name="level"
@@ -279,7 +285,11 @@ const AccountDataModal = ({
             onChange={handleChange}
           />
 
-          <div className=" w-full mt-4 flex space-x-4">
+{validasiForm.find((message) => message.fieldName === "email") ? (
+  <p className="mb-2 ml-0 text-red-700">Silahkan isi terlebih dahulu</p>
+) : null}
+
+          <div className=" w-full flex space-x-4">
             <button
               type="submit"
               className=" w-1/2 p-2 tracking-widest text-white rounded-md bg-blue-600 mb-4"

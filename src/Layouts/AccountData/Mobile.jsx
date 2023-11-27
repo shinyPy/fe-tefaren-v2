@@ -281,14 +281,12 @@ const AccountDataMobile = () => {
 
         <AnimatePresence mode="wait">
         {isModalVisible && (
-              <center>
                 <AccountDataModal
                   rowData={selectedRowData}
                   closeModal={closeModal}
                   onEditSuccess={handleEditSuccess}
                   onDeleteSuccess={handleDeleteSuccess}
                 />
-              </center>
             )}
             </AnimatePresence>
 

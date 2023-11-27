@@ -215,26 +215,36 @@ const AccountDataModal = ({
           <input
             type="text"
             name="nis"
-            className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+            className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-lg ${
               validasiForm.find((message) => message.fieldName === "nis")
-                ? "border-red-500"
-                : ""
+                ? "border-red-500 mb-2"
+                : " mb-4"
             }`}
             value={formData.nis}
             onChange={handleChange}
           />
 
+{validasiForm.find((message) => message.fieldName === "nis") ? (
+  <p className="mb-2 ml-0 text-red-700">Silahkan isi terlebih dahulu</p>
+) : null}
+
+
+
           <input
             type="text"
             name="nama"
-            className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+            className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-lg ${
               validasiForm.find((message) => message.fieldName === "nama")
-                ? "border-red-500"
-                : ""
+                ? "border-red-500 mb-2"
+                : "mb-4"
             }`}
             value={formData.nama}
             onChange={handleChange}
           />
+
+{validasiForm.find((message) => message.fieldName === "nama") ? (
+  <p className="mb-2 ml-0 text-red-700">Silahkan isi terlebih dahulu</p>
+) : null}
 
           <select
             name="level"
@@ -272,14 +282,16 @@ const AccountDataModal = ({
             name="email"
             className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
               validasiForm.find((message) => message.fieldName === "email")
-                ? "border-red-500"
-                : ""
+                ? "border-red-500 mb-2"
+                : "mb-4"
             }`}
             value={formData.email}
             onChange={handleChange}
           />
-
-          <div className="w-full mt-4 flex space-x-4">
+{validasiForm.find((message) => message.fieldName === "email") ? (
+  <p className="mb-2 ml-0 text-red-700">Silahkan isi terlebih dahulu</p>
+) : null}
+          <div className="w-full flex space-x-4">
             <button
               type="submit"
               className="w-1/2 p-2 tracking-widest text-white rounded-md bg-blue-600 mb-4"

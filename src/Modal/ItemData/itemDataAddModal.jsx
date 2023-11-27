@@ -35,7 +35,6 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
   const [formData, setFormData] = useState({
     kategori: "",
     kode_barang: "",
-    nomor_barang: "",
     nama_barang: "",
     ketersediaan_barang: "Tersedia",
     status_barang: "baik",
@@ -69,33 +68,6 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
     fetchBarangData();
   }, []); // Empty dependency array ensures the effect runs only once after the component mounts
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    const reader = new FileReader();
-
-    // Jika ada file yang diunggah, baca dan atur gambar terpilih
-    if (files && files[0]) {
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-        setSelectedImageTxt(value.replace("C:\\fakepath\\", ""));
-      };
-      reader.readAsDataURL(files[0]);
-    }
-
-    // Update state formData sesuai dengan nilai input
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: files ? files[0] : value,
-    }));
-  };
-
-  const handleKategoriChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      kategori: e.target.value,
-    }));
-  };
-
   const [step, setStep] = useState(1);
   const [validasiForm, setValidasiForm] = useState(false);
 
@@ -115,10 +87,38 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
     return formData.gambar_barang !== null;
   };
 
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    const reader = new FileReader();
+
+    // Jika ada file yang diunggah, baca dan atur gambar terpilih
+    if (files && files[0]) {
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+        setSelectedImageTxt(value.replace("C:\\fakepath\\", ""));
+        setValidasiForm(false);
+      };
+      reader.readAsDataURL(files[0]);
+    }
+
+    // Update state formData sesuai dengan nilai input
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: files ? files[0] : value,
+    }));
+  };
+
+  const handleKategoriChange = (e) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      kategori: e.target.value,
+    }));
+  };
+
   const handleNext = (e) => {
     e.preventDefault();
     if (step < totalSteps) {
-      const requiredFields = ["kode_barang", "nomor_barang", "nama_barang", "kategori"];
+      const requiredFields = ["kode_barang", "nama_barang", "kategori"];
       const missingFields = requiredFields.filter((field) => !formData[field]);
   
       if (missingFields.length > 0) {
@@ -284,12 +284,12 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
                 <select
                   onChange={handleKategoriChange}
                   value={formData.kategori}
-                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+                  className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-lg ${
                     validasiStep.find(
                       (message) => message.fieldName === "kategori"
                     )
-                      ? "border-red-500"
-                      : ""
+                      ? "border-red-500 mb-2"
+                      : "mb-4"
                   }`}
                 >
                   <option value="" disabled="disabled">
@@ -301,51 +301,47 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
                     </option>
                   ))}
                 </select>
+                {validasiStep.find((message) => message.fieldName === "kategori") ? (
+  <p className="mb-2 ml-0 text-red-700">Mohon pilih terlebih dahulu</p>
+) : null}
 
                 <input
                   type="text"
                   name="kode_barang"
                   value={formData.kode_barang}
-                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+                  className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-lg ${
                     validasiStep.find(
                       (message) => message.fieldName === "kode_barang"
                     )
-                      ? "border-red-500"
-                      : ""
+                      ? "border-red-500 mb-2"
+                      : "mb-4"
                   }`}
                   onChange={handleChange}
                   placeholder="Kode barang"
                 />
 
-                <input
-                  type="text"
-                  name="nomor_barang"
-                  value={formData.nomor_barang}
-                  onChange={handleChange}
-                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
-                    validasiStep.find(
-                      (message) => message.fieldName === "nomor_barang"
-                    )
-                      ? "border-red-500"
-                      : ""
-                  }`}
-                  placeholder="Nomor Barang"
-                />
+{validasiStep.find((message) => message.fieldName === "kode_barang") ? (
+  <p className="mb-2 ml-0 text-red-700">Mohon isi terlebih dahulu</p>
+) : null}
+
 
                 <input
                   type="text"
                   name="nama_barang"
                   value={formData.nama_barang}
                   onChange={handleChange}
-                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-lg ${
+                  className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-lg ${
                     validasiStep.find(
                       (message) => message.fieldName === "nama_barang"
                     )
-                      ? "border-red-500"
-                      : ""
+                      ? "border-red-500 mb-2"
+                      : "mb-4"
                   }`}
                   placeholder="Nama Barang"
                 />
+                {validasiStep.find((message) => message.fieldName === "nama_barang") ? (
+  <p className="mb-2 ml-0 text-red-700">Mohon isi terlebih dahulu</p>
+) : null}
 
               </motion.div>
             )}
@@ -378,16 +374,20 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
                   className={`p-2 tracking-widest rounded-lg bg-white border-2 ${
                     validasiForm
                       ? "border-red-500"
-                      : ""
+                      : "mb-4"
                   }`}
                 >
                   Upload File
                 </label>
 
+                {validasiForm ? (
+  <p className="mt-4 ml-0 text-red-700">Mohon pilih gambar terlebih dahulu</p>
+) : null}
+
                 {!selectedImage && (
                   <label
                     for="file"
-                    className={`elative mt-4 flex min-h-[200px] tracking-widest1 items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center border-2 ${
+                    className={`elative mt-4 mb-4 flex min-h-[200px] tracking-widest1 items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center border-2 ${
                       validasiForm
                         ? "border-red-500"
                         : ""
@@ -412,7 +412,7 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
                     <img
                       src={selectedImage}
                       alt="Preview"
-                      className="min-h-[300px] max-h-[250px] w-full"
+                      className="min-h-[300px] max-h-[250px] w-full mb-2"
                     />
                   </div>
                 )}
@@ -421,7 +421,7 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
             )}
           </AnimatePresence>
 
-          <div className="mt-4">
+          <div className="">
             <div className="w-full h-2 bg-blue-200 rounded-full">
               <motion.div
                 initial={{

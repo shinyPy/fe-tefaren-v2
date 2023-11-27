@@ -58,9 +58,17 @@ const LoginModal = ({isOpen, onClose, onLink}) => {
         setPasswordValue(e.target.value);
     };
 
+    const [emailMessage, setEmailMessage] = useState("");
+    const [passwordMessage, setPasswordMessage] = useState("");
+  
     const handleLogin = async (e) => {
-        e.preventDefault();
-
+      e.preventDefault();
+  
+      if(!nameValue || !passwordValue){
+        setEmailMessage(!nameValue ? "Silahkan isi terlebih dahulu." : "");
+        setPasswordMessage(!passwordValue ? "Silahkan isi terlebih dahulu." : "");
+        return;
+      }
         const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nameValue);
 
         const requestData = isEmail
@@ -182,6 +190,8 @@ const LoginModal = ({isOpen, onClose, onLink}) => {
                             onChange={handleNameChange}
                             onBlur={handleNameBlur}
                             onFocus={handleNameFocus}/>
+
+<p className=" mt-0.5 text-red-700">{emailMessage}</p>
                         <AnimatePresence>
                             {
                                 validationName && (
@@ -220,6 +230,7 @@ const LoginModal = ({isOpen, onClose, onLink}) => {
                             onChange={handlePasswordChange}
                             onBlur={handlePasswordBlur}
                             onFocus={handlePasswordFocus}/>
+                               <p className=" mt-0.5 text-red-700">{passwordMessage}</p>
                         <AnimatePresence>
                             {
                                 validationPassword && (
@@ -250,7 +261,7 @@ const LoginModal = ({isOpen, onClose, onLink}) => {
                     </div>
                     <div className="mt-4">
                         <button
-                            className="py-2 px-4 w-full bg-blue-600 text-white rounded-full ripple"
+                            className="py-2 px-4 w-full bg-blue-600 text-white rounded-lg ripple"
                             type="submit">
                             Login
                         </button>

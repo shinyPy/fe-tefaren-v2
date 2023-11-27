@@ -41,7 +41,6 @@ const ItemDataModal = ({
   const [formData, setFormData] = useState({
     kategori: rowData.Kategori,
     kode_barang: rowData.Kode,
-    nomor_barang: rowData.Nomor,
     nama_barang: rowData.Nama,
     ketersediaan_barang: rowData.Ketersediaan,
     status_barang: rowData.Status,
@@ -88,7 +87,7 @@ const ItemDataModal = ({
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    const requiredFields = ["kode_barang", "nomor_barang", "nama_barang"];
+    const requiredFields = ["kode_barang", "nama_barang"];
     const missingFields = requiredFields.filter((field) => !formData[field]);
 
     if (missingFields.length > 0) {
@@ -365,37 +364,35 @@ const ItemDataModal = ({
                   name="nama_barang"
                   value={formData.nama_barang}
                   onChange={handleChange}
-                  className={`left-0 text-left w-full bg-white tracking-widest mb-4 px-4 py-3 border-2 rounded-lg text-xs ${
+                  className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-xs ${
                     validasiForm.find(
                       (message) => message.fieldName === "nama_barang"
                     )
-                      ? "border-red-500"
-                      : ""
+                      ? "border-red-500 mb-2"
+                      : "mb-4"
                   }`}
                   placeholder="Nama Barang"
                 />
-                <input
-                  type="text"
-                  name="nomor_barang"
-                  value={formData.nomor_barang}
-                  onChange={handleChange}
-                  className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 mb-4 border-2 rounded-lg text-xs`}
-                  placeholder="Nomor Barang"
-                />
+                {validasiForm.find((message) => message.fieldName === "nama_barang") ? (
+  <p className="mb-2 ml-0 text-red-700">Mohon isi terlebih dahulu</p>
+) : null}
                 <input
                   type="text"
                   name="kode_barang"
                   value={formData.kode_barang}
                   onChange={handleChange}
-                  className={`left-0 text-left w-full bg-white tracking-widest px-4 mb-4 py-3 border-2 rounded-lg text-xs ${
+                  className={`left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-xs ${
                     validasiForm.find(
                       (message) => message.fieldName === "kode_barang"
                     )
-                      ? "border-red-500"
-                      : ""
+                      ? "border-red-500 mb-2"
+                      : "mb-4"
                   }`}
                   placeholder="Kode Barang"
                 />
+                                                {validasiForm.find((message) => message.fieldName === "kode_barang") ? (
+  <p className="mb-2 ml-0 text-red-700">Mohon isi terlebih dahulu</p>
+) : null}
 
                 <select
                   className="left-0 bg-white text-left w-full tracking-widest px-4 py-3 mb-4 border-2 rounded-lg text-xs"

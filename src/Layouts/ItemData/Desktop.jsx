@@ -120,7 +120,6 @@ const ItemDataDesktop = () => {
           ID: item.id_barang,
           Ketersediaan: item.ketersediaan_barang,
           Kode: item.kode_barang,
-          Nomor: item.nomor_barang,
           Nama: item.nama_barang, // Adjust this according to your data structure
           Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
           Status: item.status_barang, // Adjust this according to your data structure
@@ -145,7 +144,6 @@ const ItemDataDesktop = () => {
           ID: item.id_barang,
           Ketersediaan: item.ketersediaan_barang,
           Kode: item.kode_barang,
-          Nomor: item.nomor_barang,
           Nama: item.nama_barang, // Adjust this according to your data structure
           Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
           Status: item.status_barang, // Adjust this according to your data structure
@@ -170,7 +168,6 @@ const ItemDataDesktop = () => {
           ID: item.id_barang,
           Ketersediaan: item.ketersediaan_barang,
           Kode: item.kode_barang,
-          Nomor: item.nomor_barang,
           Nama: item.nama_barang, // Adjust this according to your data structure
           Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
           Status: item.status_barang, // Adjust this according to your data structure
@@ -195,7 +192,6 @@ const ItemDataDesktop = () => {
           ID: item.id_barang,
           Ketersediaan: item.ketersediaan_barang,
           Kode: item.kode_barang,
-          Nomor: item.nomor_barang,
           Nama: item.nama_barang, // Adjust this according to your data structure
           Kategori: item.kategori.kategori, // Adjust this according to your data structure// Adjust this according to your data structure
           Status: item.status_barang, // Adjust this according to your data structure
@@ -243,7 +239,6 @@ const ItemDataDesktop = () => {
   const columns = [
     { key: "NO", label: "NO" },
     { key: "Kode", label: "Kode" },
-    { key: "Nomor", label: "Nomor" },
     { key: "Nama", label: "Nama" },
     { key: "Kategori", label: "Kategori" },
     { key: "Status", label: "Status" },
