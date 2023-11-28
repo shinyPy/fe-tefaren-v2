@@ -6,7 +6,8 @@ import StepNav from "../../Components/StepNav/StepNavMobile";
 import { useState, useEffect, useRef } from "react";
 import DataTable from "../../Components/Table/TableMobile";
 import axios from "axios";
-import AccountDataModal from "../../Modal/AccountData/AccountDataModalMobile";
+import JobsetModalMobile from "../../Modal/Jobset/JobsetModalMobile";
+import JobSetAddModalMobile from "../../Modal/Jobset/JobsetAddModalMobile";
 import ScrollMobile from "../../Components/ScrollButton/ScrollMobile";
 
 import {
@@ -17,7 +18,7 @@ import {
   FaTools,
 } from "react-icons/fa";
 
-const AccountDataMobile = () => {
+const JobSetMobile = () => {
   const sidebarItems = [
     {
       text: "Dashboard",
@@ -74,36 +75,33 @@ const AccountDataMobile = () => {
     },
   ];
 
-  const steps = ["Siswa", "Guru"];
+  const steps = [];
 
   const [selectedStep, setSelectedStep] = useState(1);
+  const [tableData, setTableData] = useState([]);
+  const [selectedRowData, setSelectedRowData] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleStepSelect = (step) => {
     setSelectedStep(step);
   };
-
-  const [tableData, setTableData] = useState([]);
-  const [tableData2, setTableData2] = useState([]);
   
   const fetchDataFromApi = async () => {
     try {
       const token = localStorage.getItem("accessToken");
+      const response = await axios.get("http://127.0.0.1:8000/api/get-jabatan", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      // Fetch total counts for each type of user
-      const countPenggunaResponse = await axios.get(
-        "http://127.0.0.1:8000/api/pengguna",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      console.log("Data Jabatan:", response.data);
 
-      console.log("Data Pengguna:", countPenggunaResponse.data);
-
-      return countPenggunaResponse.data;
+      return response.data;
     } catch (error) {
       console.error("Terjadi error:", error);
+      // Handle error (e.g., show a notification to the user)
       throw error;
     }
   };
@@ -111,93 +109,62 @@ const AccountDataMobile = () => {
   const fillDataAutomatically = async () => {
     try {
       const apiData = await fetchDataFromApi();
-
-      const filteredData = apiData
-        .filter((item) => item.jurusan && item.jurusan.jurusan !== "N/A")
-        .map((item, index) => ({
-          NO: index + 1,
-          NIS: item.nomorinduk_pengguna,
-          Nama: item.nama_pengguna,
-          Level: item.level_pengguna,
-          Jurusan: item.jurusan.jurusan,
-          Email: item.email,
-        }));
-
+  
+      // Assuming apiData is an object with a 'jabatan' property containing an array
+      const jabatanArray = apiData.jabatan;
+  
+      const filteredData = jabatanArray.map((item, index) => ({
+        NO: index + 1,
+        ID: item.id_jabatan,
+        Jabatan: item.jabatan,
+      }));
+  
       setTableData(filteredData);
-      console.log(filteredData);
     } catch (error) {
       console.error("Terjadi error:", error);
     }
   };
-
-  const fillDataAutomatically2 = async () => {
-    try {
-      const apiData = await fetchDataFromApi();
-
-      const filteredData = apiData
-        .filter((item) => item.jabatan && item.jabatan.jabatan !== "N/A")
-        .map((item, index) => ({
-          NO: index + 1,
-          NIS: item.nomorinduk_pengguna,
-          Nama: item.nama_pengguna,
-          Level: item.level_pengguna,
-          Jabatan: item.jabatan.jabatan,
-          Email: item.email,
-        }));
-
-      setTableData2(filteredData);
-      console.log(filteredData);
-    } catch (error) {
-      console.error("Terjadi error:", error);
-    }
-  };
+  
 
   const handleEditSuccess = () => {
     fillDataAutomatically();
-    fillDataAutomatically2();
     closeModal();
   };
 
   const handleDeleteSuccess = () => {
     fillDataAutomatically();
-    fillDataAutomatically2();
     closeModal();
   };
 
+  const handleAddSuccess = () => {
+    fillDataAutomatically();
+    closeModal2();
+  };
 
   useEffect(() => {
-    fetchDataFromApi();
-    handleEditSuccess();
     fillDataAutomatically();
-    fillDataAutomatically2();
   }, []);
 
   const columns = [
     { key: "NO", label: "NO" },
-    { key: "NIS", label: "NIS" },
-    { key: "Nama", label: "Nama" },
-    { key: "Level", label: "Level" },
-    { key: "Jurusan", label: "Jurusan" },
-    { key: "Email", label: "Email" },
-
-  ];
-
-  const columns2 = [
-    { key: "NO", label: "NO" },
-    { key: "NIS", label: "NIS" },
-    { key: "Nama", label: "Nama" },
-    { key: "Level", label: "Level" },
     { key: "Jabatan", label: "Jabatan" },
-    { key: "Email", label: "Email" },
-
   ];
-
-  const [selectedRowData, setSelectedRowData] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleRowClick = (rowData) => {
     setSelectedRowData(rowData);
     setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal2 = () => {
+    setIsModalOpen(false);
   };
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -238,15 +205,11 @@ const AccountDataMobile = () => {
     },
   };
 
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
-
   return (
     <div ref={sidebarRef}>
       <SubNav isOpen={isSidebarOpen} toggleNavbar={toggleSidebar} />
       <div className="mt-16 px-2 py-4 min-h-screen w-screen">
-        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Akun"/>
+        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Jabatan"/>
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedStep}
@@ -255,40 +218,41 @@ const AccountDataMobile = () => {
             exit={{ opacity: 0, y: 50 }}
             transition={{ duration: 0.3 }}
           >
-            {selectedStep !== "Guru" && (
-              <div className="mb-4">
-                <DataTable
-                  columns={columns}
-                  data={tableData}
-                  handleRowClick={handleRowClick}
-                />{" "}
-              </div>
-            )}
+                <div className="mb-4">
+                  <DataTable
+                    columns={columns}
+                    data={tableData}
+                    handleRowClick={handleRowClick}
+                    addData="true"
+                    onClickData={openModal}
+                  />
+                </div>
 
-            {selectedStep === "Guru" && (
-              <div className="mb-4">
-                <DataTable
-                  columns={columns2}
-                  data={tableData2}
-                  handleRowClick={handleRowClick}
-                />{" "}
-              </div>
-            )}
-            
           </motion.div>
         </AnimatePresence>
         <ScrollMobile />
 
+       
         <AnimatePresence mode="wait">
-        {isModalVisible && (
-                <AccountDataModal
-                  rowData={selectedRowData}
-                  closeModal={closeModal}
-                  onEditSuccess={handleEditSuccess}
-                  onDeleteSuccess={handleDeleteSuccess}
-                />
-            )}
-            </AnimatePresence>
+          {isModalVisible && (
+              <JobsetModalMobile
+                rowData={selectedRowData}
+                closeModal={closeModal}
+                onEditSuccess={handleEditSuccess}
+                onDeleteSuccess={handleDeleteSuccess}
+              />
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence mode="wait">
+          {isModalOpen && (
+            <JobSetAddModalMobile
+              isOpen={openModal}
+              onClose={closeModal2}
+              onAddSuccess={handleAddSuccess}
+            />
+          )}
+        </AnimatePresence>
 
         <AnimatePresence>
         {isSidebarOpen && (
@@ -311,4 +275,4 @@ const AccountDataMobile = () => {
   );
 };
 
-export default AccountDataMobile;
+export default JobSetMobile;

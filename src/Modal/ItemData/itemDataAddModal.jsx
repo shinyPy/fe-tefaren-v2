@@ -231,6 +231,11 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
 
       setBarangList(updatedResponse.data);
       onAdd();
+      Swal.fire({
+        icon: "success",
+        title: "Penambahan Berhasil",
+        text: "Data Barang telah berhasil di tambah.",
+      });
     } catch (error) {
       console.error(error.response.data);
     }

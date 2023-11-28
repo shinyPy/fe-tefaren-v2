@@ -7,6 +7,8 @@ import Dashboard from "./Pages/Dashboard";
 import NotAuth from "./Pages/NotAuth";
 import AccountData from "./Pages/AccountData";
 import ItemData from "./Pages/ItemData";
+import Jobset from "./Pages/Jobset";
+import Cataset from "./Pages/Cataset";
 
 //style
 import "./Assets/Style/App.css";
@@ -16,6 +18,7 @@ import "./Assets/Style/Homepreload.css";
 //function
 import PrivateRoute from "./Utils/PrivateRoutes";
 import { useModal } from "./Utils/ModalUtils";
+import Majorset from "./Pages/Majorset";
 
 const App = () => {
   const [isLoginOpen, setIsLoginOpen] = useModal("login", false);
@@ -78,6 +81,36 @@ const App = () => {
           element={
             <PrivateRoute
               element={<ItemData />}
+              element2={<NotAuth />}
+              allowedRoles={["admin"]}
+            />
+          }
+        /> 
+                       <Route
+          path="/jobset"
+          element={
+            <PrivateRoute
+              element={<Jobset />}
+              element2={<NotAuth />}
+              allowedRoles={["admin"]}
+            />
+          }
+        /> 
+                               <Route
+          path="/cataset"
+          element={
+            <PrivateRoute
+              element={<Cataset />}
+              element2={<NotAuth />}
+              allowedRoles={["admin"]}
+            />
+          }
+        /> 
+         <Route
+          path="/majorset"
+          element={
+            <PrivateRoute
+              element={<Majorset />}
               element2={<NotAuth />}
               allowedRoles={["admin"]}
             />

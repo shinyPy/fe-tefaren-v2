@@ -50,15 +50,15 @@ const DashboardDesktop = () => {
       children: [
         {
           sub: "Jabatan",
-          path: "jobset",
+          path: "/jobset",
         },
         {
           sub: "Jurusan",
-          path: "majorset",
+          path: "/majorset",
         },
         {
           sub: "Kategori Barang",
-          path: "cataset",
+          path: "/cataset",
         },
       ],
     },

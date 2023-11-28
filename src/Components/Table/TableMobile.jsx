@@ -144,9 +144,19 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
             placeholder="Mencari Sesuatu?"
             className="w-full mt-4 mb-2 px-3 py-2 text-base border border-gray-300 rounded-md"
           />
+          <div className=" flex mb-4 mt-2 space-x-2 text-base">
+                  <button
+          type="button"
+          onClick={exportToExcel}
+          className="px-1 py-2 bg-green-600 w-1/2 text-white rounded-md tracking-wider"
+        >
+          <span className=" flex">
+            <FaFileExcel className=" mt-1 mr-2" /> Ekspor ke Excel
+          </span>
+        </button>
           {addData && (
             <button
-              className="w-1/2 mt-4 mb-2 px-3 py-2 font-semibold tracking-wider bg-blue-600 text-white rounded-md"
+              className="w-1/2 px-3 py-2 font-semibold tracking-wider bg-blue-600 text-white rounded-md"
               type="button"
               onClick={onClickData}
             >
@@ -155,9 +165,10 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
               </span>
             </button>
           )}
+          </div>
 
-<div className=" w-full  relative overflow-x-auto">
-      <table className="border border-gray-300">
+<div className="w-full relative overflow-x-auto">
+      <table className="w-full border border-gray-300">
         <thead className="bg-gray-600 text-white">
           <tr>
             {columns.map((column) => (
@@ -243,16 +254,6 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
       </table>
 
       <div className=" w-full justify-between items-center mt-4">
-        <button
-          type="button"
-          onClick={exportToExcel}
-          className="p-2 bg-green-600 w-full text-white rounded-md tracking-wider"
-        >
-          <span className=" flex">
-            <FaFileExcel className=" mt-1 mr-2" /> Ekspor ke Excel
-          </span>
-        </button>
-
         <div className="flex space-x-4 mt-4 items-center tracking-wider">
           <button
             className="p-2 font-semibold bg-gray-100 border text-gray-800 rounded-md tracking-wider"

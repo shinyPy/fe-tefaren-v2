@@ -61,15 +61,15 @@ const ItemDataMobile = () => {
       children: [
         {
           sub: "Jabatan",
-          path: "jobset",
+          path: "/jobset",
         },
         {
           sub: "Jurusan",
-          path: "majorset",
+          path: "/majorset",
         },
         {
           sub: "Kategori Barang",
-          path: "cataset",
+          path: "/cataset",
         },
       ],
     },
@@ -310,7 +310,7 @@ const ItemDataMobile = () => {
     <div ref={sidebarRef}>
       <SubNav isOpen={isSidebarOpen} toggleNavbar={toggleSidebar} />
       <div className="mt-16 px-2 py-4 min-h-screen w-screen">
-        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Akun"/>
+        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Barang"/>
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedStep}
