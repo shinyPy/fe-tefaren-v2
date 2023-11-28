@@ -25,8 +25,34 @@ const PrivateRoute = ({ element, fallbackElement, allowedRoles, openLogin }) => 
         });
 
         if (res.status === 200) {
-          // Jika status response dari server adalah 200 (OK), set isAuthenticated menjadi true
+          // Check if localStorage values match the response data before updating
+          const localStorageUserRole = localStorage.getItem("user_role");
+          const localStorageUserNis = localStorage.getItem("user_nis");
+          const localStorageUserEmail = localStorage.getItem("user_email");
+
+          if (
+            localStorageUserRole !== res.data.level_pengguna ||
+            localStorageUserNis !== res.data.nomorinduk_pengguna ||
+            localStorageUserEmail !== res.data.email
+          ) {
+            // If values don't match, navigate to login
+            cleanupLocalStorage();
+            openLogin();
+            navigate("/login");
+            return;
+          }
+
+          // Refresh localStorage with the response data
+          localStorage.setItem("user_role", res.data.level_pengguna);
+          localStorage.setItem("user_nis", res.data.nomorinduk_pengguna);
+          localStorage.setItem("user_email", res.data.email);
+
           setIsAuthenticated(true);
+
+          // If the user level is admin, allow access
+          if (res.data.level_pengguna === "admin") {
+            setIsAuthenticated(true);
+          }
         }
       } catch (err) {
         // Jika terjadi error atau token tidak valid, set isAuthenticated menjadi false
