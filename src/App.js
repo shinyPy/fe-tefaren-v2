@@ -2,7 +2,6 @@ import React, { useEffect, useCallback } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Home from "./Pages/Home";
-import AuthPage from "./Pages/AuthPage";
 import NotFound from "./Pages/NotFound";
 import Dashboard from "./Pages/Dashboard";
 import NotAuth from "./Pages/NotAuth";
@@ -10,7 +9,6 @@ import AccountData from "./Pages/AccountData";
 import ItemData from "./Pages/ItemData";
 import Jobset from "./Pages/Jobset";
 import Cataset from "./Pages/Cataset";
-import Auth from "./middleware/Auth";
 
 //style
 import "./Assets/Style/App.css";
@@ -54,9 +52,9 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Auth />} />
-        <Route path="/register" element={<Auth />} />
-        <Route path="/login" element={<Auth />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Home />} />
+        <Route path="/login" element={<Home />} />
         <Route path="*" element={<NotFound />} />
         <Route
           path="/dashboard"
