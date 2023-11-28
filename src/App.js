@@ -63,6 +63,7 @@ const App = () => {
               element={<Dashboard />}
               element2={<NotAuth />}
               allowedRoles={["admin"]}
+              openLogin={openLogin}
             />
           }
         />
@@ -73,6 +74,7 @@ const App = () => {
               element={<AccountData />}
               element2={<NotAuth />}
               allowedRoles={["admin"]}
+              openLogin={openLogin}
             />
           }
         />
@@ -83,6 +85,7 @@ const App = () => {
               element={<ItemData />}
               element2={<NotAuth />}
               allowedRoles={["admin"]}
+              openLogin={openLogin}
             />
           }
         />
@@ -93,6 +96,7 @@ const App = () => {
               element={<Jobset />}
               element2={<NotAuth />}
               allowedRoles={["admin"]}
+              openLogin={openLogin}
             />
           }
         />
@@ -103,6 +107,7 @@ const App = () => {
               element={<Cataset />}
               element2={<NotAuth />}
               allowedRoles={["admin"]}
+              openLogin={openLogin}
             />
           }
         />
@@ -113,6 +118,7 @@ const App = () => {
               element={<Majorset />}
               element2={<NotAuth />}
               allowedRoles={["admin"]}
+              openLogin={openLogin}
             />
           }
         />
