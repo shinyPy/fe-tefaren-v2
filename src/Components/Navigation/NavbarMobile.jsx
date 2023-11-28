@@ -21,8 +21,8 @@ function NavbarMobile({ menuItems, login }) {
 
   const itemClass = (index) =>
     index === hoveredItem
-      ? "relative group p-4 text-gray-600 transition duration-300 hover:text-red-600"
-      : "relative group p-4 text-gray-600 transition duration-300";
+      ? "relative group p-4 text-gray-700 hover:text-red-600 transition duration-300 hover:text-red-600"
+      : "relative group p-4 text-gray-700 hover:text-red-600 transition duration-300";
 
   const barColor = "bg-white";
   const logoColor = isOpen ? "text-red-600" : "text-red-600";

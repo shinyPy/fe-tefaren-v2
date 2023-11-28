@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useModal } from "../../Utils/ModalUtils";
+import vectorImage from "../../Assets/Image/business-team-and-work-process-steps-from-idea-to-target-business-workflow-business-process-efficiency-working-activity-pattern-concept-flat-modern-illustration-vector.jpg"
 
 const items = [
   {
@@ -102,6 +103,13 @@ const HomeDesktop = () => {
     }
   }, []);
 
+  const imgStyle = {
+    height: '65vh',
+    width: '130vh',
+    objectFit: 'cover',
+
+  };
+
   return (
     <div>
       <NavbarDesktop items={items} login={openLogin} />
@@ -117,15 +125,25 @@ const HomeDesktop = () => {
         pauseOnHover
         theme="colored"
       />
-      <div className="grid grid-cols-4 gap-4 grid-flow-row mb-10 mt-20">
-        <div className="bg-blue-300 col-start-1 col-span-2">01</div>
-        <div className="bg-yellow-300">02</div>
-        <div className="bg-green-300">03</div>
-        <div className="bg-blue-300">04</div>
-        <div className="bg-yellow-300 col-span-2">05</div>
-        <div className="bg-blue-300">06</div>
-        <div className="bg-red-300 col-span-4">07</div>
-      </div>
+      <div id='elemenHome' className="min-h-screen min-w-full">
+        <div className=" flex">
+      <div className=' ml-14 mt-14'>
+              <img src={vectorImage} alt="shhd" style={imgStyle} />
+            </div>
+            <div className=' text-center mt-40'>
+              <h1 className='text-5xl mb-1 font-semibold text-red-700'>
+                Teaching Factory Resource Empowerment Network
+              </h1>
+              <p className='text-2xl py-3 mb-1 font-semibold text-gray-700'>Wujudkan inovasi pada dunia industri</p>
+              </div>
+              </div>
+              </div>
+
+              <div id='elemenHome' className=" bg-red-200 min-h-screen min-w-full">
+            <h1 className='text-5xl mb-1 font-semibold text-red-700'>
+                Teaching Factory Resource Empowerment Network
+              </h1>
+              </div>
       <AnimatePresence mode="wait">
         {isLoginOpen && (
           <LoginModal

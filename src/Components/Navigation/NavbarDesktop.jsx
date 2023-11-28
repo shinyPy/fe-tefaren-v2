@@ -44,8 +44,8 @@ const NavbarDesktop = ({ items, login }) => {
 
   const itemClass = (index) =>
     index === hoveredItem
-      ? "relative group p-4 text-gray-600 transition duration-300 hover:text-red-600"
-      : "relative group p-4 text-gray-600 transition duration-300";
+      ? "relative group p-4 text-gray-700 transition duration-300 hover:text-red-600"
+      : "relative group p-4 text-gray-700 transition duration-300";
 
   return (
     <nav
@@ -68,20 +68,20 @@ const NavbarDesktop = ({ items, login }) => {
               {item.display === "display" ? (
                 <div className="relative">
                   {item.isSub ? (
-                    <div className="font-semibold text-xl tracking-wider cursor-pointer">
+                    <div className="font-semibold hover:text-red-600 text-xl tracking-wider cursor-pointer">
                       {item.text}
                       <div className="absolute w-full bg-red-500 h-0.5 rounded-full bottom-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></div>
                     </div>
                   ) : item.isLink ? (
                     <button
                       onClick={() => navigate(item.link)}
-                      className="font-semibold text-xl tracking-wider cursor-pointer relative"
+                      className="font-semibold text-xl hover:text-red-600 tracking-wider cursor-pointer relative"
                     >
                       {item.text}
                       <div className="absolute w-full bg-red-500 h-0.5 rounded-full bottom-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></div>
                     </button>
                   ) : (
-                    <button className="font-semibold text-xl tracking-wider cursor-pointer">
+                    <button className="font-semibold hover:text-red-600 text-xl tracking-wider cursor-pointer">
                       {item.text}
                       <div className="absolute w-full bg-red-500 h-0.5 rounded-full bottom-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></div>
                     </button>
