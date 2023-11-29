@@ -30,3 +30,63 @@
       transition: background 0s;
     }
     
+    .loader-line {
+      width: 3px;
+      height: 40px; /* Ubah dari 200px menjadi tinggi yang diinginkan */
+      position: relative;
+      overflow: hidden;
+      background-color: rgb(185 28 28);
+      margin: 100px auto;
+      -webkit-border-radius: 20px;
+      -moz-border-radius: 20px;
+      border-radius: 20px;
+    }
+    
+    .loader-line:before {
+      content: "";
+      position: absolute;
+      top: -50%; /* Ubah dari left: -50% menjadi top: -50% */
+      width: 3px;
+      height: 40%; /* Ubah dari height: 3px menjadi tinggi yang diinginkan */
+      background-color: #fff;
+      -webkit-animation: lineAnim 1s linear infinite;
+      -moz-animation: lineAnim 1s linear infinite;
+      animation: lineAnim 1s linear infinite;
+      -webkit-border-radius: 20px;
+      -moz-border-radius: 20px;
+      border-radius: 20px;
+    }
+    
+    @keyframes lineAnim {
+      0% {
+        top: -40%; /* Ubah dari left: -40% menjadi top: -40% */
+      }
+      50% {
+        top: 20%; /* Ubah dari left: 20% menjadi top: 20% */
+        height: 80%; /* Ubah dari width: 80% menjadi tinggi yang diinginkan */
+      }
+      100% {
+        top: 100%; /* Ubah dari left: 100% menjadi top: 100% */
+        height: 100%; /* Ubah dari width: 100% menjadi tinggi yang diinginkan */
+      }
+    }    
+    
+    .animated-text {
+      position: absolute;
+      bottom: 0;
+      margin-bottom: 60px;
+      letter-spacing: 0.15rem;
+    }
+
+    @keyframes slideUpDown {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px); 
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    

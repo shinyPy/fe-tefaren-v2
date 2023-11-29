@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigation } from "../../Utils/Navigation";
 
@@ -42,6 +42,16 @@ const NavbarDesktop = ({ items, login }) => {
     window.location.reload();
   };
 
+  const scrollRef = useRef(null);
+
+  const handleScrollTo = (targetId) => {
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const itemClass = (index) =>
     index === hoveredItem
       ? "relative group p-4 text-gray-700 transition duration-300 hover:text-red-600"
@@ -49,8 +59,8 @@ const NavbarDesktop = ({ items, login }) => {
 
   return (
     <nav
-      className={` w-full ${
-        isScrolled ? " fixed bg-white shadow-md" : "bg-transparent"
+      className={` w-full px-4 z-20 fixed ${
+        isScrolled ? "  bg-white shadow-md" : " bg-transparent"
       } transition-all duration-300 ease-in-out`}
     >
       <div className="container mx-auto flex justify-between items-center">
@@ -80,6 +90,14 @@ const NavbarDesktop = ({ items, login }) => {
                       {item.text}
                       <div className="absolute w-full bg-red-500 h-0.5 rounded-full bottom-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></div>
                     </button>
+                     ) : item.isScroll ? (
+                      <button
+                      onClick={() => handleScrollTo(item.scroll)}
+                        className="font-semibold text-xl hover:text-red-600 tracking-wider cursor-pointer relative"
+                      >
+                        {item.text}
+                        <div className="absolute w-full bg-red-500 h-0.5 rounded-full bottom-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></div>
+                      </button>
                   ) : (
                     <button className="font-semibold hover:text-red-600 text-xl tracking-wider cursor-pointer">
                       {item.text}
