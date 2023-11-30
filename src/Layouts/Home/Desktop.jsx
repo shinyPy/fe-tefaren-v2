@@ -13,6 +13,7 @@ import logoTelkom from "../../Assets/Image/logo-telkom-schools-horisontal-1024x3
 import CardSlider from "../../Components/CardSlider";
 import Carditem from "../../Components/CardItem/CardItem";
 import Scroll from "../../Components/ScrollButton/Scroll";
+import { FaSearch } from 'react-icons/fa';
 
 const HomeDesktop = () => {
   const cleanupLocalStorage = () => {
@@ -150,11 +151,6 @@ const HomeDesktop = () => {
     // Pertama kali cek otentikasi saat komponen dimount
     checkAuthentication();
 
-    // Set interval untuk melakukan pengecekan token setiap 5 detik (sesuaikan dengan kebutuhan)
-    const intervalId = setInterval(checkAuthentication, 5000);
-
-    // Membersihkan interval saat komponen unmount
-    return () => clearInterval(intervalId);
   }, [navigate, openLogin]);
 
   const userRole = localStorage.getItem("user_role");
@@ -262,15 +258,16 @@ const HomeDesktop = () => {
   
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categories, setCategories] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/kategori-values`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(`http://127.0.0.1:8000/api/kategori-values-ps`
+        );
         setCategories(response.data); // Assuming the API response is an array of categories
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -283,6 +280,10 @@ const HomeDesktop = () => {
   // Step 2: Create buttons for each category and update state
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
   };
 
   return (
@@ -379,7 +380,7 @@ const HomeDesktop = () => {
                 <div className="px-4 pt-4 rounded-lg mt-4 bg-white  font-semibold shadow-md border text-2xl flex flex-col h-72 overflow-y-auto">
                 <button
                       className={`mt-2 mb-4 p-2 tracking-widest rounded-lg ${
-                        selectedCategory === "" ? "bg-red-700 text-white" : "text-gray-700"
+                        selectedCategory === "" ? "bg-gray-700 text-white" : "text-gray-700 hover:bg-gray-200 transition-all"
                       }`}
                       onClick={() => handleCategoryClick("")}
                     >
@@ -389,7 +390,7 @@ const HomeDesktop = () => {
                     <button
                       key={category}
                       className={`mb-4 p-2 tracking-widest rounded-lg ${
-                        selectedCategory === category ? "bg-red-700 text-white" : "text-gray-700"
+                        selectedCategory === category ? "bg-gray-700 text-white" : "text-gray-700  hover:bg-gray-200 transition-all"
                       }`}
                       onClick={() => handleCategoryClick(category)}
                     >
@@ -407,7 +408,21 @@ const HomeDesktop = () => {
             </center>
           </div>
           <div className=" w-9/12 h-screen mt-16">
-            <Carditem filter={selectedCategory} />
+          <div className="flex items-center py-4 px-8">
+      <div className="relative w-1/2">
+        <input
+          type="text"
+          placeholder="Cari Barang..."
+          className="border p-2 pr-60 focus:outline-none rounded-lg"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-500">
+          <FaSearch />
+        </div>
+      </div>
+    </div>
+            <Carditem filter={selectedCategory} search={searchTerm} />
           </div>
         </div>
       </div>

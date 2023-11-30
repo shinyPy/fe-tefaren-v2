@@ -3,9 +3,9 @@ import axios from "axios";
 import { motion } from "framer-motion";
 
 
-const ItemsPerPage = 6;
+const ItemsPerPage = 3;
 
-const Carditem = ({ filter }) => {
+const Carditem = ({ filter, search }) => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -28,6 +28,7 @@ const Carditem = ({ filter }) => {
   ? data.reduce((uniqueItems, currentItem) => {
       if (
         currentItem.kategori.kategori === filter &&
+        (!search || currentItem.nama_barang.toLowerCase().includes(search.toLowerCase())) &&
         !uniqueItems.some((item) => item.nama_barang === currentItem.nama_barang)
       ) {
         uniqueItems.push(currentItem);
@@ -35,13 +36,15 @@ const Carditem = ({ filter }) => {
       return uniqueItems;
     }, [])
   : data.reduce((uniqueItems, currentItem) => {
-    if (
-      !uniqueItems.some((item) => item.nama_barang === currentItem.nama_barang)
-    ) {
-      uniqueItems.push(currentItem);
-    }
-    return uniqueItems;
-  }, []);
+      if (
+        (!search || currentItem.nama_barang.toLowerCase().includes(search.toLowerCase())) &&
+        !uniqueItems.some((item) => item.nama_barang === currentItem.nama_barang)
+      ) {
+        uniqueItems.push(currentItem);
+      }
+      return uniqueItems;
+    }, []);
+
 
   const indexOfLastItem = currentPage * ItemsPerPage;
   const indexOfFirstItem = indexOfLastItem - ItemsPerPage;
@@ -112,75 +115,52 @@ const Carditem = ({ filter }) => {
 
   return (
     <div className="container mx-auto mt-4">
-      <div className="flex space-x-12 px-8">
-        {currentItems.length > 0 ? (
-          currentItems.slice(0, 3).map((item,index) => (
-            <motion.div
+    <div className="flex space-x-8 px-8">
+      {currentItems.length > 0 ? (
+        currentItems.map((item) => (
+          <motion.div
             key={item.id_barang}
-            className={`animated-card bg-white p-4 rounded-md shadow-md`}
-            style={{ maxWidth: "255px" }}
-            whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
-
-            >
-              <img
-                src={`http://127.0.0.1:8000/storage/${item.gambar_barang}`}
-                alt={item.gambar_barang}
-                style={{ minWidth: "225px", minHeight: "175px", maxWidth: "225px", maxHeight: "175px" }}
-                className=" rounded-lg"
-              />
-              <center>
-              <h2 className=" text-xs bg-blue-700 rounded-lg text-white p-2 font-bold mt-2">{item.nama_barang}</h2>
-              </center>
-            </motion.div>
-          ))
-        ) : (
-          <p>No data available</p>
-        )}
-      </div>
-      {currentItems.length > 3 && (
-        <div className="flex space-x-12 px-8 mt-8">
-          {currentItems.slice(3).map((item, index) => (
-            <motion.div
-            key={item.id_barang}
-            className={`animated-card bg-white p-4 rounded-md shadow-md`}
-            style={{ maxWidth: "255px" }}
-            whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
-
-            >
-              <img
-                src={`http://127.0.0.1:8000/storage/${item.gambar_barang}`}
-                alt={item.gambar_barang}
-                style={{ minWidth: "225px", minHeight: "175px", maxWidth: "225px", maxHeight: "175px" }}
-                className=" rounded-lg"
-              />
-              <center>
-              <h2 className="text-xs bg-blue-700 rounded-lg text-white p-2 font-bold mt-2">{item.nama_barang}</h2>
-              </center>
-            </motion.div>
-          ))}
-        </div>
-      )}
-
-      {filteredData.length > ItemsPerPage && (
-        <div className="flex space-x-8 px-8 mt-8 text-lg ">
-          <button
-            className="p-2 rounded-md font-semibold bg-gray-100 border text-gray-600"
-            onClick={handlePrevPage}
-            disabled={currentPage === 1}
+            className="animated-card rounded-md shadow-md"
+            style={{ maxWidth: "270px" }}
+            whileHover={{ scale: 1.151, rotate : 2.5, transition: { duration: 0.3 } }}
           >
-            Sebelumnya
-          </button>
-          {renderPaginationButtons()}
-          <button
-            className=" p-2 rounded-md  font-semibold bg-gray-100 border text-gray-600"
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-          >
-            Selanjutnya
-          </button>
-        </div>
+            <img
+              src={`http://127.0.0.1:8000/storage/${item.gambar_barang}`}
+              alt={item.gambar_barang}
+              style={{ minWidth: "270px", minHeight: "380px", maxWidth: "270px", maxHeight: "380x", objectFit: "cover" }}
+              className=" rounded-t-lg"
+            />
+            <div className="p-2 rounded-b-lg bg-white">
+              <h2 className=" text-gray-700 font-semibold">{item.nama_barang}</h2>
+              <div className=" w-1/3 h-1 mt-1 rounded-lg bg-red-700"></div>
+              </div>
+          </motion.div>
+        ))
+      ) : (
+        <p>Barang Tidak di temukan</p>
       )}
     </div>
+
+    {filteredData.length > ItemsPerPage && (
+      <div className="flex space-x-4 px-8 mt-8 text-lg">
+        <button
+          className="p-2 rounded-md font-semibold bg-gray-100 border text-gray-600"
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+        >
+          Sebelumnya
+        </button>
+        {renderPaginationButtons()}
+        <button
+          className="p-2 rounded-md font-semibold bg-gray-100 border text-gray-600"
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          Selanjutnya
+        </button>
+      </div>
+    )}
+  </div>
   );
 };
 

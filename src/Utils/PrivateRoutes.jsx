@@ -66,11 +66,6 @@ const PrivateRoute = ({ element, fallbackElement, allowedRoles, openLogin }) => 
     // Pertama kali cek otentikasi saat komponen dimount
     checkAuthentication();
 
-    // Set interval untuk melakukan pengecekan token setiap 5 detik (sesuaikan dengan kebutuhan)
-    const intervalId = setInterval(checkAuthentication, 5000);
-
-    // Membersihkan interval saat komponen unmount
-    return () => clearInterval(intervalId);
   }, [navigate, openLogin]);
 
   const cleanupLocalStorage = () => {
