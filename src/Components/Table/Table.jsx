@@ -259,7 +259,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
 
         <div className="flex space-x-4 items-center tracking-wider">
           <button
-            className="p-2 font-semibold bg-gray-100 border text-gray-800 rounded-md tracking-wider"
+          className="p-2 rounded-md font-semibold bg-gray-100 transition-all hover:text-white hover:bg-blue-700 border text-gray-600"
             onClick={handlePrevPage}
             disabled={currentPage === 0}
           >
@@ -267,7 +267,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
           </button>
           {renderPaginationButtons()}
           <button
-            className="p-2 bg-gray-100 font-semibold border text-gray-800 rounded-md tracking-wider"
+          className="p-2 rounded-md font-semibold bg-gray-100 transition-all hover:text-white hover:bg-blue-700 border text-gray-600"
             onClick={handleNextPage}
             disabled={currentPage === pageCount - 1}
           >

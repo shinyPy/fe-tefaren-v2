@@ -117,23 +117,34 @@ const Carditem = ({ filter, search }) => {
     <div className="container mx-auto mt-4">
     <div className="flex space-x-8 px-8">
       {currentItems.length > 0 ? (
-        currentItems.map((item) => (
+        currentItems.map((item, index) => (
           <motion.div
-            key={item.id_barang}
+            key={index}
             className="animated-card rounded-md shadow-md"
             style={{ maxWidth: "270px" }}
-            whileHover={{ scale: 1.151, rotate : 2.5, transition: { duration: 0.3 } }}
+            whileHover={{ y: -15, transition: { duration: 0.35 } }}
           >
-            <img
-              src={`http://127.0.0.1:8000/storage/${item.gambar_barang}`}
-              alt={item.gambar_barang}
-              style={{ minWidth: "270px", minHeight: "380px", maxWidth: "270px", maxHeight: "380x", objectFit: "cover" }}
-              className=" rounded-t-lg"
-            />
-            <div className="p-2 rounded-b-lg bg-white">
-              <h2 className=" text-gray-700 font-semibold">{item.nama_barang}</h2>
-              <div className=" w-1/3 h-1 mt-1 rounded-lg bg-red-700"></div>
-              </div>
+<div
+  style={{
+    minWidth: "280px",
+    minHeight: "440px",
+    maxWidth: "280px",
+    maxHeight: "440px",
+    objectFit: "cover",
+    backgroundImage: `url(http://127.0.0.1:8000/storage/${item.gambar_barang})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    position: "relative",
+  }}
+  className=" rounded-lg"
+>
+<div class="absolute p-4 rounded-b-lg bottom-0 bg-black backdrop-blur-sm bg-opacity-50 w-full">
+  <h2 class="text-white font-semibold">{item.nama_barang}</h2>
+  <div class="w-1/3 h-1 mt-1 rounded-lg bg-red-500"></div>
+</div>
+
+</div>
+
           </motion.div>
         ))
       ) : (
@@ -144,7 +155,7 @@ const Carditem = ({ filter, search }) => {
     {filteredData.length > ItemsPerPage && (
       <div className="flex space-x-4 px-8 mt-8 text-lg">
         <button
-          className="p-2 rounded-md font-semibold bg-gray-100 border text-gray-600"
+          className="p-2 rounded-md font-semibold bg-gray-100 transition-all hover:text-white hover:bg-blue-700 border text-gray-600"
           onClick={handlePrevPage}
           disabled={currentPage === 1}
         >
@@ -152,7 +163,7 @@ const Carditem = ({ filter, search }) => {
         </button>
         {renderPaginationButtons()}
         <button
-          className="p-2 rounded-md font-semibold bg-gray-100 border text-gray-600"
+          className="p-2 rounded-md font-semibold bg-gray-100 transition-all hover:text-white hover:bg-blue-700 border text-gray-600"
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
         >
