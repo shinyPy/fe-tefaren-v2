@@ -7,7 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import { motion, AnimatePresence } from "framer-motion";
 
 import SubmissionDesktop from "../Layouts/Submission/Desktop";
-import AccountDataMobile from "../Layouts/AccountData/Mobile";
+import AccountDataMobile from "../Layouts/Submission/Desktop";
 
 function Submission() {
   const isMobile = useMediaQuery({ maxWidth: 400 });

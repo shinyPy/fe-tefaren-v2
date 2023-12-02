@@ -18,6 +18,7 @@ import { Pannellum } from "pannellum-react";
 import tefa from "../../Assets/Image/360.jpeg";
 import Swal from "sweetalert2";
 import notFound from "../../Assets/Image/4660894_2456051.jpg";
+import SubmissionForm from "../../Components/SubmissionForm";
 
 const HomeDesktop = () => {
   const cleanupLocalStorage = () => {
@@ -382,13 +383,11 @@ const HomeDesktop = () => {
               animate="visible"
               variants={motionVariants2}
             >
-              <div className=" text-center">
+              <div className=" text-center mt-16">
                 <h1 className="text-5xl font-semibold text-red-700">
                   Teaching Factory Resource Empowerment Network
                 </h1>
-                <p className="text-2xl mt-2 font-semibold text-gray-700">
-                  Wujudkan inovasi pada dunia industri
-                </p>
+                <CardSlider />
               </div>
             </motion.div>
           </div>
@@ -456,8 +455,8 @@ const HomeDesktop = () => {
                     <button
                       className={`mt-2 mb-6 p-2 tracking-widest rounded-lg ${
                         selectedCategory === ""
-                          ? "bg-red-700 text-white"
-                          : "text-red-700 hover:bg-gray-200 transition-all"
+                          ? "bg-gray-700 text-white"
+                          : "text-gray-700 hover:bg-gray-200 transition-all"
                       }`}
                       onClick={() => handleCategoryClick("")}
                     >
@@ -468,8 +467,8 @@ const HomeDesktop = () => {
                         key={category}
                         className={`mb-6 p-2 tracking-widest rounded-lg ${
                           selectedCategory === category
-                            ? "bg-red-700 text-white"
-                            : "text-red-700  hover:bg-gray-200 transition-all"
+                            ? "bg-gray-700 text-white"
+                            : "text-gray-700  hover:bg-gray-200 transition-all"
                         }`}
                         onClick={() => handleCategoryClick(category)}
                       >
@@ -478,24 +477,14 @@ const HomeDesktop = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className="px-4 pt-4 text-xl rounded-lg mt-4 bg-white  font-semibold shadow-md border flex flex-col h-72 overflow-y-auto">
-                    <button
-                      className={`mt-2 mb-6 p-2 tracking-widest rounded-lg ${
-                        selectedPeminjaman === ""
-                          ? "bg-red-700 text-white"
-                          : "text-red-700 hover:bg-gray-200 transition-all"
-                      }`}
-                      onClick={() => handlePeminjamanClick("")}
-                    >
-                      Panel Peminjaman
-                    </button>
+                  <div className="px-4 pt-4 text-xl rounded-lg mt-4 bg-white  font-semibold shadow-md border flex flex-col ">
                     {peminjaman.map((peminjaman) => (
                       <button
                         key={peminjaman}
                         className={`mb-6 p-2 tracking-widest rounded-lg ${
                           selectedPeminjaman === peminjaman
-                            ? "bg-red-700 text-white"
-                            : "text-red-700  hover:bg-gray-200 transition-all"
+                            ? "bg-gray-700 text-white"
+                            : "text-gray-700  hover:bg-gray-200 transition-all"
                         }`}
                         onClick={() => handlePeminjamanClick(peminjaman)}
                       >
@@ -550,7 +539,7 @@ const HomeDesktop = () => {
 
                 {selectedPeminjaman === "Pengajuan" ? (
                   <div>
-                    <h1>akjsdhahdkahk</h1>
+                    <SubmissionForm/>
                   </div>
                 ) : selectedPeminjaman === "Peminjaman" ? (
                   <div>
@@ -567,7 +556,7 @@ const HomeDesktop = () => {
                 ) : (
                   <div>
                     <div className="pr-6">
-                      <CardSlider />
+                     
                     </div>
                   </div>
                 )}

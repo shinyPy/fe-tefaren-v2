@@ -7,7 +7,7 @@ const CardSlider = () => {
   const cards = [
     { icon: 'fa-sticky-note', text: 'Pengajuan', text2 : 'Peminjaman' }, // Replace with your desired icon class
     { icon: 'fa-cube', text: 'Pengambilan', text2: 'Barang' },
-    { icon: 'fa-reply', text: 'Pengembalian', tex2t: 'Barang' },
+    { icon: 'fa-reply', text: 'Pengembalian', text2: 'Barang' },
   ];
 
   const handleCardClick = (index) => {
@@ -24,13 +24,13 @@ const CardSlider = () => {
   };
 
   return (
-    <div className="mt-10 flex items-center justify-center">
-      <div className="flex space-x-16">
+    <div className="mt-4 flex items-center justify-center">
+      <div className="flex space-x-4">
         {cards.map((card, index) => (
           <motion.div
             key={index}
             initial={{ scale: 0.65 }}
-            animate={{ scale: index === activeIndex ? 1.3 : 0.9 }}
+            animate={{ scale: index === activeIndex ? 1.25 : 0.75 }}
             transition={{ duration: 0.3 }}
             className={`flex-shrink-0 bg-white tracking-widest font-awesome p-4 rounded-lg cursor-pointer`}
             onClick={() => handleCardClick(index)}
@@ -38,11 +38,11 @@ const CardSlider = () => {
             onMouseLeave={handleCardLeave}
           >
             <center>
-              <div className='text-6xl w-full bg-white text-gray-700 rounded-lg p-4'>
+              <div className='text-6xl w-full bg-white text-blue-700 rounded-lg p-4'>
                 <i className={`fa ${card.icon}`} />
               </div>
             </center>
-            <p className="leading-7 font-semibold text-xl text-center text-gray-700">{card.text} <br /> {card.text2}</p>
+            <p className="leading-7 font-semibold text-xl text-center text-blue-700">{card.text} <br /> {card.text2}</p>
           </motion.div>
         ))}
       </div>
