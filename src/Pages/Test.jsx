@@ -4,7 +4,6 @@ import Select from 'react-select';
 
 const Test = () => {
   const [formData, setFormData] = useState({
-    kesetujuan_syarat: '',
     nomor_wa: '',
     alasan_peminjaman: '',
     tanggal_peminjaman: '',
@@ -85,11 +84,7 @@ const Test = () => {
   }, []);
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Kesetujuan Syarat:
-        <input type="text" name="kesetujuan_syarat" value={formData.kesetujuan_syarat} onChange={handleChange} />
-      </label>
-
+     
       
     
 
