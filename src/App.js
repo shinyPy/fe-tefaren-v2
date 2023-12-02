@@ -10,7 +10,7 @@ import ItemData from "./Pages/ItemData";
 import Jobset from "./Pages/Jobset";
 import Cataset from "./Pages/Cataset";
 import Submission from "./Pages/Submission";
-
+import Test from "./Pages/Test"
 //style
 import "./Assets/Style/App.css";
 import "./Assets/Style/Preload.css";
@@ -55,6 +55,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Home />} />
+        <Route path="/test" element={<Test />} />
         <Route path="/login" element={<Home />} />
         <Route path="*" element={<NotFound />} />
         <Route
