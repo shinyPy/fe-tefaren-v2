@@ -9,7 +9,6 @@ const Test = () => {
     alasan_peminjaman: '',
     tanggal_peminjaman: '',
     lama_peminjaman: '',
-    nomor_peminjaman: '',
   });
   const [barangOptions, setBarangOptions] = useState([]);
   const [selectedBarangIds, setSelectedBarangIds] = useState([]);
@@ -116,10 +115,7 @@ const Test = () => {
         <input type="text" name="lama_peminjaman" value={formData.lama_peminjaman} onChange={handleChange} />
       </label>
 
-      <label>
-        Nomor Peminjaman:
-        <input type="text" name="nomor_peminjaman" value={formData.nomor_peminjaman} onChange={handleChange} />
-      </label>
+      
 
       {/* Details Barang */}
       <label>
