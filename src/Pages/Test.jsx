@@ -68,20 +68,23 @@ const Test = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-
-        const barangData = response.data.map((barang) => ({
-          value: barang.id_barang,
-          label: barang.nama_barang,
-        }));
-
-        setBarangOptions(barangData);
+  
+        const tersediaBarangData = response.data
+          .filter((barang) => barang.ketersediaan_barang === 'Tersedia')
+          .map((barang) => ({
+            value: barang.id_barang,
+            label: barang.nama_barang,
+          }));
+  
+        setBarangOptions(tersediaBarangData);
       } catch (error) {
         console.error('Error fetching barang data:', error);
       }
     };
-
+  
     fetchBarangData();
   }, []);
+  
   return (
     <form onSubmit={handleSubmit}>
      
