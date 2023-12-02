@@ -1,11 +1,13 @@
 import React from "react";
-import SidebarDesktop from "../../Components/Navigation/SidebarDesktop";
+import SidebarMobile from "../../Components/Navigation/SidebarMobile";
+import SubNav from "../../Components/Navigation/SubSideMobile";
 import { motion, AnimatePresence } from "framer-motion";
-import StepNav from "../../Components/StepNav/StepNav";
-import { useState, useEffect } from "react";
-import DataTable from "../../Components/Table/Table";
+import StepNav from "../../Components/StepNav/StepNavMobile";
+import { useState, useEffect, useRef } from "react";
+import DataTable from "../../Components/Table/TableMobile";
 import axios from "axios";
-import AccountDataModal from "../../Modal/AccountData/AccountDataModal";
+import AccountDataModal from "../../Modal/AccountData/AccountDataModalMobile";
+import ScrollMobile from "../../Components/ScrollButton/ScrollMobile";
 
 import {
   FaChartBar,
@@ -15,7 +17,7 @@ import {
   FaTools,
 } from "react-icons/fa";
 
-const AccountDataDesktop = () => {
+const AccountDataMobile = () => {
   const sidebarItems = [
     {
       text: "Dashboard",
@@ -40,15 +42,15 @@ const AccountDataDesktop = () => {
       children: [
         {
           sub: "Pengajuan",
-          path: "/submission",
+          path: "submission",
         },
         {
           sub: "Peminjaman",
-          path: "/borrow",
+          path: "borrow",
         },
         {
           sub: "Pengembalian",
-          path: "/return",
+          path: "return",
         },
       ],
     },
@@ -198,15 +200,53 @@ const AccountDataDesktop = () => {
     setIsModalVisible(true);
   };
 
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarRef = useRef(null); // Ref untuk SidebarMobile dan SubNav.
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isSidebarOpen &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target)
+      ) {
+        // Menutup sidebar jika terbuka dan mengklik di luar sidebar atau SubNav.
+        setSidebarOpen(false);
+      }
+    };
+
+    // Menambahkan event listener ke elemen SidebarMobile dan SubNav saat komponen
+    // dimount.
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // Membersihkan event listener saat komponen di-unmount.
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSidebarOpen]);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
+
+  const sidebarVariants = {
+    open: {
+      x: 0,
+    },
+    closed: {
+      x: "-100%",
+    },
+  };
+
   const closeModal = () => {
     setIsModalVisible(false);
   };
 
   return (
-    <div className="flex">
-      <SidebarDesktop items={sidebarItems} />
-      <div className="px-8 py-4 min-h-screen w-screen">
-        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Akun" />
+    <div ref={sidebarRef}>
+      <SubNav isOpen={isSidebarOpen} toggleNavbar={toggleSidebar} />
+      <div className="mt-16 px-2 py-4 min-h-screen w-screen">
+        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Akun"/>
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedStep}
@@ -234,8 +274,10 @@ const AccountDataDesktop = () => {
                 />{" "}
               </div>
             )}
+            
           </motion.div>
         </AnimatePresence>
+        <ScrollMobile />
 
         <AnimatePresence mode="wait">
         {isModalVisible && (
@@ -247,9 +289,26 @@ const AccountDataDesktop = () => {
                 />
             )}
             </AnimatePresence>
+
+        <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={sidebarVariants}
+            transition={{
+              duration: 0.3,
+            }}
+            className="fixed overflow-y-auto bg-white w-8/12 z-10 min-h-screen inset-0 flex flex-col shadow-xl"
+          >
+            <SidebarMobile items={sidebarItems} />
+          </motion.div>
+        )}
+      </AnimatePresence>
       </div>
     </div>
   );
 };
 
-export default AccountDataDesktop;
+export default AccountDataMobile;

@@ -193,8 +193,8 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
                           style={{ maxWidth: "100px", maxHeight: "100px" }}
                         />
                       ) : row[column.key] !== undefined ? (
-                        row[column.key].toString().length > 13 ? (
-                          `${row[column.key].toString().slice(0, 13)}...`
+                        row[column.key].toString().length > 999 ? (
+                          `${row[column.key].toString().slice(0, 999)}...`
                         ) : (
                           row[column.key]
                         )

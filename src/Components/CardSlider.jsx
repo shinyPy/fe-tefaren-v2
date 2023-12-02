@@ -5,9 +5,9 @@ const CardSlider = () => {
   const [activeIndex, setActiveIndex] = useState(1);
 
   const cards = [
-    { icon: 'fa-sticky-note', text: 'Peminjaman' }, // Replace with your desired icon class
-    { icon: 'fa-cube', text: 'Pengambilan' },
-    { icon: 'fa-reply', text: 'Pengembalian' },
+    { icon: 'fa-sticky-note', text: 'Pengajuan', text2 : 'Peminjaman' }, // Replace with your desired icon class
+    { icon: 'fa-cube', text: 'Pengambilan', text2: 'Barang' },
+    { icon: 'fa-reply', text: 'Pengembalian', tex2t: 'Barang' },
   ];
 
   const handleCardClick = (index) => {
@@ -42,7 +42,7 @@ const CardSlider = () => {
                 <i className={`fa ${card.icon}`} />
               </div>
             </center>
-            <p className="leading-7 font-semibold text-xl text-center text-gray-700">{card.text} <br /> Barang</p>
+            <p className="leading-7 font-semibold text-xl text-center text-gray-700">{card.text} <br /> {card.text2}</p>
           </motion.div>
         ))}
       </div>

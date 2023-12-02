@@ -32,15 +32,15 @@ const DashboardDesktop = () => {
       children: [
         {
           sub: "Pengajuan",
-          path: "submission",
+          path: "/submission",
         },
         {
           sub: "Peminjaman",
-          path: "borrow",
+          path: "/borrow",
         },
         {
           sub: "Pengembalian",
-          path: "return",
+          path: "/return",
         },
       ],
     },

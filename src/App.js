@@ -9,6 +9,7 @@ import AccountData from "./Pages/AccountData";
 import ItemData from "./Pages/ItemData";
 import Jobset from "./Pages/Jobset";
 import Cataset from "./Pages/Cataset";
+import Submission from "./Pages/Submission";
 
 //style
 import "./Assets/Style/App.css";
@@ -116,6 +117,17 @@ const App = () => {
           element={
             <PrivateRoute
               element={<Majorset />}
+              element2={<NotAuth />}
+              allowedRoles={["admin"]}
+              openLogin={openLogin}
+            />
+          }
+        />
+        <Route
+          path="/submission"
+          element={
+            <PrivateRoute
+              element={<Submission />}
               element2={<NotAuth />}
               allowedRoles={["admin"]}
               openLogin={openLogin}

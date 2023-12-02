@@ -15,7 +15,7 @@ import {
   FaTools,
 } from "react-icons/fa";
 
-const AccountDataDesktop = () => {
+const SubmissionDesktop = () => {
   const sidebarItems = [
     {
       text: "Dashboard",
@@ -72,7 +72,7 @@ const AccountDataDesktop = () => {
     },
   ];
 
-  const steps = ["Siswa", "Guru"];
+  const steps = ["Diajukan", "Ditolak"];
 
   const [selectedStep, setSelectedStep] = useState(1);
 
@@ -86,47 +86,73 @@ const AccountDataDesktop = () => {
   const fetchDataFromApi = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-
+  
       // Fetch total counts for each type of user
       const countPenggunaResponse = await axios.get(
-        "http://127.0.0.1:8000/api/pengguna",
+        "http://127.0.0.1:8000/api/show-permohonan",
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-
+  
       console.log("Data Pengguna:", countPenggunaResponse.data);
-
+  
       return countPenggunaResponse.data;
     } catch (error) {
       console.error("Terjadi error:", error);
       throw error;
     }
   };
-
+  
   const fillDataAutomatically = async () => {
     try {
       const apiData = await fetchDataFromApi();
-
+  
       const filteredData = apiData
-        .filter((item) => item.jurusan && item.jurusan.jurusan !== "N/A")
-        .map((item, index) => ({
-          NO: index + 1,
-          NIS: item.nomorinduk_pengguna,
-          Nama: item.nama_pengguna,
-          Level: item.level_pengguna,
-          Jurusan: item.jurusan.jurusan,
-          Email: item.email,
-        }));
-
+        .filter((item) => item.status_permohonan === "diajukan")
+        .map((item, index) => {
+          const detailsBarangArray = JSON.parse(item.details_barang);
+          const barangDetailsArray = item.barang_details;
+  
+          const barangCountMap = detailsBarangArray.reduce((acc, detailsBarang) => {
+            const existingBarang = acc.find((barang) => barang.id_barang === detailsBarang.id);
+  
+            if (existingBarang) {
+              existingBarang.jumlah++;
+            } else {
+              const nama_barang = barangDetailsArray.find((barangDetail) => barangDetail.id_barang === detailsBarang.id)?.nama_barang || "Nama Barang Tidak Ditemukan";
+  
+              acc.push({
+                id_barang: detailsBarang.id,
+                nama_barang: nama_barang,
+                jumlah: 1,
+              });
+            }
+  
+            return acc;
+          }, []);
+  
+          const barangDetails = barangCountMap.map((barang) => `${barang.nama_barang}(${barang.jumlah})`);
+  
+          return {
+            NO: index + 1,
+            Syarat: item.kesetujuan_syarat,
+            NIS: item.pengguna.nomorinduk_pengguna,
+            Nama: item.pengguna.nama_pengguna,
+            Barang: barangDetails.join(", "),
+          };
+        });
+  
       setTableData(filteredData);
       console.log(filteredData);
     } catch (error) {
       console.error("Terjadi error:", error);
     }
   };
+  
+  
 
   const fillDataAutomatically2 = async () => {
     try {
@@ -172,22 +198,10 @@ const AccountDataDesktop = () => {
 
   const columns = [
     { key: "NO", label: "NO" },
-    { key: "NIS", label: "NIS" },
-    { key: "Nama", label: "Nama" },
-    { key: "Level", label: "Level" },
-    { key: "Jurusan", label: "Jurusan" },
-    { key: "Email", label: "Email" },
-
-  ];
-
-  const columns2 = [
-    { key: "NO", label: "NO" },
-    { key: "NIS", label: "NIS" },
-    { key: "Nama", label: "Nama" },
-    { key: "Level", label: "Level" },
-    { key: "Jabatan", label: "Jabatan" },
-    { key: "Email", label: "Email" },
-
+    { key: "Syarat", label: "Syarat" },
+    { key: "NIS", label: "Nomor Induk" },
+    { key: "Nama", label: "Nama"},
+    { key: "Barang", label: "Barang"}
   ];
 
   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -206,7 +220,7 @@ const AccountDataDesktop = () => {
     <div className="flex">
       <SidebarDesktop items={sidebarItems} />
       <div className="px-8 py-4 min-h-screen w-screen">
-        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Akun" />
+        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Pengajuan Peminjaman" />
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedStep}
@@ -228,7 +242,7 @@ const AccountDataDesktop = () => {
             {selectedStep === "Guru" && (
               <div className="mb-4">
                 <DataTable
-                  columns={columns2}
+                  columns={columns}
                   data={tableData2}
                   handleRowClick={handleRowClick}
                 />{" "}
@@ -252,4 +266,4 @@ const AccountDataDesktop = () => {
   );
 };
 
-export default AccountDataDesktop;
+export default SubmissionDesktop;
