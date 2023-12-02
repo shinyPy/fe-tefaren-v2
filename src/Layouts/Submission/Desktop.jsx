@@ -5,7 +5,7 @@ import StepNav from "../../Components/StepNav/StepNav";
 import { useState, useEffect } from "react";
 import DataTable from "../../Components/Table/Table";
 import axios from "axios";
-import AccountDataModal from "../../Modal/AccountData/AccountDataModal";
+import SubmissionModal from "../../Modal/Submission/SubmissionModal";
 
 import {
   FaChartBar,
@@ -72,7 +72,7 @@ const SubmissionDesktop = () => {
     },
   ];
 
-  const steps = ["Diajukan", "Ditolak"];
+  const steps = ["Diajukan", "Diterima", "Ditolak"];
 
   const [selectedStep, setSelectedStep] = useState(1);
 
@@ -82,6 +82,7 @@ const SubmissionDesktop = () => {
 
   const [tableData, setTableData] = useState([]);
   const [tableData2, setTableData2] = useState([]);
+  const [tableData3, setTableData3] = useState([]);
   
   const fetchDataFromApi = async () => {
     try {
@@ -138,10 +139,15 @@ const SubmissionDesktop = () => {
   
           return {
             NO: index + 1,
-            Syarat: item.kesetujuan_syarat,
+            ID: item.id,
             NIS: item.pengguna.nomorinduk_pengguna,
             Nama: item.pengguna.nama_pengguna,
+            WA: item.nomor_wa,
             Barang: barangDetails.join(", "),
+            Alasan: item.alasan_peminjaman,
+            Status: item.status_permohonan,
+            Tanggal: item.tanggal_peminjaman,
+            Lama: item.lama_peminjaman,
           };
         });
   
@@ -157,18 +163,47 @@ const SubmissionDesktop = () => {
   const fillDataAutomatically2 = async () => {
     try {
       const apiData = await fetchDataFromApi();
-
+  
       const filteredData = apiData
-        .filter((item) => item.jabatan && item.jabatan.jabatan !== "N/A")
-        .map((item, index) => ({
-          NO: index + 1,
-          NIS: item.nomorinduk_pengguna,
-          Nama: item.nama_pengguna,
-          Level: item.level_pengguna,
-          Jabatan: item.jabatan.jabatan,
-          Email: item.email,
-        }));
-
+        .filter((item) => item.status_permohonan === "terima")
+        .map((item, index) => {
+          const detailsBarangArray = JSON.parse(item.details_barang);
+          const barangDetailsArray = item.barang_details;
+  
+          const barangCountMap = detailsBarangArray.reduce((acc, detailsBarang) => {
+            const existingBarang = acc.find((barang) => barang.id_barang === detailsBarang.id);
+  
+            if (existingBarang) {
+              existingBarang.jumlah++;
+            } else {
+              const nama_barang = barangDetailsArray.find((barangDetail) => barangDetail.id_barang === detailsBarang.id)?.nama_barang || "Nama Barang Tidak Ditemukan";
+  
+              acc.push({
+                id_barang: detailsBarang.id,
+                nama_barang: nama_barang,
+                jumlah: 1,
+              });
+            }
+  
+            return acc;
+          }, []);
+  
+          const barangDetails = barangCountMap.map((barang) => `${barang.nama_barang}(${barang.jumlah})`);
+  
+          return {
+            NO: index + 1,
+            ID: item.id,
+            NIS: item.pengguna.nomorinduk_pengguna,
+            Nama: item.pengguna.nama_pengguna,
+            WA: item.nomor_wa,
+            Barang: barangDetails.join(", "),
+            Alasan: item.alasan_peminjaman,
+            Status: item.status_permohonan,
+            Tanggal: item.tanggal_peminjaman,
+            Lama: item.lama_peminjaman,
+          };
+        });
+  
       setTableData2(filteredData);
       console.log(filteredData);
     } catch (error) {
@@ -176,15 +211,70 @@ const SubmissionDesktop = () => {
     }
   };
 
+  const fillDataAutomatically3 = async () => {
+    try {
+      const apiData = await fetchDataFromApi();
+  
+      const filteredData = apiData
+        .filter((item) => item.status_permohonan === "tolak")
+        .map((item, index) => {
+          const detailsBarangArray = JSON.parse(item.details_barang);
+          const barangDetailsArray = item.barang_details;
+  
+          const barangCountMap = detailsBarangArray.reduce((acc, detailsBarang) => {
+            const existingBarang = acc.find((barang) => barang.id_barang === detailsBarang.id);
+  
+            if (existingBarang) {
+              existingBarang.jumlah++;
+            } else {
+              const nama_barang = barangDetailsArray.find((barangDetail) => barangDetail.id_barang === detailsBarang.id)?.nama_barang || "Nama Barang Tidak Ditemukan";
+  
+              acc.push({
+                id_barang: detailsBarang.id,
+                nama_barang: nama_barang,
+                jumlah: 1,
+              });
+            }
+  
+            return acc;
+          }, []);
+  
+          const barangDetails = barangCountMap.map((barang) => `${barang.nama_barang}(${barang.jumlah})`);
+  
+          return {
+            NO: index + 1,
+            ID: item.id,
+            NIS: item.pengguna.nomorinduk_pengguna,
+            Nama: item.pengguna.nama_pengguna,
+            WA: item.nomor_wa,
+            Barang: barangDetails.join(", "),
+            Alasan: item.alasan_peminjaman,
+            Status: item.status_permohonan,
+            Tanggal: item.tanggal_peminjaman,
+            Lama: item.lama_peminjaman,
+          };
+        });
+  
+      setTableData3(filteredData);
+      console.log(filteredData);
+    } catch (error) {
+      console.error("Terjadi error:", error);
+    }
+  };
+  
+  
+
   const handleEditSuccess = () => {
     fillDataAutomatically();
     fillDataAutomatically2();
+    fillDataAutomatically3();
     closeModal();
   };
 
   const handleDeleteSuccess = () => {
     fillDataAutomatically();
     fillDataAutomatically2();
+    fillDataAutomatically3();
     closeModal();
   };
 
@@ -194,14 +284,18 @@ const SubmissionDesktop = () => {
     handleEditSuccess();
     fillDataAutomatically();
     fillDataAutomatically2();
+    fillDataAutomatically3();
   }, []);
 
   const columns = [
-    { key: "NO", label: "NO" },
-    { key: "Syarat", label: "Syarat" },
+    { key: "NO", label: "NO" },,
     { key: "NIS", label: "Nomor Induk" },
     { key: "Nama", label: "Nama"},
-    { key: "Barang", label: "Barang"}
+    { key: "WA", label: "Nomor WhatsApp"},
+    { key: "Barang", label: "Barang"},
+    { key: "Alasan", label: "Alasan Peminjaman"},
+    { key: "Tanggal", label: "Tanggal Pengajuan"},
+    { key: "Lama", label: "Lama Peminjaman"},
   ];
 
   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -229,7 +323,7 @@ const SubmissionDesktop = () => {
             exit={{ opacity: 0, y: 50 }}
             transition={{ duration: 0.3 }}
           >
-            {selectedStep !== "Guru" && (
+            {selectedStep !== "Diterima" && selectedStep !== "Ditolak" && (
               <div className="mb-4">
                 <DataTable
                   columns={columns}
@@ -239,11 +333,21 @@ const SubmissionDesktop = () => {
               </div>
             )}
 
-            {selectedStep === "Guru" && (
+            {selectedStep === "Diterima" && (
               <div className="mb-4">
                 <DataTable
                   columns={columns}
                   data={tableData2}
+                  handleRowClick={handleRowClick}
+                />{" "}
+              </div>
+            )}
+
+{selectedStep === "Ditolak" && (
+              <div className="mb-4">
+                <DataTable
+                  columns={columns}
+                  data={tableData3}
                   handleRowClick={handleRowClick}
                 />{" "}
               </div>
@@ -253,7 +357,7 @@ const SubmissionDesktop = () => {
 
         <AnimatePresence mode="wait">
         {isModalVisible && (
-                <AccountDataModal
+                <SubmissionModal
                   rowData={selectedRowData}
                   closeModal={closeModal}
                   onEditSuccess={handleEditSuccess}
