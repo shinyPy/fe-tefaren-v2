@@ -97,13 +97,13 @@ const CataSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
 
     try {
       const accessToken = localStorage.getItem("accessToken");
-
+    
       await axios.post("http://127.0.0.1:8000/api/add-kategori", formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
+    
       const updatedResponse = await axios.get(
         "http://127.0.0.1:8000/api/get-kategori",
         {
@@ -112,17 +112,47 @@ const CataSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
           },
         }
       );
-
+    
       setBarangList(updatedResponse.data);
       onAddSuccess();
       Swal.fire({
         icon: "success",
         title: "Penambahan Berhasil",
-        text: "Data Kategori Barang telah berhasil di tambah.",
+        text: "Data Kategori Barang telah berhasil ditambah.",
       });
     } catch (error) {
       console.error(error);
+    
+      if (error.response && error.response.status === 422) {
+        // Validation error
+        const validationErrors = error.response.data.errors;
+    
+        // Check if the 'kategori' field has an error
+        if (validationErrors && validationErrors.kategori) {
+          const errorMessage = validationErrors.kategori[0];
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambah Kategori",
+            text: errorMessage,
+          });
+        } else {
+          // Handle other validation errors if needed
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambah Kategori",
+            text: "Terjadi kesalahan validasi.",
+          });
+        }
+      } else {
+        // Handle other types of errors
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Menambah Kategori",
+          text: "Terjadi kesalahan pada server.",
+        });
+      }
     }
+    
   };
 
   return (

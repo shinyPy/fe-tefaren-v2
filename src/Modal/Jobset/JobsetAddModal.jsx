@@ -94,16 +94,15 @@ const JobSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
     for (const key in formData) {
       formDataToSend.append(key, formData[key]);
     }
-
     try {
       const accessToken = localStorage.getItem("accessToken");
-
+    
       await axios.post("http://127.0.0.1:8000/api/add-jabatan", formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
+    
       const updatedResponse = await axios.get(
         "http://127.0.0.1:8000/api/get-jabatan",
         {
@@ -112,17 +111,46 @@ const JobSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
           },
         }
       );
-
+    
       setBarangList(updatedResponse.data);
       onAddSuccess();
       Swal.fire({
         icon: "success",
         title: "Penambahan Berhasil",
-        text: "Data Jabatan telah berhasil di tambah.",
+        text: "Data Jabatan telah berhasil ditambah.",
       });
     } catch (error) {
       console.error(error);
-    }
+    
+      if (error.response && error.response.status === 422) {
+        // Validation error
+        const validationErrors = error.response.data.errors;
+    
+        // Check if the 'jabatan' field has an error
+        if (validationErrors && validationErrors.jabatan) {
+          const errorMessage = validationErrors.jabatan[0];
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambah Jabatan",
+            text: errorMessage,
+          });
+        } else {
+          // Handle other validation errors if needed
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambah Jabatan",
+            text: "Terjadi kesalahan validasi.",
+          });
+        }
+      } else {
+        // Handle other types of errors
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Menambah Jabatan",
+          text: "Terjadi kesalahan pada server.",
+        });
+      }
+    }    
   };
 
   return (

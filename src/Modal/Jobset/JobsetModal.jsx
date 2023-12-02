@@ -87,9 +87,38 @@ const JobsetModal = ({
       });
     } catch (error) {
       console.error(error);
-    }
+    
+      if (error.response && error.response.status === 422) {
+        // Validation error
+        const validationErrors = error.response.data.errors;
+    
+        // Check if the 'jabatan' field has an error
+        if (validationErrors && validationErrors.jabatan) {
+          const errorMessage = validationErrors.jabatan[0];
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambah Jabatan",
+            text: errorMessage,
+          });
+        } else {
+          // Handle other validation errors if needed
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambah Jabatan",
+            text: "Terjadi kesalahan validasi.",
+          });
+        }
+      } else {
+        // Handle other types of errors
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Menambah Jabatan",
+          text: "Terjadi kesalahan pada server.",
+        });
+      }
+    }    
   };
-  
+
   const handleDelete = () => {
     Swal.fire({
       title: "Konfirmasi",

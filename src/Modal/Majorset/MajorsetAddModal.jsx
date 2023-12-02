@@ -97,13 +97,13 @@ const MajorSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
 
     try {
       const accessToken = localStorage.getItem("accessToken");
-
+    
       await axios.post("http://127.0.0.1:8000/api/add-jurusan", formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
+    
       const updatedResponse = await axios.get(
         "http://127.0.0.1:8000/api/get-jurusan",
         {
@@ -112,17 +112,47 @@ const MajorSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
           },
         }
       );
-
+    
       setBarangList(updatedResponse.data);
       onAddSuccess();
       Swal.fire({
         icon: "success",
         title: "Penambahan Berhasil",
-        text: "Data Jurusan telah berhasil di tambah.",
+        text: "Data Jurusan telah berhasil ditambah.",
       });
     } catch (error) {
       console.error(error);
+    
+      if (error.response && error.response.status === 422) {
+        // Validation error
+        const validationErrors = error.response.data.errors;
+    
+        // Check if the 'jurusan' field has an error
+        if (validationErrors && validationErrors.jurusan) {
+          const errorMessage = validationErrors.jurusan[0];
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambah Jurusan",
+            text: errorMessage,
+          });
+        } else {
+          // Handle other validation errors if needed
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambah Jurusan",
+            text: "Terjadi kesalahan validasi.",
+          });
+        }
+      } else {
+        // Handle other types of errors
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Menambah Jurusan",
+          text: "Terjadi kesalahan pada server.",
+        });
+      }
     }
+    
   };
 
   return (
