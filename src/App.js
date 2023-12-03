@@ -11,6 +11,8 @@ import Jobset from "./Pages/Jobset";
 import Cataset from "./Pages/Cataset";
 import Submission from "./Pages/Submission";
 import Test from "./Pages/Test"
+import Borrow from "./Pages/Borrow";
+
 //style
 import "./Assets/Style/App.css";
 import "./Assets/Style/Preload.css";
@@ -131,6 +133,17 @@ const App = () => {
               element={<Submission />}
               element2={<NotAuth />}
               allowedRoles={["admin"]}
+              openLogin={openLogin}
+            />
+          }
+        />
+                <Route
+          path="/borrow"
+          element={
+            <PrivateRoute
+              element={<Borrow />}
+              element2={<NotAuth />}
+              allowedRoles={["admin"]}o
               openLogin={openLogin}
             />
           }
