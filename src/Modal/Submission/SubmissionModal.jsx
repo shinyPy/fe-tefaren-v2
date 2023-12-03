@@ -100,6 +100,56 @@ const SubmissionModal = ({
       console.error(error);
     }
   };
+
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Konfirmasi",
+      text: "Apakah Anda yakin ingin menghapus data ini?",
+      icon: "warning",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "bg-red-600 mr-2 text-white py-2 px-4 rounded",
+        cancelButton: "bg-blue-600 ml-2 text-white py-2 px-4 rounded",
+      },
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Ya, hapus!",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        performDelete();
+      }
+    });
+  };
+
+  const performDelete = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const apiUrl = `http://127.0.0.1:8000/api/delete-permohonan/${rowData.ID}`;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const result = await axios.delete(apiUrl, config);
+
+      if (result.status >= 200 && result.status < 300) {
+        console.log("Delete successful", result.data);
+        onDeleteSuccess();
+        Swal.fire({
+          icon: "success",
+          title: "Hapus Berhasil",
+          text: "Data Telah berhasil dihapus.",
+        });
+      } else {
+        console.error("Delete failed with status", result.status);
+      }
+    } catch (error) {
+      console.error("Error deleting data", error);
+    }
+  };
   
   return (
     <motion.div
@@ -158,11 +208,11 @@ const SubmissionModal = ({
 </div>
 
 
-<div className=" flex space-x-4"> 
+<div className=" flex space-x-3.5"> 
   <form onSubmit={handleEdit}>
     <button
       type="submit"
-      className="py-3 px-20 text-xl tracking-widest text-white rounded-md bg-green-600"
+      className="py-3 px-10 text-xl tracking-widest text-white rounded-md bg-blue-700"
     >
       Terima
     </button>
@@ -171,11 +221,16 @@ const SubmissionModal = ({
   <form onSubmit={handleEdit2}>
     <button
       type="submit"
-      className="py-3 px-20 text-xl tracking-widest text-white rounded-md bg-red-600"
+      className="py-3 px-10 text-xl tracking-widest text-white rounded-md bg-gray-600"
     >
       Tolak
     </button>
   </form>
+
+  <button type="button" onClick={handleDelete} 
+        className="py-3 px-10 text-xl tracking-widest text-white rounded-md bg-red-600">
+    Delete
+  </button>
   </div>
 
       </div>
