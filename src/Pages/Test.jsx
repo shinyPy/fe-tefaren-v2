@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Test = ({ filteredPeminjamanData, onSelectPeminjaman }) => {
   const [selectedPeminjamanId, setSelectedPeminjamanId] = useState('');
-  const [statusPeminjaman, setStatusPeminjaman] = useState('');
+  const [statusPeminjaman, setStatusPeminjaman] = useState('dikembalikan');
   const [buktiPengembalian, setBuktiPengembalian] = useState(null);
 
   const handleFileChange = (e) => {
@@ -15,9 +16,14 @@ const Test = ({ filteredPeminjamanData, onSelectPeminjaman }) => {
     e.preventDefault();
 
     try {
+      if (!selectedPeminjamanId) {
+        Swal.fire('Error', 'Pilih Barang terlebih dahulu', 'error');
+        return;
+      }
+
       const formData = new FormData();
       formData.append('_method', 'PUT');
-      formData.append('status_peminjaman', statusPeminjaman);
+      formData.append('status_peminjaman', 'dikembalikan');
       formData.append('bukti_pengembalian', buktiPengembalian);
 
       const accessToken = localStorage.getItem('accessToken');
@@ -34,9 +40,12 @@ const Test = ({ filteredPeminjamanData, onSelectPeminjaman }) => {
       );
 
       console.log(response.data);
+      Swal.fire('Success', 'Form sukses disubmit', 'success');
+
       // Handle success, maybe redirect or update UI
     } catch (error) {
       console.error('Error submitting form:', error.response.data);
+      Swal.fire('Error', 'Error submitting form', 'error');
       // Handle error, maybe show an error message
     }
   };
@@ -70,23 +79,7 @@ const Test = ({ filteredPeminjamanData, onSelectPeminjaman }) => {
 
         {selectedPeminjamanId && (
           <div>
-            <div className="mb-4">
-              <label
-                htmlFor="selectStatus"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Status Peminjaman:
-              </label>
-              <select
-                id="selectStatus"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                value={statusPeminjaman}
-                onChange={(e) => setStatusPeminjaman(e.target.value)}
-              >
-                <option value="dipinjam">Dipinjam</option>
-                <option value="dikembalikan">Dikembalikan</option>
-              </select>
-            </div>
+            <div className="mb-4"></div>
 
             <div className="mb-4">
               <label htmlFor="fileInput" className="block text-sm font-medium text-gray-700">

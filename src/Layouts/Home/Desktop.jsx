@@ -404,6 +404,7 @@ const HomeDesktop = () => {
     };
 
     fetchData();
+    
   }, []);
 
   const handleSelectPeminjaman = (id) => {

@@ -48,7 +48,7 @@ const ReturnModal = ({
       };
   
       await axios.put(
-        `http://127.0.0.1:8000/api/edit-peminjaman/${rowData.ID}`,
+        `http://127.0.0.1:8000/api/edit-pengembalian/${rowData.ID}`,
         requestData,
         {
           headers: {
