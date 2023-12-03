@@ -15,7 +15,7 @@ import {
   FaTools,
 } from "react-icons/fa";
 
-const BorrowDesktop = () => {
+const ReturnDesktop = () => {
   const sidebarItems = [
     {
       text: "Dashboard",
@@ -72,7 +72,7 @@ const BorrowDesktop = () => {
     },
   ];
 
-  const steps = ["Dipinjam", "Dikembalikan"];
+  const steps = ["Dicek", "Dikembalikan"];
 
   const [selectedStep, setSelectedStep] = useState(1);
 
@@ -82,7 +82,6 @@ const BorrowDesktop = () => {
 
   const [tableData, setTableData] = useState([]);
   const [tableData2, setTableData2] = useState([]);
-  const [tableData3, setTableData3] = useState([]);
   
   const fetchDataFromApi = async () => {
     try {
@@ -90,7 +89,7 @@ const BorrowDesktop = () => {
   
       // Fetch total counts for each type of user
       const countPenggunaResponse = await axios.get(
-        "http://127.0.0.1:8000/api/show-peminjaman",
+        "http://127.0.0.1:8000/api/show-pengembalian",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -201,7 +200,7 @@ const BorrowDesktop = () => {
     <div className="flex">
       <SidebarDesktop items={sidebarItems} />
       <div className="px-8 py-4 min-h-screen w-screen">
-        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Peminjaman" />
+        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Pengajuan Peminjaman" />
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedStep}
@@ -248,4 +247,4 @@ const BorrowDesktop = () => {
   );
 };
 
-export default BorrowDesktop;
+export default ReturnDesktop;

@@ -12,6 +12,7 @@ import Cataset from "./Pages/Cataset";
 import Submission from "./Pages/Submission";
 import Test from "./Pages/Test"
 import Borrow from "./Pages/Borrow";
+import Return from "./Pages/Return";
 
 //style
 import "./Assets/Style/App.css";
@@ -148,6 +149,19 @@ const App = () => {
             />
           }
         />
+
+<Route
+          path="/return"
+          element={
+            <PrivateRoute
+              element={<Return />}
+              element2={<NotAuth />}
+              allowedRoles={["admin"]}o
+              openLogin={openLogin}
+            />
+          }
+        />
+
       </Routes>
     </Router>
   );

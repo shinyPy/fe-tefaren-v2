@@ -6,9 +6,9 @@ import PageTitle from "../Utils/PageTitle";
 import { useMediaQuery } from "react-responsive";
 import { motion, AnimatePresence } from "framer-motion";
 
-import BorrowDesktop from "../Layouts/Borrow/Desktop";
+import ReturnDesktop from "../Layouts/Return/Desktop";
 
-function Borrow() {
+function Return() {
   const isMobile = useMediaQuery({ maxWidth: 400 });
   const [isLoaded, setIsLoaded] = useState(false);
   const [preloadState, setPreloadState] = useState(1);
@@ -79,7 +79,7 @@ function Borrow() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <BorrowDesktop />
+                <ReturnDesktop />
               </motion.div>
             ) : (
               <motion.div
@@ -88,7 +88,7 @@ function Borrow() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <BorrowDesktop />
+                <ReturnDesktop />
               </motion.div>
             )}
           </AnimatePresence>
@@ -98,4 +98,4 @@ function Borrow() {
   );
 }
 
-export default Borrow;
+export default Return;
