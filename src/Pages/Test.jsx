@@ -1,130 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import Select from 'react-select';
 
-const Test = () => {
-  const [formData, setFormData] = useState({
-    nomor_wa: '',
-    alasan_peminjaman: '',
-    tanggal_peminjaman: '',
-    lama_peminjaman: '',
-  });
-  const [barangOptions, setBarangOptions] = useState([]);
-  const [selectedBarangIds, setSelectedBarangIds] = useState([]);
+const Test = ({ peminjamanId }) => {
+  const [statusPeminjaman, setStatusPeminjaman] = useState('');
+  const [buktiPengembalian, setBuktiPengembalian] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleAddDetailsBarang = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      details_barang: [...prevData.details_barang, { nama_barang: '', jumlah: 0 }],
-    }));
-  };
-
-  const handleDetailsBarangChange = (selectedOptions) => {
-    setSelectedBarangIds(selectedOptions ? selectedOptions.map((option) => option.value) : []);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setBuktiPengembalian(file);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      const formData = new FormData();
+      formData.append('_method', 'PUT'); // Add this line for a PUT request
+      formData.append('status_peminjaman', statusPeminjaman);
+      formData.append('bukti_pengembalian', buktiPengembalian);
+
       const accessToken = localStorage.getItem('accessToken');
-      const config = {
+
+      // Make sure to update the API endpoint and include the Authorization header
+      const response = await axios.post(`http://127.0.0.1:8000/api/edit-peminjaman/9`, formData, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${accessToken}`,
         },
-      };
-
-      const userResponse = await axios.get('http://127.0.0.1:8000/api/user', config);
-      const id_pengguna = userResponse.data.id;
-
-      const payload = {
-        ...formData,
-        id_pengguna,
-        details_barang: selectedBarangIds,
-      };
-
-      const response = await axios.post('http://127.0.0.1:8000/api/add-permohonan', payload, config);
+      });
 
       console.log(response.data);
+      // Handle success, maybe redirect or update UI
     } catch (error) {
-      console.error('Error creating Permohonan:', error.response.data);
+      console.error('Error submitting form:', error.response.data);
+      // Handle error, maybe show an error message
     }
   };
 
-  useEffect(() => {
-    const fetchBarangData = async () => {
-      try {
-        const accessToken = localStorage.getItem('accessToken');
-        const response = await axios.get('http://127.0.0.1:8000/api/barangShow', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-  
-        const tersediaBarangData = response.data
-          .filter((barang) => barang.ketersediaan_barang === 'Tersedia')
-          .map((barang) => ({
-            value: barang.id_barang,
-            label: barang.nama_barang,
-          }));
-  
-        setBarangOptions(tersediaBarangData);
-      } catch (error) {
-        console.error('Error fetching barang data:', error);
-      }
-    };
-  
-    fetchBarangData();
-  }, []);
-  
   return (
     <form onSubmit={handleSubmit}>
-     
-      
-    
+      <div>
+        <label>Status Peminjaman:</label>
+        <select value={statusPeminjaman} onChange={(e) => setStatusPeminjaman(e.target.value)}>
+          <option value="dipinjam">Dipinjam</option>
+          <option value="dikembalikan">Dikembalikan</option>
+        </select>
+      </div>
 
-      <label>
-        Nomor WhatsApp:
-        <input type="text" name="nomor_wa" value={formData.nomor_wa} onChange={handleChange} />
-      </label>
-
-      <label>
-        Alasan Peminjaman:
-        <textarea name="alasan_peminjaman" value={formData.alasan_peminjaman} onChange={handleChange} />
-      </label>
-
-      
-
-      <label>
-        Tanggal Peminjaman:
-        <input type="date" name="tanggal_peminjaman" value={formData.tanggal_peminjaman} onChange={handleChange} />
-      </label>
-
-      <label>
-        Lama Peminjaman:
-        <input type="text" name="lama_peminjaman" value={formData.lama_peminjaman} onChange={handleChange} />
-      </label>
-
-      
-
-      {/* Details Barang */}
-      <label>
-        Details Barang:
-        <Select
-          options={barangOptions}
-          isMulti
-          onChange={handleDetailsBarangChange}
-          value={barangOptions.filter((option) => selectedBarangIds.includes(option.value))}
-        />
-      </label>
+      <div>
+        <label>Bukti Pengembalian:</label>
+        <input type="file" accept="image/*" onChange={handleFileChange} />
+      </div>
 
       <button type="submit">Submit</button>
     </form>
