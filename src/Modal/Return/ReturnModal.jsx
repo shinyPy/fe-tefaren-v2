@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const BorrowModal = ({
+const ReturnModal = ({
   rowData,
   closeModal,
   onEditSuccess,
@@ -43,7 +43,8 @@ const BorrowModal = ({
       
       // Make sure to replace 'terima' with the actual value you want to send
       const requestData = {
-        status_permohonan: "terima", // Replace 'terima' with the actual value you want to send
+        status_peminjaman: "dikembalikan", 
+        bukti_pengembalian: rowData.BuktiPengembalian,
       };
   
       await axios.put(
@@ -147,21 +148,22 @@ const BorrowModal = ({
         <div className=" w-full border-b-2 mb-4"></div>
 
 
-<div className="left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-lg mb-4">
-    {rowData.StatusPengembalian}
-</div>
+<div className="left-0 text-left w-full bg-white tracking-widest px-4 py-3 border-2 rounded-lg text-lg mb-4" > 
+  {rowData.BuktiPengembalian}
+  </div>
 
 
-<div className=" flex space-x-4"> 
-  <button type="button" onClick={handleEdit} 
+<form onSubmit={ handleEdit}>
+  <button type="submit" 
         className=" w-full py-3 text-xl tracking-widest text-white rounded-md bg-blue-700">
     Edit
   </button>
-  </div>
+  
+  </form>
 
       </div>
     </motion.div>
   );
 };
 
-export default BorrowModal;
+export default ReturnModal;
