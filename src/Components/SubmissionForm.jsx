@@ -58,54 +58,92 @@ const SubmissionForm = ({ openImg }) => {
     );
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (currentStep === 1) {
-      // Handle confirmation step
-      setConfirmationApproved(true);
-      nextStep();
-    } else if (currentStep === 2) {
-      if (validateForm()) {
-        // Corrected: Call validateForm()
-        try {
-          const accessToken = localStorage.getItem("accessToken");
-          const config = {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          };
+// ...
 
-          const userResponse = await axios.get(
-            "http://127.0.0.1:8000/api/user",
-            config
-          );
-          const id_pengguna = userResponse.data.id;
+// ...
 
-          const payload = {
-            ...formData,
-            id_pengguna,
-            details_barang: selectedBarangIds,
-          };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (currentStep === 1) {
+    // Handle confirmation step
+    setConfirmationApproved(true);
+    nextStep();
+  } else if (currentStep === 2) {
+    if (validateForm()) {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
 
-          const response = await axios.post(
-            "http://127.0.0.1:8000/api/add-permohonan",
-            payload,
-            config
-          );
+        const userResponse = await axios.get(
+          "http://127.0.0.1:8000/api/user",
+          config
+        );
+        const id_pengguna = userResponse.data.id;
 
-          Swal.fire({
-            title: "Success!",
-            text: "Form submitted successfully!",
-            icon: "success",
-          });
+        const payload = {
+          ...formData,
+          id_pengguna,
+          details_barang: selectedBarangIds,
+        };
 
-          console.log(response.data);
-        } catch (error) {
-          console.error("Error creating Permohonan:", error.response.data);
-        }
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/add-permohonan",
+          payload,
+          config
+        );
+
+        // SweetAlert success message
+        Swal.fire({
+          title: "Success!",
+          text: "Permohonan Anda telah dikirim.",
+          icon: "success",
+        });
+
+        // Reset form values
+        resetForm();
+
+        console.log(response.data);
+      } catch (error) {
+        // SweetAlert error message
+        Swal.fire({
+          title: "Error!",
+          text: error.response.data.message,
+          icon: "error",
+        });
+
+        console.error("Error creating Permohonan:", error.response ? error.response.data : error);
+        resetForm();
       }
     }
-  };
+  }
+};
+
+// ...
+
+const resetForm = () => {
+  // Reset the form values to their initial state or empty values
+  setFormData({
+    nomor_wa: "",
+    alasan_peminjaman: "",
+    tanggal_peminjaman: "",
+    lama_peminjaman: "",
+  });
+
+  // You may need to reset other form-related states as well
+  // ...
+
+  // Clear the selectedBarangIds
+  setSelectedBarangIds([]);
+
+  // Set any other state variables to their initial values
+  // ...
+};
+
+
 
   const validateForm = () => {
     const { nomor_wa, alasan_peminjaman, tanggal_peminjaman, lama_peminjaman } =
@@ -174,73 +212,6 @@ const SubmissionForm = ({ openImg }) => {
   };
 
   const isDateValue = !!formData.tanggal_peminjaman;
-
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-    
-  const fetchDataFromApi = async () => {
-    try {
-      const token = localStorage.getItem("accessToken");
-  
-      // Fetch user data
-      const userResponse = await axios.get("http://127.0.0.1:8000/api/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-  
-      const userData = Array.isArray(userResponse.data) ? userResponse.data : [userResponse.data];
-  
-      // Fetch permohonan data
-      const permohonanResponse = await axios.get(
-        "http://127.0.0.1:8000/api/show-permohonan",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-  
-      const permohonanData = permohonanResponse.data;
-      console.log("Permohonan Data:", permohonanData);
-  
-      // Compare id_pengguna with id and display relevant data
-      const matchedData = [];
-      userData.forEach((user) => {
-        const matchingPermohonan = permohonanData.find(
-          (permohonan) => permohonan.id_pengguna === user.id
-        );
-  
-        if (matchingPermohonan) {
-          matchedData.push({
-            user,
-            permohonan: matchingPermohonan,
-          });
-        }
-      });
-  
-      console.log("Matched Data:", matchedData);
-  
-      return matchedData;
-    } catch (error) {
-      console.error("Terjadi error:", error);
-      throw error;
-    }
-  };
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await fetchDataFromApi();
-        setData(result);
-        console.log(result)
-      } catch (error) {
-        setError(error);
-      }
-    };
-
-    fetchData();
-  }, []);
   
   return (
     <div className=" flex px-8 space-x-2 mt-6">
