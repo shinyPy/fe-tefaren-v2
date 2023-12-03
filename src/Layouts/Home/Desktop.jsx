@@ -363,6 +363,46 @@ const HomeDesktop = () => {
 
   // ... rest of your component code
 
+  const [peminjamanData, setPeminjamanData] = useState([]);
+  const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        // Fetch user data
+        const userResponse = await axios.get("http://127.0.0.1:8000/api/user", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setUserData(userResponse.data);
+
+        // Fetch peminjaman data
+        const peminjamanResponse = await axios.get("http://127.0.0.1:8000/api/show-peminjaman", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setPeminjamanData(peminjamanResponse.data);
+
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  
+  // Check if the user has borrowed items
+  const hasBorrowedItems = peminjamanData.some(peminjaman => peminjaman.permohonan.pengguna.id === userData.id);
+
+
   return (
     <div>
       <NavbarDesktop items={items} login={openLogin} />
@@ -555,11 +595,51 @@ const HomeDesktop = () => {
                   </div>
                 ) : selectedPeminjaman === "Peminjaman" ? (
                   <div>
-                    <center>
-                    <img className=" scale-75" src={notFound} alt={notFound} style={imgStyle3} />
-                    <h1 className=" text-4xl font-semibold text-gray-700 tracking-widest">Anda tidak meminjam Barang apapun</h1>
-                    </center>
-                  </div>
+      {hasBorrowedItems ? (
+        <table className="table-auto">
+          <thead>
+            <tr>
+              <th className="px-4 py-2">Kode Barang</th>
+              <th className="px-4 py-2">Nama Barang</th>
+              <th className="px-4 py-2">Status Peminjaman</th>
+              <th className="px-4 py-2">Tanggal Peminjaman</th>
+              <th className="px-4 py-2">Actions</th>
+              {/* Add more columns as needed */}
+            </tr>
+          </thead>
+          <tbody>
+            {peminjamanData.map((peminjaman) => (
+              <tr key={peminjaman.id_peminjaman}>
+                <td className="border px-4 py-2">{peminjaman.barang.kode_barang}</td>
+                <td className="border px-4 py-2">{peminjaman.barang.nama_barang}</td>
+                <td className="border px-4 py-2">{peminjaman.status_peminjaman}</td>
+                <td className="border px-4 py-2">{peminjaman.created_at}</td>
+                <td className="border px-4 py-2">
+            <a
+              href={`http://127.0.0.1:8000/surat-permohonan/${peminjaman.permohonan.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              Generate Surat Permohonan
+            </a>
+          </td>
+
+                {/* Add more columns as needed */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div>
+          <center>
+            <img className="scale-75" src={notFound} alt={notFound} style={imgStyle3} />
+            <h1 className="text-4xl font-semibold text-gray-700 tracking-widest">Anda tidak meminjam Barang apapun</h1>
+          </center>
+        </div>
+      )}
+    </div>
+  
                 ) : selectedPeminjaman === "Pengembalian" ? (
                   <div>
                     <img className=" scale-75" src={notFound} alt={notFound} style={imgStyle3} />
