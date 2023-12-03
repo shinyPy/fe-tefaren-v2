@@ -201,7 +201,7 @@ const HomeDesktop = () => {
   const authorizedRoles2 = ["admin", "user"]; // Add the roles that are authorized
 
   const isAuthorized2 =
-    isAuthenticated && userRole && authorizedRoles.includes(userRole);
+    isAuthenticated && userRole && authorizedRoles2.includes(userRole);
 
   const items = [
     {

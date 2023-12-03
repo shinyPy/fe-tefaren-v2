@@ -32,7 +32,7 @@ const CardSlider = () => {
             initial={{ scale: 0.65 }}
             animate={{ scale: index === activeIndex ? 1.25 : 0.75 }}
             transition={{ duration: 0.3 }}
-            className={`flex-shrink-0 bg-white tracking-widest font-awesome p-4 rounded-lg cursor-pointer`}
+            className={`flex-shrink-0 tracking-widest font-awesome p-4 rounded-lg cursor-pointer`}
             onClick={() => handleCardClick(index)}
             onMouseEnter={() => handleCardHover(index)}
             onMouseLeave={handleCardLeave}

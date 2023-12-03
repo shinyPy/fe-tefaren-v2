@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select from "react-select";
+import Swal from "sweetalert2";
 
 import imgform from "../Assets/Image/3173478.jpg";
 
@@ -20,6 +21,14 @@ const SubmissionForm = ({ openImg }) => {
     alasan_peminjaman: "",
     tanggal_peminjaman: "",
     lama_peminjaman: "",
+  });
+
+  const [errorMessages, setErrorMessages] = useState({
+    nomor_wa: "",
+    alasan_peminjaman: "",
+    tanggal_peminjaman: "",
+    lama_peminjaman: "",
+    details_barang: "",
   });
 
   const [barangOptions, setBarangOptions] = useState([]);
@@ -56,37 +65,73 @@ const SubmissionForm = ({ openImg }) => {
       setConfirmationApproved(true);
       nextStep();
     } else if (currentStep === 2) {
-      try {
-        const accessToken = localStorage.getItem("accessToken");
-        const config = {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        };
+      if (validateForm()) {
+        // Corrected: Call validateForm()
+        try {
+          const accessToken = localStorage.getItem("accessToken");
+          const config = {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          };
 
-        const userResponse = await axios.get(
-          "http://127.0.0.1:8000/api/user",
-          config
-        );
-        const id_pengguna = userResponse.data.id;
+          const userResponse = await axios.get(
+            "http://127.0.0.1:8000/api/user",
+            config
+          );
+          const id_pengguna = userResponse.data.id;
 
-        const payload = {
-          ...formData,
-          id_pengguna,
-          details_barang: selectedBarangIds,
-        };
+          const payload = {
+            ...formData,
+            id_pengguna,
+            details_barang: selectedBarangIds,
+          };
 
-        const response = await axios.post(
-          "http://127.0.0.1:8000/api/add-permohonan",
-          payload,
-          config
-        );
+          const response = await axios.post(
+            "http://127.0.0.1:8000/api/add-permohonan",
+            payload,
+            config
+          );
 
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error creating Permohonan:", error.response.data);
+          Swal.fire({
+            title: "Success!",
+            text: "Form submitted successfully!",
+            icon: "success",
+          });
+
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error creating Permohonan:", error.response.data);
+        }
       }
     }
+  };
+
+  const validateForm = () => {
+    const { nomor_wa, alasan_peminjaman, tanggal_peminjaman, lama_peminjaman } =
+      formData;
+
+    const errors = {};
+
+    if (!nomor_wa) {
+      errors.nomor_wa = "Nomor WhatsApp harus diisi";
+    }
+    if (!alasan_peminjaman) {
+      errors.alasan_peminjaman = "Alasan Peminjaman harus diisi";
+    }
+    if (!tanggal_peminjaman) {
+      errors.tanggal_peminjaman = "Tanggal Peminjaman harus diisi";
+    }
+    if (!lama_peminjaman) {
+      errors.lama_peminjaman = "Lama Peminjaman harus diisi";
+    }
+    if (selectedBarangIds.length === 0) {
+      errors.details_barang = "Barang harus diisi";
+    }
+
+    setErrorMessages(errors); // Corrected: Set errors conditionally
+
+    return Object.keys(errors).length === 0; // Return true if no errors
   };
 
   useEffect(() => {
@@ -118,32 +163,118 @@ const SubmissionForm = ({ openImg }) => {
     fetchBarangData();
   }, []);
 
+  const [isInputDate, setIsInputDate] = useState(false);
+
+  const handleFocus = () => {
+    setIsInputDate(true);
+  };
+
+  const handleBlur = () => {
+    setIsInputDate(false);
+  };
+
+  const isDateValue = !!formData.tanggal_peminjaman;
+
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+    
+  const fetchDataFromApi = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+  
+      // Fetch user data
+      const userResponse = await axios.get("http://127.0.0.1:8000/api/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const userData = Array.isArray(userResponse.data) ? userResponse.data : [userResponse.data];
+  
+      // Fetch permohonan data
+      const permohonanResponse = await axios.get(
+        "http://127.0.0.1:8000/api/show-permohonan",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      const permohonanData = permohonanResponse.data;
+      console.log("Permohonan Data:", permohonanData);
+  
+      // Compare id_pengguna with id and display relevant data
+      const matchedData = [];
+      userData.forEach((user) => {
+        const matchingPermohonan = permohonanData.find(
+          (permohonan) => permohonan.id_pengguna === user.id
+        );
+  
+        if (matchingPermohonan) {
+          matchedData.push({
+            user,
+            permohonan: matchingPermohonan,
+          });
+        }
+      });
+  
+      console.log("Matched Data:", matchedData);
+  
+      return matchedData;
+    } catch (error) {
+      console.error("Terjadi error:", error);
+      throw error;
+    }
+  };
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await fetchDataFromApi();
+        setData(result);
+        console.log(result)
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
   return (
     <div className=" flex px-8 space-x-2 mt-6">
       <div className=" w-5/12">
         {currentStep === 1 && (
-         <form onSubmit={handleSubmit} className="bg-white shadow-md border rounded-lg p-6 max-w-md mx-auto">
-         <div className="text-center">
-           <h1 className="text-4xl font-semibold tracking-wide mb-4">Persetujuan Peminjam</h1>
-           <p className="text-lg mb-6">
-             Sebelum melanjutkan pengajuan, harap baca dan pahami lembar persetujuan yang tersedia. Jika anda setuju dengan ketentuan yang ada, tekan tombol "Setuju" di bawah untuk melanjutkan pengajuan peminjaman.
-           </p>
-           <button
-             type="button"
-             className="w-full bg-blue-700 py-2 px-4 rounded-lg font-semibold text-white"
-             onClick={openImg}
-           >
-             Lihat Lembar Persetujuan
-           </button>
-         </div>
-         <button
-           type="submit"
-           className="w-full mt-4 py-2 px-4 rounded-lg bg-green-600 text-white font-semibold tracking-widest"
-         >
-           Setuju
-         </button>
-       </form>
-       
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white shadow-md border rounded-lg p-6 max-w-md mx-auto"
+          >
+            <div className="text-center">
+              <h1 className="text-4xl font-semibold tracking-wide mb-4">
+                Persetujuan Peminjam
+              </h1>
+              <p className="text-lg mb-6">
+                Sebelum melanjutkan pengajuan, harap baca dan pahami lembar
+                persetujuan yang tersedia. Jika anda setuju dengan ketentuan
+                yang ada, tekan tombol "Setuju" di bawah untuk melanjutkan
+                pengajuan peminjaman.
+              </p>
+              <button
+                type="button"
+                className="w-full bg-blue-700 py-2 px-4 rounded-lg font-semibold text-white"
+                onClick={openImg}
+              >
+                Lihat Lembar Persetujuan
+              </button>
+            </div>
+            <button
+              type="submit"
+              className="w-full mt-4 py-2 px-4 rounded-lg bg-green-600 text-white font-semibold tracking-widest"
+            >
+              Setuju
+            </button>
+          </form>
         )}
 
         {currentStep === 2 && confirmationApproved && (
@@ -151,62 +282,98 @@ const SubmissionForm = ({ openImg }) => {
             onSubmit={handleSubmit}
             className="bg-white shadow-md border rounded-lg p-6 max-w-md mx-auto"
           >
-            <label className="block mb-4">
-              <span className="text-gray-800">Nomor WhatsApp:</span>
-              <input
-                type="text"
-                name="nomor_wa"
-                value={formData.nomor_wa}
-                onChange={handleChange}
-                className="form-input mt-1 block w-full p-2 border shadow-sm rounded-lg"
-              />
-            </label>
+            <center>
+            <h1 className="text-2xl font-semibold tracking-wide mb-4">
+                Pengajuan Peminjaman
+              </h1>
+              </center>
+            <input
+              type="text"
+              name="nomor_wa"
+              value={formData.nomor_wa}
+              onChange={handleChange}
+              className={`form-input mt-1 block w-full p-2 border shadow-sm rounded-lg ${
+                !errorMessages.nomor_wa ? "mb-4" : ""
+              }`}
+              placeholder="Silahkan isi nomor wa disini"
+            />
+            {errorMessages.nomor_wa && (
+              <p className="text-red-500">{errorMessages.nomor_wa}</p>
+            )}
 
-            <label className="block mb-4">
-              <span className="text-gray-800">Alasan Peminjaman:</span>
-              <textarea
-                name="alasan_peminjaman"
-                value={formData.alasan_peminjaman}
-                onChange={handleChange}
-                className="form-input mt-1 block w-full p-2 border shadow-sm rounded-lg"
-              />
-            </label>
+            <textarea
+              name="alasan_peminjaman"
+              value={formData.alasan_peminjaman}
+              onChange={handleChange}
+              className={`form-input mt-1 block w-full p-2 border shadow-sm rounded-lg ${
+                !errorMessages.alasan_peminjaman ? "mb-4" : ""
+              }`}
+              placeholder="Berikan alasan peminjaman"
+            />
 
-            <label className="block mb-4">
-              <span className="text-gray-800">Tanggal Peminjaman:</span>
+            {errorMessages.alasan_peminjaman && (
+              <p className="text-red-500">{errorMessages.alasan_peminjaman}</p>
+            )}
+
+            {isInputDate ? (
               <input
                 type="date"
                 name="tanggal_peminjaman"
                 value={formData.tanggal_peminjaman}
                 onChange={handleChange}
-                className="form-input mt-1 block w-full p-2 border shadow-sm rounded-lg"
+                onBlur={handleBlur}
+                className="form-input mt-1 block w-full p-2 border shadow-sm rounded-lg mb-4"
               />
-            </label>
-
-            <label className="block mb-4">
-              <span className="text-gray-800">Lama Peminjaman:</span>
+            ) : (
               <input
-                type="text"
-                name="lama_peminjaman"
-                value={formData.lama_peminjaman}
+                type={isDateValue ? "date" : "text"}
+                name="tanggal_peminjaman"
+                value={formData.tanggal_peminjaman}
                 onChange={handleChange}
-                className="form-input mt-1 block w-full p-2 border shadow-sm rounded-lg"
+                onFocus={handleFocus}
+                className={`form-input mt-1 block w-full p-2 border shadow-sm rounded-lg ${
+                  !errorMessages.tanggal_peminjaman ? "mb-4" : ""
+                }`}
+                placeholder="masukkan tanggal Peminjaman"
               />
-            </label>
+            )}
+
+            {errorMessages.tanggal_peminjaman && (
+              <p className="text-red-500">{errorMessages.tanggal_peminjaman}</p>
+            )}
+
+            <input
+              type="text"
+              name="lama_peminjaman"
+              value={formData.lama_peminjaman}
+              onChange={handleChange}
+              className={`form-input mt-1 block w-full p-2 border shadow-sm rounded-lg ${
+                !errorMessages.lama_peminjaman ? "mb-4" : ""
+              }`}
+              placeholder="Lama pinjam, contoh : 2 hari"
+            />
+
+            {errorMessages.lama_peminjaman && (
+              <p className="text-red-500">{errorMessages.lama_peminjaman}</p>
+            )}
 
             {/* Details Barang */}
-            <label className="block mb-4">
-              <span className="text-gray-800">Details Barang:</span>
-              <Select
-                options={barangOptions}
-                isMulti
-                onChange={handleDetailsBarangChange}
-                value={barangOptions.filter((option) =>
-                  selectedBarangIds.includes(option.value)
-                )}
-                className="mt-1 block w-full"
-              />
-            </label>
+            <Select
+              options={barangOptions}
+              isMulti
+              onChange={handleDetailsBarangChange}
+              value={barangOptions.filter((option) =>
+                selectedBarangIds.includes(option.value)
+              )}
+              placeholder="Pilih Barang yang dipinjam"
+              className={`form-input mt-1 block w-full border shadow-sm rounded-lg ${
+                !errorMessages.details_barang ? "mb-4" : ""
+              }`}
+            />
+
+            {errorMessages.details_barang && (
+              <p className="text-red-500">{errorMessages.details_barang}</p>
+            )}
 
             <button
               type="submit"
@@ -221,9 +388,11 @@ const SubmissionForm = ({ openImg }) => {
         <div className="-translate-y-10 object-cover">
           <center>
             <img src={imgform} alt="ajkhs" />
-            <h1 className=" px-8 -translate-y-10 text-2xl font-semibold tracking-widest text-gray-700 capitalize">
-              silahkan isi form berikut untuk mengajukan permohonan
-            </h1>
+            {currentStep === 2 ? (
+              <h1 className=" px-8 -translate-y-10 text-2xl font-semibold tracking-widest text-gray-700 capitalize">
+                silahkan isi form berikut untuk mengajukan permohonan
+              </h1>
+            ) : null}
           </center>
         </div>
       </div>
