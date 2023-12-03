@@ -5,7 +5,7 @@ import StepNav from "../../Components/StepNav/StepNav";
 import { useState, useEffect } from "react";
 import DataTable from "../../Components/Table/Table";
 import axios from "axios";
-import BorrowModal from "../../Modal/Borrow/BorrowModal";
+import BorrowModal from "../../Modal/Return/ReturnModal";
 
 import {
   FaChartBar,
@@ -106,53 +106,60 @@ const ReturnDesktop = () => {
     }
   };
   
+  // ...
+
   const fillDataAutomatically = async () => {
     try {
       const apiData = await fetchDataFromApi();
   
+      // Filter and map the fetched data for Table 1 (selectedStep !== "Dikembalikan")
       const filteredData = apiData
-        .filter(item => item.status_peminjaman === "dipinjam")
+        .filter(item => item.peminjaman.status_peminjaman === "dikembalikan")
         .map((item, index) => ({
           NO: index + 1,
-          NP: item.permohonan.nomor_peminjaman,
-          Status: item.status_peminjaman,
-        Kode: item.barang.kode_barang,
-        Nama: item.barang.nama_barang,
-        Nis: item.permohonan.pengguna.nomorinduk_pengguna,
-        Pengguna: item.permohonan.pengguna.nama_pengguna,
+          ID: item.id,
+          StatusBarang: item.status_barang,
+          BuktiPengembalian: item.bukti_pengembalian,
+          StatusPengembalian: item.status_pengembalian,
+          CreatedAt: item.created_at,
+          UpdatedAt: item.updated_at,
         }));
   
-      setTableData(filteredData);
+      setTableData(filteredData); // Update tableData state
       console.log(filteredData);
     } catch (error) {
       console.error("Terjadi error:", error);
     }
   };
   
-
   const fillDataAutomatically2 = async () => {
     try {
       const apiData = await fetchDataFromApi();
   
+      // Filter and map the fetched data for Table 2 (selectedStep === "Dikembalikan")
       const filteredData = apiData
-        .filter(item => item.status_peminjaman === "dikembalikan")
+        .filter(item => item.peminjaman.status_peminjaman === "dicek")
         .map((item, index) => ({
           NO: index + 1,
-          NP: item.permohonan.nomor_peminjaman,
-          Status: item.status_peminjaman,
-        Kode: item.barang.kode_barang,
-        Nama: item.barang.nama_barang,
-        Nis: item.permohonan.pengguna.nomorinduk_pengguna,
-        Pengguna: item.permohonan.pengguna.nama_pengguna,
+          ID: item.id,
+          StatusBarang: item.status_barang,
+          BuktiPengembalian: item.bukti_pengembalian,
+          StatusPengembalian: item.status_pengembalian,
+          CreatedAt: item.created_at,
+          UpdatedAt: item.updated_at,
         }));
   
-  
-      setTableData2(filteredData);
+      setTableData2(filteredData); // Update tableData2 state
       console.log(filteredData);
     } catch (error) {
       console.error("Terjadi error:", error);
     }
   };
+  
+  
+
+// ...
+
   
 
   const handleEditSuccess = () => {
@@ -176,13 +183,14 @@ const ReturnDesktop = () => {
   }, []);
 
   const columns = [
-    { key: "NO", label: "NO" },,
-    { key: "NP", label: "Nomor Peminjaman" },
-    { key: "Kode", label: "Kode Barang" },
-    { key: "Nama", label: "Nama Barang" },
-    { key: "Nis", label: "Nomor Induk Peminjam" },
-    { key: "Pengguna", label: "Nama Peminjam" },
+    { key: "NO", label: "NO" },
+    { key: "StatusBarang", label: "Status Barang" },
+    { key: "BuktiPengembalian", label: "Bukti Pengembalian" },
+    { key: "StatusPengembalian", label: "Status Pengembalian" },
+  
   ];
+  
+  
 
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -200,7 +208,7 @@ const ReturnDesktop = () => {
     <div className="flex">
       <SidebarDesktop items={sidebarItems} />
       <div className="px-8 py-4 min-h-screen w-screen">
-        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Pengajuan Peminjaman" />
+        <StepNav steps={steps} onSelectStep={handleStepSelect} Name="Data Pengembalian" />
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedStep}

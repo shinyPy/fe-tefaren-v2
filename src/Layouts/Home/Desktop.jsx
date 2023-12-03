@@ -20,6 +20,7 @@ import Swal from "sweetalert2";
 import notFound from "../../Assets/Image/4660894_2456051.jpg";
 import SubmissionForm from "../../Components/SubmissionForm";
 import SyaratModal from "../../Modal/Home/SyaratModal";
+import Test from '../../Pages/Test'; // Update the path accordingly
 
 const HomeDesktop = () => {
   const cleanupLocalStorage = () => {
@@ -298,6 +299,8 @@ const HomeDesktop = () => {
     "Pengembalian",
   ]);
 
+ 
+
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
 
@@ -361,19 +364,17 @@ const HomeDesktop = () => {
     }
   }, [isAuthorized2]);
 
-  // ... rest of your component code
-
-  const [peminjamanData, setPeminjamanData] = useState([]);
   const [userData, setUserData] = useState({});
+  const [peminjamanData, setPeminjamanData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
+        const accessToken = localStorage.getItem('accessToken');
 
         // Fetch user data
-        const userResponse = await axios.get("http://127.0.0.1:8000/api/user", {
+        const userResponse = await axios.get('http://127.0.0.1:8000/api/user', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -381,12 +382,19 @@ const HomeDesktop = () => {
         setUserData(userResponse.data);
 
         // Fetch peminjaman data
-        const peminjamanResponse = await axios.get("http://127.0.0.1:8000/api/show-peminjaman", {
+        const peminjamanResponse = await axios.get('http://127.0.0.1:8000/api/show-peminjaman', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        setPeminjamanData(peminjamanResponse.data);
+        setPeminjamanData(
+          peminjamanResponse.data
+            .filter(
+              (peminjaman) =>
+                peminjaman.permohonan.pengguna.id === userResponse.data.id &&
+                peminjaman.status_peminjaman !== 'dikembalikan'
+            )
+        );
 
         setLoading(false);
       } catch (error) {
@@ -398,7 +406,9 @@ const HomeDesktop = () => {
     fetchData();
   }, []);
 
-  
+  const handleSelectPeminjaman = (id) => {
+    console.log(`Selected Peminjaman ID: ${id}`);
+  };
   // Check if the user has borrowed items
   const hasBorrowedItems = peminjamanData.some(peminjaman => peminjaman.permohonan.pengguna.id === userData.id);
 
@@ -595,41 +605,40 @@ const HomeDesktop = () => {
                   </div>
                 ) : selectedPeminjaman === "Peminjaman" ? (
                   <div>
-      {hasBorrowedItems ? (
-        <table className="table-auto">
-          <thead>
-            <tr>
-              <th className="px-4 py-2">Kode Barang</th>
-              <th className="px-4 py-2">Nama Barang</th>
-              <th className="px-4 py-2">Status Peminjaman</th>
-              <th className="px-4 py-2">Tanggal Peminjaman</th>
-              <th className="px-4 py-2">Actions</th>
-              {/* Add more columns as needed */}
-            </tr>
-          </thead>
-          <tbody>
-            {peminjamanData.map((peminjaman) => (
-              <tr key={peminjaman.id_peminjaman}>
-                <td className="border px-4 py-2">{peminjaman.barang.kode_barang}</td>
-                <td className="border px-4 py-2">{peminjaman.barang.nama_barang}</td>
-                <td className="border px-4 py-2">{peminjaman.status_peminjaman}</td>
-                <td className="border px-4 py-2">{peminjaman.created_at}</td>
-                <td className="border px-4 py-2">
-            <a
-              href={`http://127.0.0.1:8000/surat-permohonan/${peminjaman.permohonan.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
-            >
-              Generate Surat Permohonan
-            </a>
-          </td>
-
-                {/* Add more columns as needed */}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  {hasBorrowedItems ? (
+                    <table className="table-auto">
+                      <thead>
+                        <tr>
+                          <th className="px-4 py-2">Kode Barang</th>
+                          <th className="px-4 py-2">Nama Barang</th>
+                          <th className="px-4 py-2">Status Peminjaman</th>
+                          <th className="px-4 py-2">Tanggal Peminjaman</th>
+                          <th className="px-4 py-2">Actions</th>
+                          {/* Add more columns as needed */}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {peminjamanData.map((peminjaman) => (
+                          <tr key={peminjaman.id_peminjaman}>
+                            <td className="border px-4 py-2">{peminjaman.barang.kode_barang}</td>
+                            <td className="border px-4 py-2">{peminjaman.barang.nama_barang}</td>
+                            <td className="border px-4 py-2">{peminjaman.status_peminjaman}</td>
+                            <td className="border px-4 py-2">{peminjaman.created_at}</td>
+                            <td className="border px-4 py-2">
+                              <a
+                                href={`http://127.0.0.1:8000/surat-permohonan/${peminjaman.permohonan.id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-500 hover:underline"
+                              >
+                                Generate Surat Permohonan
+                              </a>
+                            </td>
+                            {/* Add more columns as needed */}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
       ) : (
         <div>
           <center>
@@ -640,12 +649,12 @@ const HomeDesktop = () => {
       )}
     </div>
   
-                ) : selectedPeminjaman === "Pengembalian" ? (
-                  <div>
-                    <img className=" scale-75" src={notFound} alt={notFound} style={imgStyle3} />
-                    <h1></h1>
-                  </div>
-                ) : (
+  ) : selectedPeminjaman === 'Pengembalian' ? (
+    <div>
+          {/* Render the Test component here */}
+          <Test filteredPeminjamanData={peminjamanData} onSelectPeminjaman={handleSelectPeminjaman} />
+        </div>
+  ) : (
                   <div>
                     <div className="pr-6">
                      
