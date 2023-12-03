@@ -19,6 +19,7 @@ import tefa from "../../Assets/Image/360.jpeg";
 import Swal from "sweetalert2";
 import notFound from "../../Assets/Image/4660894_2456051.jpg";
 import SubmissionForm from "../../Components/SubmissionForm";
+import SyaratModal from "../../Modal/Home/SyaratModal";
 
 const HomeDesktop = () => {
   const cleanupLocalStorage = () => {
@@ -35,6 +36,17 @@ const HomeDesktop = () => {
 
     // Set preloadState ke "2"
     localStorage.setItem("preloadState", "2");
+  };
+
+
+  const [isImgOpen, setIsImgOpen] = useState(false);
+
+  const openImg = () => {
+    setIsImgOpen(true);
+  };
+
+  const closeImg = () => {
+    setIsImgOpen(false);
   };
 
   const [isLoginOpen, setIsLoginOpen] = useModal("login", false);
@@ -279,7 +291,7 @@ const HomeDesktop = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [selectedPeminjaman, setSelectedPeminjaman] = useState("");
+  const [selectedPeminjaman, setSelectedPeminjaman] = useState("Pengajuan");
   const [peminjaman, setPeminjaman] = useState([
     "Pengajuan",
     "Peminjaman",
@@ -539,7 +551,7 @@ const HomeDesktop = () => {
 
                 {selectedPeminjaman === "Pengajuan" ? (
                   <div>
-                    <SubmissionForm/>
+                    <SubmissionForm  openImg={openImg} />
                   </div>
                 ) : selectedPeminjaman === "Peminjaman" ? (
                   <div>
@@ -700,6 +712,13 @@ const HomeDesktop = () => {
             isOpen={isRegisterOpen}
             onClose={closeRegister}
             onLink={linkToLogin}
+          />
+        )}
+
+  {isImgOpen && (
+          <SyaratModal
+          openModal={isImgOpen}
+            closeModal={closeImg}
           />
         )}
       </AnimatePresence>
