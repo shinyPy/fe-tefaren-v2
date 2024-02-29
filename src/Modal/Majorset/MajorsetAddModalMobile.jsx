@@ -44,7 +44,7 @@ const MajorSetAddModalMobile = ({ isOpen, onClose, onAddSuccess }) => {
         const accessToken = localStorage.getItem("accessToken");
 
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/get-jurusan",
+          "https://shiniya.000webhostapp.com/api/get-jurusan",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -98,14 +98,14 @@ const MajorSetAddModalMobile = ({ isOpen, onClose, onAddSuccess }) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
 
-      await axios.post("http://127.0.0.1:8000/api/add-jurusan", formDataToSend, {
+      await axios.post("https://shiniya.000webhostapp.com/api/add-jurusan", formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
       const updatedResponse = await axios.get(
-        "http://127.0.0.1:8000/api/get-jurusan",
+        "https://shiniya.000webhostapp.com/api/get-jurusan",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

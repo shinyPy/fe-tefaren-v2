@@ -44,7 +44,7 @@ const JobSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
         const accessToken = localStorage.getItem("accessToken");
 
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/get-jabatan",
+          "https://shiniya.000webhostapp.com/api/get-jabatan",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -97,14 +97,14 @@ const JobSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
     
-      await axios.post("http://127.0.0.1:8000/api/add-jabatan", formDataToSend, {
+      await axios.post("https://shiniya.000webhostapp.com/api/add-jabatan", formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
     
       const updatedResponse = await axios.get(
-        "http://127.0.0.1:8000/api/get-jabatan",
+        "https://shiniya.000webhostapp.com/api/get-jabatan",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

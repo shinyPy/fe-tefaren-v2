@@ -70,7 +70,7 @@ const MajorsetModalMobile = ({
     try {
       const accessToken = localStorage.getItem("accessToken");
       await axios.put(
-        `http://127.0.0.1:8000/api/edit-jurusan/${rowData.ID}`,
+        `https://shiniya.000webhostapp.com/api/edit-jurusan/${rowData.ID}`,
         { jurusan: formData.Jurusan },
         {
           headers: {
@@ -145,7 +145,7 @@ const MajorsetModalMobile = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `http://127.0.0.1:8000/api/delete-jurusan/${rowData.ID}`;
+      const apiUrl = `https://shiniya.000webhostapp.com/api/delete-jurusan/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

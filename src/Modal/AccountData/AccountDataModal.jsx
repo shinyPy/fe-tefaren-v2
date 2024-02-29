@@ -72,7 +72,7 @@ const AccountDataModal = ({
 
       const token = localStorage.getItem("accessToken");
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/editpengguna/${rowData.NIS}`,
+        `https://shiniya.000webhostapp.com/api/editpengguna/${rowData.NIS}`,
         {
           nomorinduk_pengguna: formData.nis,
           nama_pengguna: formData.nama,
@@ -132,7 +132,7 @@ const AccountDataModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `http://127.0.0.1:8000/api/deletepengguna/${rowData.NIS}`;
+      const apiUrl = `https://shiniya.000webhostapp.com/api/deletepengguna/${rowData.NIS}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -162,7 +162,7 @@ const AccountDataModal = ({
   useEffect(() => {
     if (rowData.hasOwnProperty("Jurusan")) {
       // Fetch data from the backend and populate the jurusanOptions state
-      fetch("http://127.0.0.1:8000/api/jurusan-values") // Ganti dengan URL API yang sebenarnya
+      fetch("https://shiniya.000webhostapp.com/api/jurusan-values") // Ganti dengan URL API yang sebenarnya
         .then((response) => response.json())
         .then((data) => {
           // Asumsikan data respons adalah array objek jurusan
@@ -172,7 +172,7 @@ const AccountDataModal = ({
           console.error("Error fetching data:", error);
         });
     } else {
-      fetch("http://127.0.0.1:8000/api/jabatan-values") // Ganti dengan URL API yang sebenarnya
+      fetch("https://shiniya.000webhostapp.com/api/jabatan-values") // Ganti dengan URL API yang sebenarnya
         .then((response) => response.json())
         .then((data) => {
           setJurusanOptions(data); // Perbarui state jabatanOptions dengan respons API

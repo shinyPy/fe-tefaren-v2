@@ -70,7 +70,7 @@ const CatasetModalMobile = ({
     try {
       const accessToken = localStorage.getItem("accessToken");
       await axios.put(
-        `http://127.0.0.1:8000/api/edit-kategori/${rowData.ID}`,
+        `https://shiniya.000webhostapp.com/api/edit-kategori/${rowData.ID}`,
         { kategori: formData.Kategori },
         {
           headers: {
@@ -144,7 +144,7 @@ const CatasetModalMobile = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `http://127.0.0.1:8000/api/delete-kategori/${rowData.ID}`;
+      const apiUrl = `https://shiniya.000webhostapp.com/api/delete-kategori/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

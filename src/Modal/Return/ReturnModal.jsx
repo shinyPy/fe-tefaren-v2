@@ -48,7 +48,7 @@ const ReturnModal = ({
       };
   
       await axios.put(
-        `http://127.0.0.1:8000/api/edit-pengembalian/${rowData.ID}`,
+        `https://shiniya.000webhostapp.com/api/edit-pengembalian/${rowData.ID}`,
         requestData,
         {
           headers: {
@@ -94,7 +94,7 @@ const ReturnModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `http://127.0.0.1:8000/api/delete-peminjaman/${rowData.ID}`;
+      const apiUrl = `https://shiniya.000webhostapp.com/api/delete-peminjaman/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
