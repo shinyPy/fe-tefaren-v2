@@ -43,12 +43,12 @@ const ReturnModal = ({
       
       // Make sure to replace 'terima' with the actual value you want to send
       const requestData = {
-        status_peminjaman: "dikembalikan", 
+        status_pengembalian: "dikembalikan", 
         bukti_pengembalian: rowData.BuktiPengembalian,
       };
   
       await axios.put(
-        `https://shiniya.000webhostapp.com/api/edit-pengembalian/${rowData.ID}`,
+        `https://shiniya.top/api/edit-pengembalian/${rowData.ID}`,
         requestData,
         {
           headers: {
@@ -94,7 +94,7 @@ const ReturnModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.000webhostapp.com/api/delete-peminjaman/${rowData.ID}`;
+      const apiUrl = `https://shiniya.top/api/delete-peminjaman/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

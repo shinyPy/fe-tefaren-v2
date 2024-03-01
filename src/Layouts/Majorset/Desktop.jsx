@@ -81,7 +81,7 @@ const MajorSetDesktop = () => {
   const fetchDataFromApi = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get("https://shiniya.000webhostapp.com/api/get-jurusan", {
+      const response = await axios.get("https://shiniya.top/api/get-jurusan", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

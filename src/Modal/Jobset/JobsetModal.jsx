@@ -144,7 +144,7 @@ const JobsetModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.000webhostapp.com/api/delete-jabatan/${rowData.ID}`;
+      const apiUrl = `https://shiniya.top/api/delete-jabatan/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

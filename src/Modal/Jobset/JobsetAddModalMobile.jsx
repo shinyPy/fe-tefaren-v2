@@ -98,14 +98,14 @@ const JobSetAddModalMobile = ({ isOpen, onClose, onAddSuccess }) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
 
-      await axios.post("https://shiniya.000webhostapp.com/api/add-jabatan", formDataToSend, {
+      await axios.post("https://shiniya.top/api/add-jabatan", formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
       const updatedResponse = await axios.get(
-        "https://shiniya.000webhostapp.com/api/get-jabatan",
+        "https://shiniya.top/api/get-jabatan",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

@@ -186,7 +186,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
                     <center>
                       {column.key === "Gambar" ? (
                         <img
-                          src={`http://127.0.0.1:8000/storage/${
+                          src={`https://shiniya.top/storage/${
                             row[column.key]
                           }`}
                           alt={row[column.key]}
@@ -230,7 +230,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
                 <td key={column.key} className="p-2 text-center">
                   {column.key === "Gambar" ? (
                     <img
-                      src={`http://127.0.0.1:8000/storage/${row[column.key]}`}
+                      src={`https://shiniya.top/storage/${row[column.key]}`}
                       alt={row[column.key]}
                       style={{ maxWidth: "100px", maxHeight: "100px" }}
                     />

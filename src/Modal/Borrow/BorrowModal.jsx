@@ -47,7 +47,7 @@ const BorrowModal = ({
       };
   
       await axios.put(
-        `http://127.0.0.1:8000/api/edit-permohonan/${rowData.ID}`,
+        `https://shiniya.top/api/${rowData.ID}`,
         requestData,
         {
           headers: {
@@ -93,7 +93,7 @@ const BorrowModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.000webhostapp.com/api/delete-permohonan/${rowData.ID}`;
+      const apiUrl = `https://shiniya.top/api/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -90,7 +90,7 @@ const SubmissionDesktop = () => {
   
       // Fetch total counts for each type of user
       const countPenggunaResponse = await axios.get(
-        "https://shiniya.000webhostapp.com/api/show-permohonan",
+        "https://shiniya.top/api/show-permohonan",
         {
           headers: {
             Authorization: `Bearer ${token}`,

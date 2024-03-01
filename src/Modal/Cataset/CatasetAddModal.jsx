@@ -98,14 +98,14 @@ const CataSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
     
-      await axios.post("https://shiniya.000webhostapp.com/api/add-kategori", formDataToSend, {
+      await axios.post("https://shiniya.top/api/add-kategori", formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
     
       const updatedResponse = await axios.get(
-        "https://shiniya.000webhostapp.com/api/get-kategori",
+        "https://shiniya.top/api/get-kategori",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

@@ -12,7 +12,7 @@ const Chartbar = () => {
     const token = localStorage.getItem('accessToken'); // replace 'your_token_key' with the actual key you used to store the token
 
     // Fetch data from the API with Authorization header
-    axios.get('http://127.0.0.1:8000/api/count-barangkategori', {
+    axios.get('https://shiniya.top/api/count-barangkategori', {
       headers: {
         Authorization: `Bearer ${token}`,
       },

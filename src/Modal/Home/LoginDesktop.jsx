@@ -82,7 +82,7 @@ const LoginModal = ({ isOpen, onClose, onLink }) => {
 
     try {
       const response = await axios.post(
-        "https://shiniya.000webhostapp.com/api/login",
+        "https://shiniya.top/api/login",
         requestData
       );
 

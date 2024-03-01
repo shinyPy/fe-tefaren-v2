@@ -13,7 +13,7 @@ const Carditem = ({ filter, search }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/barang-card"
+          "https://shiniya.top/api/barang-card"
         );
         setData(response.data);
       } catch (error) {
@@ -131,7 +131,7 @@ const Carditem = ({ filter, search }) => {
     maxWidth: "280px",
     maxHeight: "440px",
     objectFit: "cover",
-    backgroundImage: `url(http://127.0.0.1:8000/storage/${item.gambar_barang})`,
+    backgroundImage: `url(https://shiniya.top/storage/${item.gambar_barang})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     position: "relative",

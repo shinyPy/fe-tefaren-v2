@@ -132,7 +132,7 @@ const AccountDataModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.000webhostapp.com/api/deletepengguna/${rowData.NIS}`;
+      const apiUrl = `https://shiniya.top/api/${rowData.NIS}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
