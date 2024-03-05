@@ -47,7 +47,7 @@ const SubmissionModal = ({
       };
   
       await axios.put(
-        `http://127.0.0.1:8000/api/edit-permohonan/${rowData.ID}`,
+        `https://shiniya.top/api/edit-permohonan/${rowData.ID}`,
         requestData,
         {
           headers: {
@@ -80,7 +80,7 @@ const SubmissionModal = ({
       };
   
       await axios.put(
-        `http://127.0.0.1:8000/api/edit-permohonan/${rowData.ID}`,
+        `https://shiniya.top/api/edit-permohonan/${rowData.ID}`,
         requestData,
         {
           headers: {
@@ -126,7 +126,7 @@ const SubmissionModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `http://127.0.0.1:8000/api/delete-permohonan/${rowData.ID}`;
+      const apiUrl = `hhttps://shiniya.top/delete-permohonan/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

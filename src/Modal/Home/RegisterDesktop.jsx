@@ -75,7 +75,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
 
   useEffect(() => {
     // Fetch data from the backend and populate the jurusanOptions state
-    fetch("http://127.0.0.1:8000/api/jurusan-values") // Ganti dengan URL API yang sebenarnya
+    fetch("https://shiniya.top/api/jurusan-values") // Ganti dengan URL API yang sebenarnya
       .then((response) => response.json())
       .then((data) => {
         // Asumsikan data respons adalah array objek jurusan
@@ -92,7 +92,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
 
   useEffect(() => {
     // Fetch jabatan data from your API
-    fetch("http://127.0.0.1:8000/api/jabatan-values") // Ganti dengan URL API yang sebenarnya
+    fetch("https://shiniya.top/api/jabatan-values") // Ganti dengan URL API yang sebenarnya
       .then((response) => response.json())
       .then((data) => {
         setJabatanOptions(data); // Perbarui state jabatanOptions dengan respons API
@@ -155,7 +155,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
   const checkEmailAvailability = async (email) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/check-email?email=${email}`
+        `https://shiniya.top/api/check-email?email=${email}`
       );
 
       if (response.data.status === "available") {
@@ -246,7 +246,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
   const checkNisAvailability = async (nomorinduk) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/check-nomorinduk?nomorinduk_pengguna=${nomorinduk}`
+        `https://shiniya.top/api/check-nomorinduk?nomorinduk_pengguna=${nomorinduk}`
       );
 
       if (response.data.status === "available") {
@@ -376,7 +376,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/register",
+        "https://shiniya.top/api/register",
         data
       );
 

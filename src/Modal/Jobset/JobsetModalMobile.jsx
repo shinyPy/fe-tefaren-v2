@@ -70,7 +70,7 @@ const JobsetModalMobile = ({
     try {
       const accessToken = localStorage.getItem("accessToken");
       await axios.put(
-        `http://127.0.0.1:8000/api/edit-jabatan/${rowData.ID}`,
+        `https://shiniya.000webhostapp.com/api/edit-jabatan/${rowData.ID}`,
         { jabatan: formData.Jabatan },
         {
           headers: {
@@ -144,7 +144,7 @@ const JobsetModalMobile = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `http://127.0.0.1:8000/api/delete-jabatan/${rowData.ID}`;
+      const apiUrl = `https://shiniya.000webhostapp.com/api/delete-jabatan/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -79,7 +79,7 @@ const handleSubmit = async (e) => {
         };
 
         const userResponse = await axios.get(
-          "http://127.0.0.1:8000/api/user",
+          "https://shiniya.top/api/user",
           config
         );
         const id_pengguna = userResponse.data.id;
@@ -91,7 +91,7 @@ const handleSubmit = async (e) => {
         };
 
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/add-permohonan",
+          "https://shiniya.top/api/add-permohonan",
           payload,
           config
         );
@@ -177,7 +177,7 @@ const resetForm = () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/barangShow",
+          "https://shiniya.top/api/barangShow",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

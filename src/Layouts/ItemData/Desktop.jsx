@@ -92,7 +92,7 @@ const ItemDataDesktop = () => {
 
       // Fetch data from the API
       const barangResponse = await axios.get(
-        "http://127.0.0.1:8000/api/barangShow",
+        "https://shiniya.top/api/barangShow",
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -29,7 +29,7 @@ const Test = ({ filteredPeminjamanData, onSelectPeminjaman }) => {
       const accessToken = localStorage.getItem('accessToken');
 
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/edit-peminjaman/${selectedPeminjamanId}`,
+        `https://shiniya.top/api/edit-peminjaman/${selectedPeminjamanId}`,
         formData,
         {
           headers: {

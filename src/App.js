@@ -23,6 +23,8 @@ import "./Assets/Style/Homepreload.css";
 import PrivateRoute from "./Utils/PrivateRoutes";
 import { useModal } from "./Utils/ModalUtils";
 import Majorset from "./Pages/Majorset";
+import { inject } from '@vercel/analytics';
+inject();
 
 const App = () => {
   const [isLoginOpen, setIsLoginOpen] = useModal("login", false);

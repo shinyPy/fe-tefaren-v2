@@ -90,7 +90,7 @@ const BorrowDesktop = () => {
   
       // Fetch total counts for each type of user
       const countPenggunaResponse = await axios.get(
-        "http://127.0.0.1:8000/api/show-peminjaman",
+        "https://shiniya.top/api/show-peminjaman",
         {
           headers: {
             Authorization: `Bearer ${token}`,

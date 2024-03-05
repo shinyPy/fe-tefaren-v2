@@ -137,7 +137,7 @@ const DashboardDesktop = () => {
             const token = localStorage.getItem('accessToken');
     
             // Fetch total counts for each type of user
-            const countPenggunaResponse = await axios.get('http://127.0.0.1:8000/api/count-pengguna', {
+            const countPenggunaResponse = await axios.get('https://shiniya.top/api/count-pengguna', {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -146,7 +146,7 @@ const DashboardDesktop = () => {
             const countPenggunaData = countPenggunaResponse.data;
     
             // Fetch data for tipepengguna
-            const countTipePenggunaResponse = await axios.get('http://127.0.0.1:8000/api/count-tipepengguna', {
+            const countTipePenggunaResponse = await axios.get('https://shiniya.top/api/count-tipepengguna', {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -170,13 +170,13 @@ const DashboardDesktop = () => {
             }));
     
             // Fetch data for tipebarang
-            const countTipeBarangResponse = await axios.get('http://127.0.0.1:8000/api/count-tipebarang', {
+            const countTipeBarangResponse = await axios.get('https://shiniya.top/api/count-tipebarang', {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             });
             
-            const countBarangResponse = await axios.get('http://127.0.0.1:8000/api/count-barang', {
+            const countBarangResponse = await axios.get('https://shiniya.top/api/count-barang', {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
@@ -208,7 +208,7 @@ const DashboardDesktop = () => {
                 // Add other pages as needed
               ],
             }));
-            const countPermohonanResponse = await axios.get('http://127.0.0.1:8000/api/count-permohonan', {
+            const countPermohonanResponse = await axios.get('https://shiniya.top/api/count-permohonan', {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
@@ -217,7 +217,7 @@ const DashboardDesktop = () => {
               const countPermohonanData = countPermohonanResponse.data;
       
               // Fetch data for peminjaman
-              const countPeminjamanResponse = await axios.get('http://127.0.0.1:8000/api/count-peminjaman', {
+              const countPeminjamanResponse = await axios.get('https://shiniya.top/api/count-peminjaman', {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
@@ -226,7 +226,7 @@ const DashboardDesktop = () => {
               const countPeminjamanData = countPeminjamanResponse.data;
       
               // Fetch data for pengembalian
-              const countPengembalianResponse = await axios.get('http://127.0.0.1:8000/api/count-pengembalian', {
+              const countPengembalianResponse = await axios.get('https://shiniya.top/api/count-pengembalian', {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
