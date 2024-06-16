@@ -13,7 +13,7 @@ const Carditem = ({ filter, search }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://shiniya.top/api/barang-card"
+          "http://jp.tky.1.paladinsrv.com:25932/api/login?email=admin@gmail.com&password=admin123/api/barang-card"
         );
         setData(response.data);
       } catch (error) {
@@ -131,7 +131,7 @@ const Carditem = ({ filter, search }) => {
     maxWidth: "280px",
     maxHeight: "440px",
     objectFit: "cover",
-    backgroundImage: `url(https://shiniya.top/storage/${item.gambar_barang})`,
+    backgroundImage: `url(http://jp.tky.1.paladinsrv.com:25932/api/login?email=admin@gmail.com&password=admin123/storage/${item.gambar_barang})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     position: "relative",

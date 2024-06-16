@@ -79,7 +79,7 @@ const handleSubmit = async (e) => {
         };
 
         const userResponse = await axios.get(
-          "https://shiniya.top/api/user",
+          "http://jp.tky.1.paladinsrv.com:25932/api/login?email=admin@gmail.com&password=admin123/api/user",
           config
         );
         const id_pengguna = userResponse.data.id;
@@ -91,7 +91,7 @@ const handleSubmit = async (e) => {
         };
 
         const response = await axios.post(
-          "https://shiniya.top/api/add-permohonan",
+          "http://jp.tky.1.paladinsrv.com:25932/api/login?email=admin@gmail.com&password=admin123/api/add-permohonan",
           payload,
           config
         );
@@ -177,7 +177,7 @@ const resetForm = () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
         const response = await axios.get(
-          "https://shiniya.top/api/barangShow",
+          "http://jp.tky.1.paladinsrv.com:25932/api/login?email=admin@gmail.com&password=admin123/api/barangShow",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
