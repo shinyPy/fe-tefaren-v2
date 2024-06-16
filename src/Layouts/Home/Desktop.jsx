@@ -132,7 +132,7 @@ const HomeDesktop = () => {
           return;
         }
 
-        const res = await axios.get(`https://shiniya.top/api/user`, {
+        const res = await axios.get(`http://jp.tky.1.paladinsrv.com:25932/api/user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -307,7 +307,7 @@ const HomeDesktop = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://shiniya.top/api/kategori-values-ps`
+          `http://jp.tky.1.paladinsrv.com:25932/api/kategori-values-ps`
         );
         setCategories(response.data); // Assuming the API response is an array of categories
       } catch (error) {
@@ -374,7 +374,7 @@ const HomeDesktop = () => {
         const accessToken = localStorage.getItem('accessToken');
 
         // Fetch user data
-        const userResponse = await axios.get('https://shiniya.top/api/user', {
+        const userResponse = await axios.get('http://jp.tky.1.paladinsrv.com:25932/api/user', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -382,7 +382,7 @@ const HomeDesktop = () => {
         setUserData(userResponse.data);
 
         // Fetch peminjaman data
-        const peminjamanResponse = await axios.get('https://shiniya.top/api/show-peminjaman', {
+        const peminjamanResponse = await axios.get('http://jp.tky.1.paladinsrv.com:25932/api/show-peminjaman', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -627,7 +627,7 @@ const HomeDesktop = () => {
                             <td className="border px-4 py-2">{peminjaman.created_at}</td>
                             <td className="border px-4 py-2">
                               <a
-                                href={`https://shiniya.top/surat-permohonan/${peminjaman.permohonan.id}`}
+                                href={`http://jp.tky.1.paladinsrv.com:25932/surat-permohonan/${peminjaman.permohonan.id}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-blue-500 hover:underline"

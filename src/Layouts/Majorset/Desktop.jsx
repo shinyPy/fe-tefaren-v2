@@ -81,7 +81,7 @@ const MajorSetDesktop = () => {
   const fetchDataFromApi = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get("https://shiniya.top/api/get-jurusan", {
+      const response = await axios.get("http://jp.tky.1.paladinsrv.com:25932/api/get-jurusan", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

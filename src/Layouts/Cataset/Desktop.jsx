@@ -81,7 +81,7 @@ const CataSetDesktop = () => {
   const fetchDataFromApi = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get("https://shiniya.top/api/get-kategori", {
+      const response = await axios.get("http://jp.tky.1.paladinsrv.com:25932/api/get-kategori", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

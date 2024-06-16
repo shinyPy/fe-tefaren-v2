@@ -89,7 +89,7 @@ const ReturnDesktop = () => {
   
       // Fetch total counts for each type of user
       const countPenggunaResponse = await axios.get(
-        "https://shiniya.top/api/show-pengembalian",
+        "http://jp.tky.1.paladinsrv.com:25932/api/show-pengembalian",
         {
           headers: {
             Authorization: `Bearer ${token}`,
