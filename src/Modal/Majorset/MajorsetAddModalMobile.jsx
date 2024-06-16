@@ -44,7 +44,7 @@ const MajorSetAddModalMobile = ({ isOpen, onClose, onAddSuccess }) => {
         const accessToken = localStorage.getItem("accessToken");
 
         const response = await axios.get(
-          "https://shiniya.top/api/get-jurusan",
+          "http://jp.tky.1.paladinsrv.com:25932/api/get-jurusan",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -98,14 +98,14 @@ const MajorSetAddModalMobile = ({ isOpen, onClose, onAddSuccess }) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
 
-      await axios.post("https://shiniya.top/api/add-jurusan", formDataToSend, {
+      await axios.post("http://jp.tky.1.paladinsrv.com:25932/api/add-jurusan", formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
       const updatedResponse = await axios.get(
-        "https://shiniya.top/api/get-jurusan",
+        "http://jp.tky.1.paladinsrv.com:25932/api/get-jurusan",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

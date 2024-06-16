@@ -70,7 +70,7 @@ const MajorsetModal = ({
     try {
       const accessToken = localStorage.getItem("accessToken");
       await axios.put(
-        `https://shiniya.top/api/edit-jurusan/${rowData.ID}`,
+        `http://jp.tky.1.paladinsrv.com:25932/api/edit-jurusan/${rowData.ID}`,
         { jurusan: formData.Jurusan },
         {
           headers: {
@@ -145,7 +145,7 @@ const MajorsetModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.top/api/delete-jurusan/${rowData.ID}`;
+      const apiUrl = `http://jp.tky.1.paladinsrv.com:25932/api/delete-jurusan/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

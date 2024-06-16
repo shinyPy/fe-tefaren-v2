@@ -47,7 +47,7 @@ const SubmissionModal = ({
       };
   
       await axios.put(
-        `https://shiniya.top/api/edit-permohonan/${rowData.ID}`,
+        `http://jp.tky.1.paladinsrv.com:25932/api/edit-permohonan/${rowData.ID}`,
         requestData,
         {
           headers: {
@@ -80,7 +80,7 @@ const SubmissionModal = ({
       };
   
       await axios.put(
-        `https://shiniya.top/api/edit-permohonan/${rowData.ID}`,
+        `http://jp.tky.1.paladinsrv.com:25932/api/edit-permohonan/${rowData.ID}`,
         requestData,
         {
           headers: {
@@ -126,7 +126,7 @@ const SubmissionModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `hhttps://shiniya.top/delete-permohonan/${rowData.ID}`;
+      const apiUrl = `hhttp://jp.tky.1.paladinsrv.com:25932/delete-permohonan/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

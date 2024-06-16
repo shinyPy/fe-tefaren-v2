@@ -44,7 +44,7 @@ const JobSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
         const accessToken = localStorage.getItem("accessToken");
 
         const response = await axios.get(
-          "https://shiniya.top/api/get-jabatan",
+          "http://jp.tky.1.paladinsrv.com:25932/api/get-jabatan",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -97,14 +97,14 @@ const JobSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
     
-      await axios.post("https://shiniya.top/api/add-jabatan", formDataToSend, {
+      await axios.post("http://jp.tky.1.paladinsrv.com:25932/api/add-jabatan", formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
     
       const updatedResponse = await axios.get(
-        "https://shiniya.top/api/get-jabatan",
+        "http://jp.tky.1.paladinsrv.com:25932/api/get-jabatan",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

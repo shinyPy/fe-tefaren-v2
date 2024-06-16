@@ -51,7 +51,7 @@ const ItemDataAddModalMobile = ({ isOpen, onClose, onAdd }) => {
         const accessToken = localStorage.getItem("accessToken");
 
         const response = await axios.get(
-          "https://shiniya.top/api/barangShow",
+          "http://jp.tky.1.paladinsrv.com:25932/api/barangShow",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -167,7 +167,7 @@ const ItemDataAddModalMobile = ({ isOpen, onClose, onAdd }) => {
         // Check if the access token exists before making the request
         if (accessToken) {
           const response = await axios.get(
-            "https://shiniya.top/api/kategori-values",
+            "http://jp.tky.1.paladinsrv.com:25932/api/kategori-values",
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -207,7 +207,7 @@ const ItemDataAddModalMobile = ({ isOpen, onClose, onAdd }) => {
       const accessToken = localStorage.getItem("accessToken");
 
       const response = await axios.post(
-        "https://shiniya.top/api/barangAdd",
+        "http://jp.tky.1.paladinsrv.com:25932/api/barangAdd",
         formDataToSend,
         {
           headers: {
@@ -221,7 +221,7 @@ const ItemDataAddModalMobile = ({ isOpen, onClose, onAdd }) => {
 
       // After submitting the form, refetch the barang list
       const updatedResponse = await axios.get(
-        "https://shiniya.top/api/barangShow",
+        "http://jp.tky.1.paladinsrv.com:25932/api/barangShow",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

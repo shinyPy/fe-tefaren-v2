@@ -20,7 +20,7 @@ const PrivateRoute = ({ element, fallbackElement, allowedRoles, openLogin }) => 
           return;
         }
 
-        const res = await axios.get(`https://shiniya.top/api/user`, {
+        const res = await axios.get(`http://jp.tky.1.paladinsrv.com:25932/api/user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

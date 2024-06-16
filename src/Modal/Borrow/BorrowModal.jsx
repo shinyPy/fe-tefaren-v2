@@ -47,7 +47,7 @@ const BorrowModal = ({
       };
   
       await axios.put(
-        `https://shiniya.top/api/${rowData.ID}`,
+        `http://jp.tky.1.paladinsrv.com:25932/api/${rowData.ID}`,
         requestData,
         {
           headers: {
@@ -93,7 +93,7 @@ const BorrowModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.top/api/${rowData.ID}`;
+      const apiUrl = `http://jp.tky.1.paladinsrv.com:25932/api/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -109,7 +109,7 @@ const ItemDataModal = ({
       if (formDataToSend.gambar_barang instanceof File) {
         await axios
           .post(
-            `https://shiniya.top/api/upload-gambar-barang`,
+            `http://jp.tky.1.paladinsrv.com:25932/api/upload-gambar-barang`,
             {
               gambar_barang: formDataToSend.gambar_barang,
             },
@@ -129,7 +129,7 @@ const ItemDataModal = ({
 
       formDataToSend.gambar_barang = hasil_upload;
       await axios.put(
-        `https://shiniya.top/api/barangUpdate/${rowData.ID}`,
+        `http://jp.tky.1.paladinsrv.com:25932/api/barangUpdate/${rowData.ID}`,
         formDataToSend,
         {
           headers: {
@@ -174,7 +174,7 @@ const ItemDataModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.top/api/barangDelete/${rowData.ID}`;
+      const apiUrl = `http://jp.tky.1.paladinsrv.com:25932/api/barangDelete/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -255,7 +255,7 @@ const ItemDataModal = ({
         // Check if the access token exists before making the request
         if (accessToken) {
           const response = await axios.get(
-            "https://shiniya.top/api/kategori-values",
+            "http://jp.tky.1.paladinsrv.com:25932/api/kategori-values",
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,

@@ -70,7 +70,7 @@ const CatasetModal = ({
     try {
       const accessToken = localStorage.getItem("accessToken");
       await axios.put(
-        `https://shiniya.top/api/edit-kategori/${rowData.ID}`,
+        `http://jp.tky.1.paladinsrv.com:25932/api/edit-kategori/${rowData.ID}`,
         { kategori: formData.Kategori },
         {
           headers: {
@@ -144,7 +144,7 @@ const CatasetModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.top/api/delete-kategori/${rowData.ID}`;
+      const apiUrl = `http://jp.tky.1.paladinsrv.com:25932/api/delete-kategori/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

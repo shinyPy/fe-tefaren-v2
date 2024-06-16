@@ -132,7 +132,7 @@ const AccountDataModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.top/api/${rowData.NIS}`;
+      const apiUrl = `http://jp.tky.1.paladinsrv.com:25932/api/${rowData.NIS}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
