@@ -82,7 +82,7 @@ const LoginModal = ({ isOpen, onClose, onLink }) => {
 
     try {
       const response = await axios.post(
-        "http://jp.tky.1.paladinsrv.com:25932/api/login",
+        "http://jp.tky.1.paladinsrv.com:25932/api/login/",
         requestData
       );
 
