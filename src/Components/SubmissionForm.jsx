@@ -177,7 +177,7 @@ const resetForm = () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
         const response = await axios.get(
-          "http://jp.tky.1.paladinsrv.com:25932/api/login?email=admin@gmail.com&password=admin123/api/barangShow",
+          "http://jp.tky.1.paladinsrv.com:25932/api/barangShow",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

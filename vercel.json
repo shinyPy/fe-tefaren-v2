@@ -1,13 +1,227 @@
 {
-  "headers": [
+  "version": 2,
+ 
+  "rewrites": [
     {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Credentials", "value": "true" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
-        { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" }
-      ]
+      "source": "/api/login",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/login"
+    },
+    {
+      "source": "/api/register",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/register"
+    },
+    {
+      "source": "/api/check-nomorinduk",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/check-nomorinduk"
+    },
+    {
+      "source": "/api/check-email",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/check-email"
+    },
+    {
+      "source": "/api/barang-card",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/barang-card"
+    },
+    {
+      "source": "/api/kategori-values-ps",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/kategori-values-ps"
+    },
+    {
+      "source": "/api/jurusan-values",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/jurusan-values"
+    },
+    {
+      "source": "/api/jabatan-values",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/jabatan-values"
+    },
+    {
+      "source": "/api/check-token",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/check-token"
+    },
+    {
+      "source": "/api/user",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/user"
+    },
+    {
+      "source": "/api/kategori-values",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/kategori-values"
+    },
+    {
+      "source": "/api/list-kategori",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/list-kategori"
+    },
+    {
+      "source": "/api/get-kategori",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/get-kategori"
+    },
+    {
+      "source": "/api/add-kategori",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/add-kategori"
+    },
+    {
+      "source": "/api/edit-kategori/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/edit-kategori/"
+    },
+    {
+      "source": "/api/delete-kategori/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/delete-kategori/"
+    },
+    {
+      "source": "/api/list-jurusan",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/list-jurusan"
+    },
+    {
+      "source": "/api/get-jurusan",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/get-jurusan"
+    },
+    {
+      "source": "/api/add-jurusan",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/add-jurusan"
+    },
+    {
+      "source": "/api/edit-jurusan/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/edit-jurusan/"
+    },
+    {
+      "source": "/api/delete-jurusan/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/delete-jurusan/"
+    },
+    {
+      "source": "/api/list-jabatan",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/list-jabatan"
+    },
+    {
+      "source": "/api/get-jabatan",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/get-jabatan"
+    },
+    {
+      "source": "/api/add-jabatan",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/add-jabatan"
+    },
+    {
+      "source": "/api/edit-jabatan/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/edit-jabatan/"
+    },
+    {
+      "source": "/api/delete-jabatan/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/delete-jabatan/"
+    },
+    {
+      "source": "/api/barangUpdate/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/barangUpdate/"
+    },
+    {
+      "source": "/api/barangDelete/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/barangDelete/"
+    },
+    {
+      "source": "/api/barangAdd",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/barangAdd"
+    },
+    {
+      "source": "/api/upload-gambar-barang",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/upload-gambar-barang"
+    },
+    {
+      "source": "/api/count-usersbyjurusan",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/count-usersbyjurusan"
+    },
+    {
+      "source": "/api/count-usersbyjabatan",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/count-usersbyjabatan"
+    },
+    {
+      "source": "/api/count-barang",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/count-barang"
+    },
+    {
+      "source": "/api/count-pengguna",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/count-pengguna"
+    },
+    {
+      "source": "/api/count-peminjaman",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/count-peminjaman"
+    },
+    {
+      "source": "/api/count-pengembalian",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/count-pengembalian"
+    },
+    {
+      "source": "/api/count-permohonan",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/count-permohonan"
+    },
+    {
+      "source": "/api/count-tipepengguna",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/count-tipepengguna"
+    },
+    {
+      "source": "/api/count-tipebarang",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/count-tipebarang"
+    },
+    {
+      "source": "/api/count-barangkategori",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/count-barangkategori"
+    },
+    {
+      "source": "/api/edit-pengembalian/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/edit-pengembalian/"
+    },
+    {
+      "source": "/api/pengguna",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/pengguna"
+    },
+    {
+      "source": "/api/pengguna/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/pengguna/"
+    },
+    {
+      "source": "/api/editpengguna/:nomorinduk_pengguna",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/editpengguna/:nomorinduk_pengguna"
+    },
+    {
+      "source": "/api/deletepengguna/:nomorinduk_pengguna",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/deletepengguna/:nomorinduk_pengguna"
+    },
+    {
+      "source": "/api/edit-permohonan/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/edit-permohonan/"
+    },
+    {
+      "source": "/api/delete-permohonan/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/delete-permohonan/"
+    },
+    {
+      "source":"/api/barangShow",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/barangShow"
+    },
+    {
+      "source": "/api/show-permohonan",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/show-permohonan"
+    },
+    {
+      "source": "/api/delete-peminjaman/:idPeminjaman",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/delete-peminjaman/:idPeminjaman"
+    },
+    {
+      "source": "/api/edit-peminjaman/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/edit-peminjaman/"
+    },
+    {
+      "source": "/api/show-peminjaman",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/show-peminjaman"
+    },
+    {
+      "source": "/api/add-permohonan",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/add-permohonan"
+    },
+    {
+      "source": "/api/show-pengembalian",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/show-pengembalian"
+    },
+    {
+      "source": "/api/delete-pengembalian/",
+      "destination": "http://jp.tky.1.paladinsrv.com:25932/api/delete-pengembalian/"
     }
   ]
 }
+
