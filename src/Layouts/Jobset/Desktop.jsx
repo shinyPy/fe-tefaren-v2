@@ -6,8 +6,8 @@ import DataTable from "../../Components/Table/Table";
 import axios from "axios";
 import JobsetModal from "../../Modal/Jobset/JobsetModal";
 import JobSetAddModal from "../../Modal/Jobset/JobsetAddModal";
-
 import { FaChartBar, FaUser, FaBox, FaClipboardList, FaTools } from "react-icons/fa";
+import { API_BASE_URL } from "../../var";
 
 const JobSetDesktop = () => {
   const sidebarItems = [
@@ -81,7 +81,7 @@ const JobSetDesktop = () => {
   const fetchDataFromApi = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get("https://shiniya.top/api/get-jabatan", {
+      const response = await axios.get(`${API_BASE_URL}api/get-jabatan`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

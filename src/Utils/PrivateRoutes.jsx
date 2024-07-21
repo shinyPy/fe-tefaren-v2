@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { API_BASE_URL } from "../var";
 const PrivateRoute = ({ element, fallbackElement, allowedRoles, openLogin }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const PrivateRoute = ({ element, fallbackElement, allowedRoles, openLogin }) => 
           return;
         }
 
-        const res = await axios.get(`https://shiniya.top/api/user`, {
+        const res = await axios.get(`${API_BASE_URL}api/user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

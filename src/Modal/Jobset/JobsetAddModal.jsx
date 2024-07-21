@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import { API_BASE_URL } from "../../var";
 const JobSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
   const formRef = useRef(null);
   const customContentStyle = {
@@ -44,7 +44,7 @@ const JobSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
         const accessToken = localStorage.getItem("accessToken");
 
         const response = await axios.get(
-          "https://shiniya.top/api/get-jabatan",
+          `${API_BASE_URL}api/get-jabatan`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -97,14 +97,14 @@ const JobSetAddModal = ({ isOpen, onClose, onAddSuccess }) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
     
-      await axios.post("https://shiniya.top/api/add-jabatan", formDataToSend, {
+      await axios.post(`${API_BASE_URL}api/add-jabatan`, formDataToSend, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
     
       const updatedResponse = await axios.get(
-        "https://shiniya.top/api/get-jabatan",
+        `${API_BASE_URL}api/get-jabatan`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

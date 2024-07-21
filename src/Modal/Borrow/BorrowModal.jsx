@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import { API_BASE_URL } from "../../var";
 const BorrowModal = ({
   rowData,
   closeModal,
@@ -47,7 +47,7 @@ const BorrowModal = ({
       };
   
       await axios.put(
-        `https://shiniya.top/api/${rowData.ID}`,
+        `${API_BASE_URL}api/${rowData.ID}`,
         requestData,
         {
           headers: {
@@ -93,7 +93,7 @@ const BorrowModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.top/api/${rowData.ID}`;
+      const apiUrl = `${API_BASE_URL}api/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

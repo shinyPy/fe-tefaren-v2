@@ -6,7 +6,7 @@ import DataTable from "../../Components/Table/Table";
 import axios from "axios";
 import CatasetModal from "../../Modal/Cataset/CatasetModal";
 import CataSetAddModal from "../../Modal/Cataset/CatasetAddModal";
-
+import { API_BASE_URL } from "../../var";
 import { FaChartBar, FaUser, FaBox, FaClipboardList, FaTools } from "react-icons/fa";
 
 const CataSetDesktop = () => {
@@ -81,7 +81,7 @@ const CataSetDesktop = () => {
   const fetchDataFromApi = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get("https://shiniya.top/api/get-kategori", {
+      const response = await axios.get(`${API_BASE_URL}api/get-kategori`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import { API_BASE_URL } from "../../var";
 const MajorsetModal = ({
   rowData,
   closeModal,
@@ -70,7 +70,7 @@ const MajorsetModal = ({
     try {
       const accessToken = localStorage.getItem("accessToken");
       await axios.put(
-        `https://shiniya.top/api/edit-jurusan/${rowData.ID}`,
+        `${API_BASE_URL}api/edit-jurusan/${rowData.ID}`,
         { jurusan: formData.Jurusan },
         {
           headers: {
@@ -145,7 +145,7 @@ const MajorsetModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.top/api/delete-jurusan/${rowData.ID}`;
+      const apiUrl = `${API_BASE_URL}api/delete-jurusan/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

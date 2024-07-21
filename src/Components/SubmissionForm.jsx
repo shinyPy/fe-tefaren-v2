@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select from "react-select";
 import Swal from "sweetalert2";
-
+import { API_BASE_URL } from "../var";
 import imgform from "../Assets/Image/3173478.jpg";
 
 const SubmissionForm = ({ openImg }) => {
@@ -79,7 +79,7 @@ const handleSubmit = async (e) => {
         };
 
         const userResponse = await axios.get(
-          "https://shiniya.top/api/user",
+          `${API_BASE_URL}/api/user`,
           config
         );
         const id_pengguna = userResponse.data.id;
@@ -91,7 +91,7 @@ const handleSubmit = async (e) => {
         };
 
         const response = await axios.post(
-          "https://shiniya.top/api/add-permohonan",
+          `${API_BASE_URL}api/add-permohonan`,
           payload,
           config
         );
@@ -177,7 +177,7 @@ const resetForm = () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
         const response = await axios.get(
-          "https://shiniya.top/api/barangShow",
+          `${API_BASE_URL}api/barangShow`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

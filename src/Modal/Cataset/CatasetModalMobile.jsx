@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import { API_BASE_URL } from "../../var";
 const CatasetModalMobile = ({
   rowData,
   closeModal,
@@ -70,7 +70,7 @@ const CatasetModalMobile = ({
     try {
       const accessToken = localStorage.getItem("accessToken");
       await axios.put(
-        `https://shiniya.000webhostapp.com/api/edit-kategori/${rowData.ID}`,
+        `${API_BASE_URL}api/edit-kategori/${rowData.ID}`,
         { kategori: formData.Kategori },
         {
           headers: {
@@ -144,7 +144,7 @@ const CatasetModalMobile = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.000webhostapp.com/api/delete-kategori/${rowData.ID}`;
+      const apiUrl = `${API_BASE_URL}api/delete-kategori/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -6,7 +6,7 @@ import Chartbar from "../../Components/Chartbar/Chartbar";
 import {FaChartBar, FaUser, FaBox, FaClipboardList, FaTools} from "react-icons/fa";
 import axios from "axios";
 import {MdAssignment} from 'react-icons/md';
-
+import { API_BASE_URL } from '../../var';
 const DashboardDesktop = () => {
   const sidebarItems = [
     {
@@ -137,7 +137,7 @@ const DashboardDesktop = () => {
             const token = localStorage.getItem('accessToken');
     
             // Fetch total counts for each type of user
-            const countPenggunaResponse = await axios.get('https://shiniya.top/api/count-pengguna', {
+            const countPenggunaResponse = await axios.get(`${API_BASE_URL}api/count-pengguna`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -146,7 +146,7 @@ const DashboardDesktop = () => {
             const countPenggunaData = countPenggunaResponse.data;
     
             // Fetch data for tipepengguna
-            const countTipePenggunaResponse = await axios.get('https://shiniya.top/api/count-tipepengguna', {
+            const countTipePenggunaResponse = await axios.get(`${API_BASE_URL}api/count-tipepengguna`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -170,13 +170,13 @@ const DashboardDesktop = () => {
             }));
     
             // Fetch data for tipebarang
-            const countTipeBarangResponse = await axios.get('https://shiniya.top/api/count-tipebarang', {
+            const countTipeBarangResponse = await axios.get(`${API_BASE_URL}api/count-tipebarang`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             });
             
-            const countBarangResponse = await axios.get('https://shiniya.top/api/count-barang', {
+            const countBarangResponse = await axios.get(`${API_BASE_URL}api/count-barang`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },

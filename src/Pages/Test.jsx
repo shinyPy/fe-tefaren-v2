@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
+import { API_BASE_URL } from '../var';
 const Test = ({ filteredPeminjamanData, onSelectPeminjaman }) => {
   const [selectedPeminjamanId, setSelectedPeminjamanId] = useState('');
   const [statusPeminjaman, setStatusPeminjaman] = useState('dikembalikan');
@@ -29,7 +29,7 @@ const Test = ({ filteredPeminjamanData, onSelectPeminjaman }) => {
       const accessToken = localStorage.getItem('accessToken');
 
       const response = await axios.post(
-        `https://shiniya.top/api/edit-peminjaman/${selectedPeminjamanId}`,
+        `${API_BASE_URL}api/edit-peminjaman/${selectedPeminjamanId}`,
         formData,
         {
           headers: {

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import { API_BASE_URL } from "../../var";
 const SubmissionModal = ({
   rowData,
   closeModal,
@@ -47,7 +47,7 @@ const SubmissionModal = ({
       };
   
       await axios.put(
-        `https://shiniya.top/api/edit-permohonan/${rowData.ID}`,
+        `${API_BASE_URL}api/edit-permohonan/${rowData.ID}`,
         requestData,
         {
           headers: {
@@ -80,7 +80,7 @@ const SubmissionModal = ({
       };
   
       await axios.put(
-        `https://shiniya.top/api/edit-permohonan/${rowData.ID}`,
+        `${API_BASE_URL}api/edit-permohonan/${rowData.ID}`,
         requestData,
         {
           headers: {
@@ -126,7 +126,7 @@ const SubmissionModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `hhttps://shiniya.top/delete-permohonan/${rowData.ID}`;
+      const apiUrl = `${API_BASE_URL}delete-permohonan/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

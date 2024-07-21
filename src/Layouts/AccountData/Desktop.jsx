@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import DataTable from "../../Components/Table/Table";
 import axios from "axios";
 import AccountDataModal from "../../Modal/AccountData/AccountDataModal";
-
+import { API_BASE_URL } from "../../var";
 import {
   FaChartBar,
   FaUser,
@@ -89,7 +89,7 @@ const AccountDataDesktop = () => {
 
       // Fetch total counts for each type of user
       const countPenggunaResponse = await axios.get(
-        "https://shiniya.top/api/pengguna",
+        `${API_BASE_URL}api/pengguna`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
-
+import { API_BASE_URL } from "../../var";
 
 const ItemsPerPage = 3;
 
@@ -12,18 +12,17 @@ const Carditem = ({ filter, search }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://shiniya.top/api/barang-card"
-        );
+        const response = await axios.get(`${API_BASE_URL}api/barang-card`);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
   }, []);
 
+  
   const filteredData = filter
   ? data.reduce((uniqueItems, currentItem) => {
       if (
@@ -131,7 +130,7 @@ const Carditem = ({ filter, search }) => {
     maxWidth: "280px",
     maxHeight: "440px",
     objectFit: "cover",
-    backgroundImage: `url(https://shiniya.top/storage/${item.gambar_barang})`,
+    backgroundImage: `url(${API_BASE_URL}storage/${item.gambar_barang})`,    
     backgroundSize: "cover",
     backgroundPosition: "center",
     position: "relative",

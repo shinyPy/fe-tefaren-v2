@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import DataTable from "../../Components/Table/Table";
 import axios from "axios";
 import BorrowModal from "../../Modal/Borrow/BorrowModal";
-
+import { API_BASE_URL } from "../../var";
 import {
   FaChartBar,
   FaUser,
@@ -90,7 +90,7 @@ const BorrowDesktop = () => {
   
       // Fetch total counts for each type of user
       const countPenggunaResponse = await axios.get(
-        "https://shiniya.top/api/show-peminjaman",
+        `${API_BASE_URL}api/show-peminjaman`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Input, Select } from "../../Components/CommonInput";
 import Swal from "sweetalert2";
 import axios from "axios";
-
+import { API_BASE_URL } from "../../var";
 import {
   FaUserGraduate,
   FaChalkboardTeacher,
@@ -72,7 +72,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
 
   useEffect(() => {
     // Fetch data from the backend and populate the jurusanOptions state
-    fetch("https://shiniya.000webhostapp.com/api/jurusan-values") // Ganti dengan URL API yang sebenarnya
+    fetch(`${API_BASE_URL}api/jurusan-values`) // Ganti dengan URL API yang sebenarnya
       .then((response) => response.json())
       .then((data) => {
         // Asumsikan data respons adalah array objek jurusan
@@ -89,7 +89,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
 
   useEffect(() => {
     // Fetch jabatan data from your API
-    fetch("https://shiniya.000webhostapp.com/api/jabatan-values") // Ganti dengan URL API yang sebenarnya
+    fetch(`${API_BASE_URL}api/jabatan-values`) // Ganti dengan URL API yang sebenarnya
       .then((response) => response.json())
       .then((data) => {
         setJabatanOptions(data); // Perbarui state jabatanOptions dengan respons API

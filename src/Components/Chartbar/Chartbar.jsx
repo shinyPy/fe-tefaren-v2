@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 import axios from 'axios';
+import { API_BASE_URL } from '../../var';
 
 const fixedColor = '#00CED1'; // Warna yang tetap atau sesuaikan dengan kebutuhan Anda
 
@@ -12,7 +13,7 @@ const Chartbar = () => {
     const token = localStorage.getItem('accessToken'); // replace 'your_token_key' with the actual key you used to store the token
 
     // Fetch data from the API with Authorization header
-    axios.get('https://shiniya.top/api/count-barangkategori', {
+    axios.get(`${API_BASE_URL}api/count-barangkategori`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

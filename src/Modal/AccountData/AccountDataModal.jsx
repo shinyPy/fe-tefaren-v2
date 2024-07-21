@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import { API_BASE_URL } from "../../var";
 const AccountDataModal = ({
   rowData,
   closeModal,
@@ -132,7 +132,7 @@ const AccountDataModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.top/api/${rowData.NIS}`;
+      const apiUrl = `${API_BASE_URL}api/${rowData.NIS}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,

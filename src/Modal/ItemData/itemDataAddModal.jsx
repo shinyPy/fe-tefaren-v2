@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import { API_BASE_URL } from "../../var";
 const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageTxt, setSelectedImageTxt] = useState(
@@ -51,7 +51,7 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
         const accessToken = localStorage.getItem("accessToken");
 
         const response = await axios.get(
-          "https://shiniya.top/api/barangShow",
+          `${API_BASE_URL}api/barangShow`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -167,7 +167,7 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
         // Check if the access token exists before making the request
         if (accessToken) {
           const response = await axios.get(
-            "https://shiniya.top/api/kategori-values",
+            `${API_BASE_URL}api/kategori-values`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -207,7 +207,7 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
       const accessToken = localStorage.getItem("accessToken");
 
       const response = await axios.post(
-        "https://shiniya.top/api/barangAdd",
+        `${API_BASE_URL}api/barangAdd`,
         formDataToSend,
         {
           headers: {
@@ -221,7 +221,7 @@ const ItemDataAddModal = ({ isOpen, onClose, onAdd }) => {
 
       // After submitting the form, refetch the barang list
       const updatedResponse = await axios.get(
-        "https://shiniya.top/api/barangShow",
+        `${API_BASE_URL}api/barangShow`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

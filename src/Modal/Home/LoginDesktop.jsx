@@ -9,7 +9,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigation } from "../../Utils/Navigation";
-
+import { API_BASE_URL } from "../../var";
 const LoginModal = ({ isOpen, onClose, onLink }) => {
   const customContentStyle = {
     marginBottom: "100vh",
@@ -82,7 +82,7 @@ const LoginModal = ({ isOpen, onClose, onLink }) => {
 
     try {
       const response = await axios.post(
-        "https://shiniya.top/api/login",
+        `${API_BASE_URL}api/login`,
         requestData
       );
 

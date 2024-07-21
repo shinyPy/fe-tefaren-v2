@@ -6,7 +6,7 @@ import DataTable from "../../Components/Table/Table";
 import axios from "axios";
 import MajorsetModal from "../../Modal/Majorset/MajorsetModal";
 import MajorSetAddModal from "../../Modal/Majorset/MajorsetAddModal";
-
+import { API_BASE_URL } from "../../var";
 import { FaChartBar, FaUser, FaBox, FaClipboardList, FaTools } from "react-icons/fa";
 
 const MajorSetDesktop = () => {
@@ -81,7 +81,7 @@ const MajorSetDesktop = () => {
   const fetchDataFromApi = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get("https://shiniya.top/api/get-jurusan", {
+      const response = await axios.get(```${API_BASE_URL}api/get-jurusan`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

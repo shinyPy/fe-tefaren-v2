@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import { API_BASE_URL } from "../../var";
 const ItemDataModal = ({
   rowData,
   closeModal,
@@ -109,7 +109,7 @@ const ItemDataModal = ({
       if (formDataToSend.gambar_barang instanceof File) {
         await axios
           .post(
-            `https://shiniya.top/api/upload-gambar-barang`,
+            `${API_BASE_URL}upload-gambar-barang`,
             {
               gambar_barang: formDataToSend.gambar_barang,
             },
@@ -129,7 +129,7 @@ const ItemDataModal = ({
 
       formDataToSend.gambar_barang = hasil_upload;
       await axios.put(
-        `https://shiniya.top/api/barangUpdate/${rowData.ID}`,
+        `${API_BASE_URL}api/barangUpdate/${rowData.ID}`,
         formDataToSend,
         {
           headers: {
@@ -174,7 +174,7 @@ const ItemDataModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `https://shiniya.top/api/barangDelete/${rowData.ID}`;
+      const apiUrl = `${API_BASE_URL}api/barangDelete/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -255,7 +255,7 @@ const ItemDataModal = ({
         // Check if the access token exists before making the request
         if (accessToken) {
           const response = await axios.get(
-            "https://shiniya.top/api/kategori-values",
+            `${API_BASE_URL}api/kategori-values`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -449,7 +449,7 @@ const ItemDataModal = ({
                 {!selectedImage && (
                   <div className=" mt-4">
                     <img
-                      src={`http://127.0.0.1:8000/storage/${formData.gambar_barang}`}
+                      src={`${API_BASE_URL}storage/${formData.gambar_barang}`}
                       alt="preview"
                       className="min-h-[300px] max-h-[250px] w-full"
                     />

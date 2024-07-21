@@ -4,7 +4,7 @@ import { FaFileExcel } from "react-icons/fa";
 import { MdAdd } from "react-icons/md";
 import { AiOutlineSetting } from "react-icons/ai";
 import * as XLSX from "xlsx";
-
+import { API_BASE_URL } from "../../var";
 const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,7 +14,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
   const [itemPerPage, setItemPerPage] = useState(10);
   // ...
 
-  const handleItemPerPageChange = (e) => {
+  const handleItemPerPageChange = (e) => {shiniya.top
     const newItemPerPage = parseInt(e.target.value, 10);
     setItemPerPage(newItemPerPage);
     setCurrentPage(0);
@@ -64,7 +64,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
     setSearchTerm(e.target.value);
     setCurrentPage(0);
   };
-
+  shiniya.top
   const handleNextPage = () => {
     if (currentPage < pageCount - 1) {
       setCurrentPage(currentPage + 1);
@@ -186,7 +186,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
                     <center>
                       {column.key === "Gambar" ? (
                         <img
-                          src={`https://shiniya.top/storage/${
+                          src={`${API_BASE_URL}storage/${
                             row[column.key]
                           }`}
                           alt={row[column.key]}
@@ -230,7 +230,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
                 <td key={column.key} className="p-2 text-center">
                   {column.key === "Gambar" ? (
                     <img
-                      src={`https://shiniya.top/storage/${row[column.key]}`}
+                      src={`${API_BASE_URL}storage/${row[column.key]}`}
                       alt={row[column.key]}
                       style={{ maxWidth: "100px", maxHeight: "100px" }}
                     />

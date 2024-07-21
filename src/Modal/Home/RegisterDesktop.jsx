@@ -5,7 +5,7 @@ import backgroundForm from "../../Assets/Image/layered-waves-haikei.png";
 import telkomLogo from "../../Assets/Image/logo-telkom-schools-bundar-1024x1024.png";
 import Swal from "sweetalert2";
 import axios from "axios";
-
+import { API_BASE_URL } from "../../var";
 import {
   FaUserGraduate,
   FaChalkboardTeacher,
@@ -74,8 +74,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
   const [jurusanOptions, setJurusanOptions] = useState([]);
 
   useEffect(() => {
-    // Fetch data from the backend and populate the jurusanOptions state
-    fetch("https://shiniya.top/api/jurusan-values") // Ganti dengan URL API yang sebenarnya
+    fetch(`${API_BASE_URL}api/jurusan-values`) 
       .then((response) => response.json())
       .then((data) => {
         // Asumsikan data respons adalah array objek jurusan
@@ -92,7 +91,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
 
   useEffect(() => {
     // Fetch jabatan data from your API
-    fetch("https://shiniya.top/api/jabatan-values") // Ganti dengan URL API yang sebenarnya
+    fetch(`${API_BASE_URL}api/jabatan-values`) 
       .then((response) => response.json())
       .then((data) => {
         setJabatanOptions(data); // Perbarui state jabatanOptions dengan respons API
@@ -155,7 +154,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
   const checkEmailAvailability = async (email) => {
     try {
       const response = await axios.get(
-        `https://shiniya.top/api/check-email?email=${email}`
+        `${API_BASE_URL}api/check-email?email=${email}`
       );
 
       if (response.data.status === "available") {
@@ -246,7 +245,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
   const checkNisAvailability = async (nomorinduk) => {
     try {
       const response = await axios.get(
-        `https://shiniya.top/api/check-nomorinduk?nomorinduk_pengguna=${nomorinduk}`
+        `${API_BASE_URL}api/check-nomorinduk?nomorinduk_pengguna=${nomorinduk}`
       );
 
       if (response.data.status === "available") {
@@ -376,7 +375,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
 
     try {
       const response = await axios.post(
-        "https://shiniya.top/api/register",
+        `${API_BASE_URL}api/register`,
         data
       );
 

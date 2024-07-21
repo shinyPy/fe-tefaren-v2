@@ -7,7 +7,7 @@ import DataTable from "../../Components/Table/Table";
 import axios from "axios";
 import ItemDataModal from "../../Modal/ItemData/ItemDataModal";
 import ItemDataAddModal from "../../Modal/ItemData/itemDataAddModal";
-
+import { API_BASE_URL } from "../../var";
 import {
   FaChartBar,
   FaUser,
@@ -92,7 +92,7 @@ const ItemDataDesktop = () => {
 
       // Fetch data from the API
       const barangResponse = await axios.get(
-        "https://shiniya.top/api/barangShow",
+        `${API_BASE_URL}api/barangShow`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

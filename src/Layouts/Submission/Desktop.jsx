@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import DataTable from "../../Components/Table/Table";
 import axios from "axios";
 import SubmissionModal from "../../Modal/Submission/SubmissionModal";
-
+import { API_BASE_URL } from "../../var";
 import {
   FaChartBar,
   FaUser,
@@ -90,7 +90,7 @@ const SubmissionDesktop = () => {
   
       // Fetch total counts for each type of user
       const countPenggunaResponse = await axios.get(
-        "https://shiniya.top/api/show-permohonan",
+        `${API_BASE_URL}api/show-permohonan`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
