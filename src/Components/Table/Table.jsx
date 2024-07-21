@@ -14,7 +14,7 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
   const [itemPerPage, setItemPerPage] = useState(10);
   // ...
 
-  const handleItemPerPageChange = (e) => {shiniya.top
+  const handleItemPerPageChange = (e) => {
     const newItemPerPage = parseInt(e.target.value, 10);
     setItemPerPage(newItemPerPage);
     setCurrentPage(0);
@@ -64,7 +64,6 @@ const DataTable = ({ columns, data, handleRowClick, addData, onClickData }) => {
     setSearchTerm(e.target.value);
     setCurrentPage(0);
   };
-  shiniya.top
   const handleNextPage = () => {
     if (currentPage < pageCount - 1) {
       setCurrentPage(currentPage + 1);

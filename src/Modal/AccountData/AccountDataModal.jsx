@@ -72,7 +72,7 @@ const AccountDataModal = ({
 
       const token = localStorage.getItem("accessToken");
       const response = await axios.put(
-        `https://shiniya.000webhostapp.com/api/editpengguna/${rowData.NIS}`,
+        `${API_BASE_URL}api/editpengguna/${rowData.NIS}`,
         {
           nomorinduk_pengguna: formData.nis,
           nama_pengguna: formData.nama,
@@ -162,7 +162,7 @@ const AccountDataModal = ({
   useEffect(() => {
     if (rowData.hasOwnProperty("Jurusan")) {
       // Fetch data from the backend and populate the jurusanOptions state
-      fetch("https://shiniya.000webhostapp.com/api/jurusan-values") // Ganti dengan URL API yang sebenarnya
+      fetch(`${API_BASE_URL}api/jurusan-values`) // Ganti dengan URL API yang sebenarnya
         .then((response) => response.json())
         .then((data) => {
           // Asumsikan data respons adalah array objek jurusan
@@ -172,7 +172,7 @@ const AccountDataModal = ({
           console.error("Error fetching data:", error);
         });
     } else {
-      fetch("https://shiniya.000webhostapp.com/api/jabatan-values") // Ganti dengan URL API yang sebenarnya
+      fetch(`${API_BASE_URL}api/jabatan-values`) // Ganti dengan URL API yang sebenarnya
         .then((response) => response.json())
         .then((data) => {
           setJurusanOptions(data); // Perbarui state jabatanOptions dengan respons API

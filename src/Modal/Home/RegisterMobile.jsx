@@ -152,7 +152,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
   const checkEmailAvailability = async (email) => {
     try {
       const response = await axios.get(
-        `https://shiniya.000webhostapp.com/api/check-email?email=${email}`
+        `${API_BASE_URL}api/check-email?email=${email}`
       );
 
       if (response.data.status === "available") {
@@ -243,7 +243,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
   const checkNisAvailability = async (nomorinduk) => {
     try {
       const response = await axios.get(
-        `https://shiniya.000webhostapp.com/api/check-nomorinduk?nomorinduk_pengguna=${nomorinduk}`
+        `${API_BASE_URL}api/check-nomorinduk?nomorinduk_pengguna=${nomorinduk}`
       );
 
       if (response.data.status === "available") {
@@ -373,7 +373,7 @@ const RegisterModal = ({ isOpen, onClose, onLink }) => {
 
     try {
       const response = await axios.post(
-        "https://shiniya.000webhostapp.com/api/register",
+        `${API_BASE_URL}api/register`,
         data
       );
 
