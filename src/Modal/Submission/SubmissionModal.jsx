@@ -126,7 +126,7 @@ const SubmissionModal = ({
   const performDelete = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const apiUrl = `${API_BASE_URL}delete-permohonan/${rowData.ID}`;
+      const apiUrl = `${API_BASE_URL}api/delete-permohonan/${rowData.ID}`;
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
