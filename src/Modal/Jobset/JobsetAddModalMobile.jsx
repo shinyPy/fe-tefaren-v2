@@ -44,7 +44,7 @@ const JobSetAddModalMobile = ({ isOpen, onClose, onAddSuccess }) => {
         const accessToken = localStorage.getItem("accessToken");
 
         const response = await axios.get(
-          "https://shiniya.000webhostapp.com/api/get-jabatan",
+          `${API_BASE_URL}api/get-jabatan`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

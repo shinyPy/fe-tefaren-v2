@@ -79,7 +79,7 @@ const handleSubmit = async (e) => {
         };
 
         const userResponse = await axios.get(
-          `${API_BASE_URL}/api/user`,
+          `${API_BASE_URL}api/user`,
           config
         );
         const id_pengguna = userResponse.data.id;

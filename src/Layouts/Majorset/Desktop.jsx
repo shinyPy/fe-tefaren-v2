@@ -81,7 +81,7 @@ const MajorSetDesktop = () => {
   const fetchDataFromApi = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.get(```${API_BASE_URL}api/get-jurusan`, {
+      const response = await axios.get(`${API_BASE_URL}api/get-jurusan`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

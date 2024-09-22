@@ -208,7 +208,7 @@ const DashboardDesktop = () => {
                 // Add other pages as needed
               ],
             }));
-            const countPermohonanResponse = await axios.get('https://shiniya.top/api/count-permohonan', {
+            const countPermohonanResponse = await axios.get(`${API_BASE_URL}api/count-permohonan`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
@@ -217,7 +217,7 @@ const DashboardDesktop = () => {
               const countPermohonanData = countPermohonanResponse.data;
       
               // Fetch data for peminjaman
-              const countPeminjamanResponse = await axios.get('https://shiniya.top/api/count-peminjaman', {
+              const countPeminjamanResponse = await axios.get(`${API_BASE_URL}api/count-peminjaman`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
@@ -226,7 +226,7 @@ const DashboardDesktop = () => {
               const countPeminjamanData = countPeminjamanResponse.data;
       
               // Fetch data for pengembalian
-              const countPengembalianResponse = await axios.get('https://shiniya.top/api/count-pengembalian', {
+              const countPengembalianResponse = await axios.get(`${API_BASE_URL}api/count-pengembalian`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },

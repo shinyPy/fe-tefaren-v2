@@ -109,7 +109,7 @@ const ItemDataModal = ({
       if (formDataToSend.gambar_barang instanceof File) {
         await axios
           .post(
-            `${API_BASE_URL}upload-gambar-barang`,
+            `${API_BASE_URL}api/upload-gambar-barang`,
             {
               gambar_barang: formDataToSend.gambar_barang,
             },

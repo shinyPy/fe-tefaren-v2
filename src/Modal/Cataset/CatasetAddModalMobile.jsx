@@ -44,7 +44,7 @@ const CataSetAddModalMobile = ({ isOpen, onClose, onAddSuccess }) => {
         const accessToken = localStorage.getItem("accessToken");
 
         const response = await axios.get(
-          "https://shiniya.000webhostapp.com/api/get-kategori",
+          `${API_BASE_URL}api/get-kategori`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
